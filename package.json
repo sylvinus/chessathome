@@ -1,0 +1,28 @@
+{
+  "author": "Joshfire Team <devs@joshfire.com> (http://joshfire.com)",
+  "name": "joshfirenko",
+  "description": "Joshfire project for NKO2 : Distributed chess!",
+  "version": "0.1.1",
+  "homepage": "https://github.com/nko2/joshfire",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nko2/joshfire.git"
+  },
+  "engines": {
+    "node": "0.4.x"
+  },
+  "dependencies": {
+    "nko": "*",
+    "express": "2.4.6",
+    "sharedjs": "0.0.2",
+    "webworker": "0.8.x",
+    "mongoose": "2.0.x",
+    "node-uuid": "1.2.x",
+    "underscore": "1.1.7",
+    "browserify": "1.4.3",
+    "connect": "1.6.4",
+    "dnode": "0.8.2",
+    "ejs": "0.4.x"
+  },
+  "devDependencies": {}
+}

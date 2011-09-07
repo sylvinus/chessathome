@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <script src="/browserify.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="/engine.js"></script>
+    <script src="js/boardui.js"></script>
+    <script src="js/uuid.js"></script>
+    <script src="js/api.js"></script>
+    <script>
+      // Create console if not present
+      window.console.log = function(){};
+      window.console.warn = function(){};
+      window.console.error = function(){};
+
+      $(document).ready(function () {
+        UI_ENGINE_MODE = "board";
+        UILoaded();
+      });
+    </script>
+    <link rel="stylesheet" href="/stylesheets/bootstrap-1.1.1.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="description" content="Chess game with distributed AI over the world.">
+    <meta name="author" content="Joshfire team">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/img/favicon.png" type="image/png">
+  </head>
+  <body>
+  <div class="topbar">
+    <div class="container">
+      <a href="#masthead"><img src="img/logo.png" alt="Chess@Home"></a>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#participate">Help the <acronym title="Artifical Intelligence">AI</acronym></a></li>
+        <li><a href="#theplan">The plan</a></li>
+        <li><a href="#info">Learn more</a></li>
+        <li><a href="mailto:contact@chessathome.org">Contact</a></li>
+      </ul>
+
+      <iframe style="margin-top:7px;float:right;background:rgba(255, 255, 255, 0.2);border-radius:3px" src="http://nodeknockout.com/iframe/joshfire?css=http://chessathome.org/stylesheets/ko-button.css" frameborder="0" scrolling="no" allowtransparency="true" width="115" height="25"></iframe>
+      <div style="float:right;font-size:0.8em">Hey, help us win <a href="http://nodeknockout.com/">Node Knockout</a> ! =&gt;&nbsp;</div>
+      </div>
+    </div>
+    <%- body %>
+  </body>
+  <script type="text/javascript">
+    // Analytics
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-24118306-2']);
+    _gaq.push(['_setDomainName', 'none']);
+    _gaq.push(['_setAllowLinker', true]);
+
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    // \Analytics
+    // Google+
+    (function() {
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+      po.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+    // \Google+
+  </script>
+</html>

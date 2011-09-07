@@ -1,0 +1,223 @@
+<div id="switch">
+  <div id="masthead">
+    <div class="container">
+      <div id="yesno">
+        <div id="yes" class="buttons"></div>
+        <div id="no" class="buttons"></div>
+      </div>
+      <h1><span>DO YOU THINK</span><br><span>YOU'RE GOOD ENOUGH</span><br><span>TO BEAT <em class="number globalSwarmCounter"><%= numWorkers %></em> COMPUTERS AT CHESS?</span></h1>
+    </div>
+  </div>
+  <div id="infobar">
+    <div class="container">
+      <div class="block">
+        <h2>Guinness world record</h2>
+        <p>The goal of this project is to break the record for <a href="http://www.guinnessworldrecords.com/records-3000/largest-networked-chess-computer/">largest Chess <acronym title="Artifical Intelligence">AI</acronym></a>. JavaScript and <a href='http://nodejs.org/'>Node</a> will help us organize the most epic Chess game ever, between a Grand Master and thousands of computers.<br/> Want to make history? <a href="#participate">Learn how you can help.</a></p>
+      </div>
+      <div class="block">
+        <div id="about" style="height:1px;position:relative;top:-40px;"></div>
+        <h2>About</h2>
+        <p>
+          Chess@home is <a href='http://en.wikipedia.org/wiki/SETI@home'>SETI@home</a> for Chess. It was prototyped in 48 hours by the folks at <a href='http://joshfire.com/'>Joshfire</a> for the <a href="http://nodeknockout.com/">2011 Node Knockout contest</a>.<br/>Source code will be published on GitHub as soon as possible. <a href='mailto:contact@chessathome.org'>Contact us</a> if you have any question or feedback.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div id="bg_game">
+    <div id="game" class="container">
+      <div>
+        <div id="board"></div>
+        <div id="newgamebox">
+          <form action="#" method="post" id="newgameform">
+            <p><label for="pseudo">Your name:</label><br>
+            <input type="text" name="pseudo" placeholder="Enter a name..." required value="" id="chessPlayerName"></p>
+            <p><label for="color">Your color:</label><br>
+            <select id="chessPlayerColor" name="color">
+              <option value="white">White</option>
+              <option value="black">Black</option>
+            </select>
+            <p><input type="submit" class="submit btn large success" value="New game"></p>
+          </form>
+          <div id="resumebox">
+            <p style="color:#fff">Or…</p>
+            <button id="resume" class="btn large primary">Resume game</button>
+          </div>
+        </div>
+        <div id="infogame">
+          <h2>Game Information</h2>
+          <div id="loader-container">
+            <div id="loader"></div>
+          </div>
+          <span id="output"></span><br>
+          <textarea cols="50" rows="6" id="chessPgn"></textarea>
+          <p style="display:none"><input id="chessFEN" type="text"></p>
+          <div id="endGame">
+            <div id="won" class="status">Checkmate! You <span class="won">won</span>!</div>
+            <div id="lost" class="status">Checkmate! You <span class="lost">lost</span>!</div>
+            <div id="stale" class="status">Stale: end of the game!</div>
+            <button id="restart" class="btn large primary">Start a new game</button>
+          </div>
+          <div class="opponent">You are playing against <span class="globalSwarmCounter"><%= numWorkers %></span> computers.</div>
+          <button id="stopgame" class="btn large danger">End game now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="participate" style="margin-bottom:40px"></div>
+<div class="container">
+  <div class="page-header">
+    <h1><a name="help"></a>How to help the Artificial Intelligence</h1>
+  </div>
+  <div class="row">
+    <div class="span5 columns">
+      <h2>Spread the word</h2>
+      <p>All visitors of this website automatically join the <acronym title="Artificial Intelligence">AI</acronym>, so please invite all your friends!</p>
+      <p>
+        <div class="gshare">
+          <g:plusone annotation="inline"></g:plusone>
+        </div>
+        <div class="fbshare">
+          <iframe src="http://www.facebook.com/plugins/like.php?app_id=264731303544669&amp;href=http%3A%2F%2Fchessathome.org&amp;send=false&amp;layout=button_count&amp;width=150&amp;show_faces=false&amp;action=like&amp;font=lucida+grande&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:400px; height:21px;" allowTransparency="true"></iframe>
+        </div>
+        <div class="twittershare">
+          <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a>
+          <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        </div>
+      </p>
+    </div>
+    <div class="span6 columns">
+      <h2>Spread the widget</h2>
+      <p>Do you have a website? Make your visitors join too, just add this snippet to your page:</p>
+      <form style="margin-bottom:10px;">
+        <textarea class="copy-code" rows="2" onclick="this.focus();this.select();" style="width:95%;font-size:0.8em;">&lt;div id=&quot;chessathome-worker&quot;&gt;&lt;/div&gt;&lt;script src=&quot;http://chessathome.org/js/worker.js&quot;&gt;&lt;/script&gt;</textarea>
+      </form>
+      <p>See it in action right now in the footer!</p>
+    </div>
+    <div class="span5 columns">
+      <h2>Lend a CPU</h2>
+      <p><code>npm install <a href='https://github.com/joshfire/chessathome-worker'>chessathome-worker</a> -g</code></a></p>
+      <p>Don't know what that means? You can still donate a few bucks to help us buy more <a href='http://en.wikipedia.org/wiki/Cloud_computing'>cloud instances</a> on D-Day.</p>
+      <p>
+        <form action="https://www.paypal.com/cgi-bin/webscr" style="text-align:center;" method="post">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="PUTZX7PVX23H6">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+      </p>
+    </div>
+  </div><!-- /row -->
+</div>
+
+
+
+<div id="theplan" style="margin-bottom:40px"></div>
+<div class="container">
+  <div class="page-header">
+    <h1><a name="help"></a>How we plan to break the world record</h1>
+  </div>
+  <div class="row">
+    <div class="span8 columns">
+      <h2>Warming up</h2>
+      <p>The Node Knockout contest was limited to 48h so we may not be ready to beat Kasparov yet. However in the next few weeks we'll make continuous improvements to the strength and scalability of the AI.</p>
+      <p>Some say a JavaScript AI will never beat a Grand Master. We say that in the cloud, the sky is the limit!</p>
+    </div>
+    <div class="span8 columns">
+      <h2>D-Day</h2>
+      <p>
+        When we're ready, we plan to invite an actual french Grand Master along with a Guinness official and coordinate online so that we all break the <a href="http://www.guinnessworldrecords.com/records-3000/largest-networked-chess-computer/">current 2070-node record</a> and make Node.js a part of History! ;–)</p>
+      <p>Follow us on <a href="http://twitter.com/chess_at_home">@chess_at_home</a> to be kept updated!
+      </p>
+    </div>
+    <p>
+
+    </p>
+  </div><!-- /row -->
+</div>
+
+
+<div id="info" style="margin-bottom:40px"></div>
+<div class="container">
+  <div class="page-header">
+    <h1>More information about the project</h1>
+  </div>
+  <div class="row">
+    <div class="span6 columns photos">
+      <h2>The team</h2>
+      <p><a href="http://twitter.com/sylvinus">@sylvinus</a>, <a href="http://twitter.com/tbassetto">@tbassetto</a>, <a href="http://twitter.com/nathanappere">@nathanappere</a>, <a href="http://twitter.com/mcouzinet">@mcouzinet</a></p>
+      <p class="photo1"><img src="img/7lfv.jpeg" style="max-width:100%"></p>
+      <p class="photo2"><img src="img/IMG_20110827_222842.jpeg" style="max-width:100%"></p>
+      <p><strong>We're badass, <a href="http://notaregularcompany.tumblr.com">come work with us</a>!</strong></p>
+    </div>
+    <div class="span5 columns">
+    <h2><a href="http://npmjs.org">npm</a> modules used</h2>
+      <ul>
+        <li><a href="https://github.com/substack/dnode">dnode</a></li>
+        <li><a href="https://github.com/pgriess/node-webworker">node-webworker</a></li>
+        <li><a href="https://github.com/kof/node-qunit">node-qunit</a></li>
+        <li><a href="https://github.com/kof/sharedjs">sharedjs</a></li>
+        <li><a href="https://github.com/visionmedia/express">express</a></li>
+        <li><a href="https://github.com/senchalabs/connect">connect</a></li>
+        <li><a href="http://search.npmjs.org/#/ejs">ejs</a></li>
+        <li><a href="https://github.com/LearnBoost/mongoose">mongoose</a></li>
+        <li><a href="https://github.com/substack/node-browserify">node-browserify</a></li>
+        <li><a href="http://documentcloud.github.com/underscore/">underscore</a></li>
+        <li><a href="http://search.npmjs.org/#/node-uuid">node-uuid</a></li>
+      </ul>
+
+      <h2>Media credits</h2>
+      <ul>
+        <li>Planet based on <a href="http://kde-look.org/content/show.php/Oxygen+Icons?content=74184">Oxygen Icons</a></li>
+        <li>Chess icons by <a href="http://forwardcoding.com/projects/ajaxchess/chess.html">GarboChess</a></li>
+        <li>AI basis based on <a href="http://forwardcoding.com/projects/ajaxchess/chess.html">GarboChess</a> too</li>
+        <li><a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a></li>
+      </ul>
+    </div>
+    <div class="span5 columns">
+      <h2>Latest news</h2>
+      <script src="http://widgets.twimg.com/j/2/widget.js"></script>
+      <script>
+      new TWTR.Widget({
+        version: 2,
+        type: 'profile',
+        rpp: 5,
+        interval: 30000,
+        width: 280,
+        height: 300,
+        theme: {
+          shell: {
+            background: '#333333',
+            color: '#ffffff'
+          },
+          tweets: {
+            background: '#fff',
+            color: '#000',
+            links: '#0069D6'
+          }
+        },
+        features: {
+          scrollbar: false,
+          loop: false,
+          live: false,
+          hashtags: true,
+          timestamp: true,
+          avatars: false,
+          behavior: 'all'
+        }
+      }).render().setUser('chess_at_home').start();
+      </script>
+    </div>
+  </div>
+</div>
+
+<div id="footer">
+  <div class="container" style="position:relative">
+    <a href="#switch">Back to top</a>
+    <a href="http://joshfire.com/"><img src="img/josh_footer.png" alt="Joshfire, the change factory"></a>
+    <div id="widgetexample">
+      <span>Our widget in action (you're computing right now):&nbsp;&nbsp;</span><div style="display:inline" id="chessathome-worker"></div><script src="http://chessathome.org/js/worker.js"></script>
+    </div>
+  </div>
+</div>

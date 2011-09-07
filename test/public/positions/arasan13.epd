@@ -1,0 +1,186 @@
+2rqr1k1/pp1b1pbn/6p1/3P2Pp/2BN1P2/P2Q4/1P1B3P/R4R1K b - - bm Re4; id "arasan13.1"; c0 "Heissler-Kasimdzhanov, Bundesliga 1998/99";
+6k1/1b3pp1/1qr1p3/4R3/p6P/3p2P1/PP1Q1P1K/3B4 b - - bm Rc1; id "arasan13.2"; c0 "Bruzon-Ivanchuk, Capablanca mem. 2007";
+6k1/5pb1/R5p1/3P3n/1r3P1p/3Br2P/6P1/3R2KN b - - bm Rd4; id "arasan13.3"; c0 "Christiansen-Bu Xiangzhi, Reykjavik op 2000";
+4r1k1/p1pb1ppp/Qbp1r3/8/1P6/2Pq1B2/R2P1PPP/2B2RK1 b - - bm Qxf3; id "arasan13.4"; c0 "Paulsen-Morphy, New York 1857";
+r1b2rk1/1p1nbppp/pq1p4/3B4/P2NP3/2N1p3/1PP3PP/R2Q1R1K w - - bm Rxf7; id "arasan13.5"; c0 "Van der Wiel-Ribli, IBM Amsterdam 1980";
+6k1/1r5p/3q2pP/R1pPp1P1/2P1Qp1K/3P4/p7/8 w - - bm d4; id "arasan13.6"; c0 "Hannibal 1.0-Umko 1.1, 26TH Amateur Series (Division 1) 2011";
+2q2r2/3n1p2/p2p2k1/3PpRp1/P1n1P3/2P2QB1/1rB1R1P1/6K1 w - - bm Rxg5+; id "arasan13.7";
+2rq1rk1/pp1b1p2/2n3p1/3pPPbp/3P2B1/BP6/P1N4P/R2Q1R1K w - h6 bm Bxh5; id "arasan13.8"; c0 "Finkel-Haimovich, ISR-chT Israel 1999";
+2q2k1r/1pbb1ppp/2n2n2/1B2p3/Q3P3/4BP1P/PP4P1/1KRR4 w - - bm Rxd7; id "arasan13.9";
+4k2r/3n1pb1/2pQn1p1/3pPpPp/3P1P1N/1q1NBK1P/8/2R5 w k - bm Nxg6; id "arasan13.10"; c0 "Sveshnikov-Gulko, URS Spartakiad Riga 1975";
+r6k/1ppr1p1p/p1n1p1p1/3nP1Nq/3P1PR1/3QP2P/PP2B3/1K5R w - - bm h4; id "arasan13.11";
+4B3/8/5Kp1/p5p1/1k3pP1/2n2P1P/8/8 b - - bm Nb5 Ne4+; id "arasan13.12";
+4r3/6k1/ppqp2p1/4rn2/P4R2/2NRp2P/1PP3PK/4Q3 b - - bm d5; id "arasan13.13";
+2rr3k/2qnbppp/p1n1p3/1p1pP3/3P1N2/1Q1BBP2/PP3P1P/1KR3R1 w - - bm Bxh7; id "arasan13.14"; c0 "Eljanov-Van Wely, Tch-RUS Sochi 2008";
+6k1/p1b3pp/2p3r1/p1Pr1p1q/2QPp3/PP5P/3B1PP1/1R2RK2 b - - bm Rxg2; id "arasan13.15";
+4r1k1/1p3p2/p2q2p1/Q2p2n1/3P2Pp/PP5P/4rPB1/2R2RK1 b - - bm R8e3; id "arasan13.16"; c0 "Uhlmann-Averbach, Dresden 1956";
+r1b1k2r/1p1pppb1/p5pp/3P4/q2p1B2/3P1Q2/PPP2PPP/R3R1K1 w kq - bm Rxe7+; id "arasan13.17"; c0 "Svidler-Carlsen, Longyearbye 2006";
+3q1k2/8/1p1b1r1p/p2R2p1/P1BQ2P1/1P3P2/8/3K4 w - - bm f4; id "arasan13.18";
+R4bk1/2Bbp2p/2p2pp1/1rPp4/3P4/4P2P/4BPPK/1q1Q4 w - - bm Qa4; id "arasan13.19"; c0 "Gurevich-Bareev, Cap D'Agde KO 2002";
+4k3/1p6/pB2P1K1/7p/2n4P/8/1P6/8 w - - bm Bc5; id "arasan13.20"; c0 "Gelfand-Korchnoi, Dos Hermanas 1999";
+4r1k1/p4p2/np3npQ/2pP4/P2q1N2/2N4P/1P4PK/4R3 w - - bm Nb5; id "arasan13.21"; c0 "Basagic-Barlov, YUG-ch 1984";
+r3rbk1/2q2p1p/2p1p1p1/pp1nP1B1/6Q1/P2B2P1/1PP2PK1/R6R w - - bm Rxh7; id "arasan13.22"; c0 "Tal-Gurgenidze, Alma Ata URS ch 1968";
+r7/5pk1/5p2/2p5/pp6/1P1B1KPN/P6P/8 b - - bm c4; id "arasan13.23"; c0 "Beliavsky-Dolmatov, USSR ch Minsk 1979";
+5K2/7r/1p6/k3r3/P2R4/1R6/8/8 w - - bm Rf3; id "arasan13.24";
+8/3k4/3r2p1/pp2RpPp/b1p2P1P/P1P2PKB/8/8 b - - bm b4; id "arasan13.25";
+r4k1r/p3Rpbp/2bpn1p1/q2N4/2P1P3/4B3/P3BPPP/3Q1RK1 w - - bm c5; id "arasan13.26"; c0 "Shamkovich-Waterman, Lone Pine 1975";
+1r2brk1/4n1p1/4p2p/p2pP1qP/2pP1NP1/P1Q1BK2/2P4R/6R1 b - - bm Bg6; id "arasan13.27"; c0 "David-Enders, Bundesliga 9900 1999";
+2r1qrk1/1b1nbppp/4p3/pB1nP1B1/Pp2N3/5N1P/1P1Q1PP1/R2R2K1 w - - bm Nf6+; id "arasan13.28";
+r3qrk1/p5b1/1p1p1p2/2pP2pp/1nN1PP1B/2Nn3P/PP2Q1P1/R4RK1 w - - bm Nxd6; id "arasan13.29"; c0 "Gurevich-Sherbakov, Eu Club Cup, Neum BIH 2000";
+r3k2r/2q1b1pp/pp2p3/2pR4/P7/4BP2/1PP1Q1PP/5RK1 w kq - bm Bf4; id "arasan13.30"; c0 "Rozentalis-Dokhoian, USSR 1986";
+r3r1k1/pp3pp1/3p4/2q4p/2P5/1PB2Q1P/n4PP1/3R1RK1 w - - bm Bxg7; id "arasan13.31"; c0 "Bobotsov-Penrose, Palma de Mallorca 1969";
+r4r1k/1bq2pp1/2p1p2p/1pPnP1BQ/4B2P/1p4P1/P4P2/3RR1K1 w - - bm Rxd5; id "arasan13.32"; c0 "Gulko-Saidy, American op Los Angeles 1987";
+r4rk1/p4ppp/5n1n/2pp1Q2/1P6/P1N1P2P/3B1PPq/R2R1K2 w - - bm Qf4; id "arasan13.33"; c0 "Bu Xiangzhi-Sutovsky, Tan Chin Nam Cup 1999";
+3r4/Nk3p2/4pP2/3q2Pr/Ppp5/3nQPP1/1P4K1/R2R4 b - - bm Qf5; id "arasan13.34"; c0 "Hase-Macchia, W-ch22 sf10 corr 1997";
+b7/P4kp1/R4p2/4p3/1Bp1P2p/2P2P2/1q3NP1/4K3 b - - bm h3; id "arasan13.35"; c0 "Deep Junior 8-Deep Fritz 8, SSDF 2007";
+r1br1nk1/5ppp/p2Bp3/qp1pPP2/3Q4/2P2B2/P1P3PP/3R1R1K w - - bm f6; id "arasan13.36";
+rr4k1/2n2p2/2Pp1q2/pp1PpP1R/1p2B3/6p1/P1R1QPK1/8 w - - bm Rc1; id "arasan13.37";
+1R6/5p1k/4bPpp/3pN3/2pP1P1P/2r5/6PK/8 w - - bm h5; id "arasan13.38"; c0 "Carlsen-Aronian, Elista candidates (m/5) 2007";
+3q1rk1/pr1b1p1p/1bp2p2/2ppP3/8/2P1BN2/PPQ3PP/R4RK1 w - - bm Bh6; id "arasan13.39"; c0 "Shredder-Rybka, WCCC 2006";
+5k2/p7/5pP1/r4P2/p3PK2/R7/8/8 w - - bm Kg4; id "arasan13.40";
+1q1b4/1r1r2k1/1n3p1p/3pp1p1/3B3P/2NQ4/5PP1/1RR3K1 w - - bm h5; id "arasan13.41";
+r2qbr1k/1p3pp1/p1n2N1p/5R1Q/P7/3Bp3/1PP3PP/R5K1 w - - bm Ng4; id "arasan13.42"; c0 "Radjabov-Navara, Baku Grand Prix 2008";
+r5k1/1pp3b1/3p1qp1/p2Ppr2/2P4P/2Nn1N1R/PP6/R1BQ1K2 b - - bm e4; id "arasan13.43"; c0 "Hergott-Goldenberg, Financial Concept op, North Bay CAN 1999";
+8/q1r2pk1/3p3p/npr1pBp1/1Q4P1/PP2PPPR/5K2/4R3 w - - bm Bb1; id "arasan13.44";
+8/6p1/P1b1pp2/2p1p3/1k4P1/3PP3/1PK5/5B2 w - - bm Bg2; id "arasan13.45"; c0 "Vincent Lejeune #36";
+r3rk2/pb2bpp1/1n5p/q1pP1B2/1p3B2/5N2/PPQ2PPP/R2R2K1 w - - bm Bc8; id "arasan13.46"; c0 "Szabo-Kottnauer, Schiavno Zdroj 1950";
+2rq1rk1/3bbp1p/p3pp2/n2p1P2/7B/5N2/PPPQ2PP/1K1R1B1R w - - bm Qh6; id "arasan13.47"; c0 "Planinc-Spassov, Rubinstein mem 1979";
+2b2rk1/r3q1pp/1nn1p3/3pP1NP/p1pP2Q1/2P1N3/1P1KBP2/R5R1 w - - bm Nxh7; id "arasan13.48"; c0 "Vincent-Sebagh, 66th corr ch-FRA 2001";
+2q4k/prpp1p2/1p2r2p/4P3/2P2P2/2N4Q/PP3K1P/R7 w - - bm f5; id "arasan13.49";
+r3r1k1/p3bppp/q1b2n2/5Q2/1p1B4/1BNR4/PPP3PP/2K2R2 w - - bm Rg3; id "arasan13.50"; c0 "Tukmakov-Minenkov, Soviet Union 1969";
+rn1rb1k1/pq2bppp/4p3/2p1N3/4PQ2/1PB3P1/P4PBP/2R2RK1 w - - bm Ng4; id "arasan13.51"; c0 "Alekhine/Monosson - Stoltz/Reilly, Nice consult 1931";
+3r1k2/2pq1np1/p2pQ3/1p1P1ppP/3P2N1/P7/1P3PP1/4R1K1 w - - bm Nf6; id "arasan13.52"; c0 "Grischuk-Kamsky, FIDE World Cup Khanty Mansyisk 2005";
+1q6/6k1/5Np1/1r4Pp/2p4P/2Nrb3/PP6/KR5Q b - - bm Bd4; id "arasan13.53"; c0 "De Carbonnel-Berliner, 5th World CC Ch Final 1967";
+b2rk3/r4p2/p3p3/P3Q1Np/2Pp3P/8/6P1/6K1 w - - bm Qh8+; id "arasan13.54"; c0 "Grischuk-Svidler, WCh Mexico City (6) 2007";
+rqbn1rk1/1p3ppp/p3p3/8/4NP2/5Q2/PPP1B1PP/1K1R3R w - - bm Nf6+; id "arasan13.55"; c0 "Kupreichik-Babev, WchT U26 fin-A Dresden 1969";
+r1br2k1/ppp2q1p/nb3p2/6p1/2PN1B2/2P2B2/P1Q2PPP/3RR1K1 w - g6 bm Nc6; id "arasan13.56"; c0 "Shredder-Nimzo, IPCCC Paderborn 2000";
+br4k1/1qrnbppp/pp1ppn2/8/NPPBP3/PN3P2/5QPP/2RR1B1K w - - bm Nxb6; id "arasan13.57"; c0 "Anand-Illescas Cordoba, Linares 1992";
+r2q1rk1/ppp2p2/3p1np1/4pNQ1/4P1pP/1PPP4/1P3P2/R3K1R1 w Q - bm Qh6; id "arasan13.58"; c0 "Morella-Fernandez, Cuba 1998";
+1qb2rk1/3p1pp1/1p6/1pbBp3/r5p1/3QB3/PPP2P1P/2KR2R1 w - - bm b3; id "arasan13.59"; c0 "Shirov-Zvjaginsev, Biel 1995";
+r1b2q1k/2Qn1p1p/1p1Rpp2/p6B/4P2P/6N1/P4PP1/6K1 w - - bm e5; id "arasan13.60"; c0 "Amateur-Rybka, ACCA East-West team match, ICC 2008";
+r1q2k1r/ppp2ppp/4n3/3N4/2B5/3Q4/Pb3PPP/4RRK1 w - - bm Rxe6; id "arasan13.61"; c0 "Akopian-Ramaswamy, Gilbraltar Masters 2007";
+r4rk1/p4ppp/qp2p3/b5B1/n1R5/5N2/PP2QPPP/1R4K1 w - - bm Bf6; id "arasan13.62"; c0 "Alekhine-Sterk, Budapest 1921";
+r2q1rk1/4bppp/3pb3/2n1pP2/1p2P1PP/1P3Q2/1BP1N1B1/2KR3R b - - bm Ra2; id "arasan13.63"; c0 "Gereben-Geller, Budapest 1952";
+1rb4k/p5np/3p1rp1/1ppB4/2N2P2/1P2R1P1/P1P4P/4R1K1 w - - bm Re8+; id "arasan13.64"; c0 "Bagirov-Grigorian, USSR 1976";
+r4rk1/1b2qppp/pp6/2p1P3/5P2/2RB4/PP2Q1PP/5RK1 w - - bm Bxh7+; id "arasan13.65"; c0 "Hebert-Krzyszton, corr olm11 fin B1 1992";
+8/1K6/1P6/5p2/5Pp1/3k4/6R1/1r6 w - - bm Ra2; id "arasan13.66"; c0 "The Baron 2.2.2-Alaric 707, OpenWar 2008";
+rnb1k2r/pp3ppp/3b4/q2pN1B1/8/3B4/Pp3PPP/1R1Q1RK1 w kq - bm Nxf7; id "arasan13.67"; c0 "Keres-Winter, Warsaw olm 1935";
+2brr1k1/pp2bppn/1qp4p/3nNP2/2BPNB2/P6P/1P3QP1/3RR1K1 w - - bm Bxh6; id "arasan13.68"; c0 "Bologan-Kasimdzhanov, Pamplona 2002";
+4n3/2p5/1p2r2P/p1p2R2/P1N1k3/1PP4K/8/8 w - - bm Re5+; id "arasan13.69"; c0 "Anand-Landa, Bundesliga 0506 2005";
+r2qr1k1/pp1nbppp/3p1n2/2pP2N1/2B2B2/3P4/PPP1Q1PP/4RRK1 w - - bm Nxf7; id "arasan13.70"; c0 "Volokitin-Kozul, Vidmar Mem. 2001";
+8/4k2p/p1P5/1p2P3/2p5/P3K3/7P/8 w - - bm Ke4; id "arasan13.71"; c0 "Taborov-Vovk, Kiev 1993";
+8/2p1k3/3p3p/2PP1pp1/1P1K1P2/6P1/8/8 w - - bm g4; id "arasan13.72"; c0 "Camacho Martinez-An. C. Hernandez, Cuba 1995";
+2b1qrk1/5p1p/pBn3p1/1p2p3/4P2N/bBP1Q3/P4PPP/3R2K1 w - - bm Nxg6; id "arasan13.73"; c0 "Spassky-Beliavsky, Reykjavik 1988";
+r1b1rk2/p1pq2p1/1p1b1p1p/n2P4/2P1NP2/P2B1R2/1BQ3PP/R6K w - - bm Nxf6; id "arasan13.74"; c0 "Gutsche-Jones, W-ch24 sf05 email 2000";
+r2qr3/2p1b1pk/p5pp/1p2p3/nP2P1P1/1BP2RP1/P3QPK1/R1B5 w - - bm Bxh6; id "arasan13.75"; c0 "Gurgenidze-Klovans, Soviet Union 1959";
+1rbq1rk1/p5bp/3p2p1/2pP4/1p1n1BP1/3P3P/PP2N1B1/1R1Q1RK1 b - - bm Bxg4; id "arasan13.76"; c0 "Grefe-Kaplan, Berkeley 1968";
+r1b1k1r1/2q1bpPp/p3pn1R/6Q1/1p2p3/1NN2P2/PPP3P1/1K1R1B2 w q - bm Bb5+; id "arasan13.77"; c0 "Telepath-Arasan, ICC 2009";
+7b/8/kq6/8/8/1N2R3/K2P4/8 w - - bm Nd4; id "arasan13.78"; c0 "study by Kubbel";
+q3nrk1/4bppp/3p4/r3nPP1/4P2P/NpQ1B3/1P4B1/1K1R3R b - - bm Nc7; id "arasan13.79"; c0 "Karjakin-Anand, Corus Wijk aan Zee 2006";
+r5k1/N4pp1/1B6/3b3q/1b6/4Q1Pp/PP3P1P/R5K1 b - - bm Bd2; id "arasan13.80"; c0 "Ktulu-Deep Junior, CCT12 2010";
+2r1rbk1/1b1n1pp1/nq1p3p/3P1N2/1pp1P3/R3RN1P/1P3PP1/1BBQ2K1 w - - bm Nxh6+; id "arasan13.81"; c0 "Deep Sjeng-Pandix, 29th Dutch Open CCC 2009";
+r2qkb1r/ppp2ppp/1nn5/4p2b/8/1BNP1N1P/PPP2PP1/R1BQK2R w KQkq - bm Nxe5; id "arasan13.82"; c0 "Imbaud-Strumilo, corr 1922";
+4rr1k/p1p3p1/1p1bP2p/1N3p1q/4p2P/PQ2PnP1/1P3PK1/1BRR4 b - h3 bm Bxg3; id "arasan13.83"; c0 "Bauer-Bologan, Enghien-les-Bains 2001";
+r7/n1rqppk1/p2p2p1/1b1P3p/2B4R/1P2QN1P/P4PP1/4R1K1 w - h6 bm Rxh5; id "arasan13.84"; c0 "Zhong Zhang-Sandipan, Mindsports Beijing 2008";
+2qrrbk1/1b3ppp/pn1Pp3/6P1/1Pp2B2/1nN2NQB/1P3P1P/3RR1K1 w - - bm g6; id "arasan13.85"; c0 "Gulko-Popovic, Paris 1986";
+3rq1bk/1p2r3/p1n1P1p1/P1Rp1pNp/1P1P1N2/4Q2R/5K2/8 w - - bm Rxc6; id "arasan13.86"; c0 "Morozevich-Sakaev, Russian ch Superfinals 2007";
+r3r1k1/pp3p1p/3bb1BB/4q1Q1/8/7P/P4PP1/R2R2K1 w - - bm Rxd6; id "arasan13.87"; c0 "ET2008-Arasanx, ICC 2009";
+2r2rk1/1b2bppn/1qp1p2p/p5N1/PpBPP2P/1P6/1BQ2PP1/1K1R3R w - - bm f4; id "arasan13.88"; c0 "Goloschapov-Skatchkov, Moscow 2004";
+6k1/1p3p1p/5qp1/Q7/2Rp1P2/P2P3P/1P2r1P1/6K1 b - f3 bm Qh4; id "arasan13.89"; c0 "Arasan-Crafty, ICC 2009";
+r1b1qr1k/pppn1pb1/4p1p1/4N1Bp/2BP2Q1/2P4R/P4PPP/4R1K1 w - h6 bm Rxh5+; id "arasan13.90"; c0 "Halkias-Perunovic, Kostic Memorial 2008";
+6k1/Qb1q1pp1/2r4p/8/1P2P3/P4P2/2rp1NPP/R2R2K1 b - - bm Rc1; id "arasan13.91"; c0 "Arasan-Data, ICC 2009";
+8/k4r2/1p3q2/p1p1n3/P3Pnp1/3p1PQ1/1P4PP/R2B1R1K b - - bm Nh5; id "arasan13.92"; c0 "Johnny-Junior, WCCCC Pampolona Openclass 2009";
+r1b2rk1/pp1p2pR/8/1pb2p2/5N2/7Q/qPPB1PPP/6K1 w - - bm g3; id "arasan13.93"; c0 "Rybka-Shredder, WCCCC Pamplona Openclass 2009";
+7q/3k2p1/n1p1p1Pr/1pPpPpQ1/3P1N1p/1P2KP2/6P1/7R w - - bm Nxd5; id "arasan13.94"; c0 "Nezhmetdinov-Zagorovsky, URS 1967";
+3rr3/6k1/2p3P1/1p2nP1p/pP2p3/P1B1NbPB/2P2K2/5R2 w - - bm g4; id "arasan13.95"; c0 "Kasparov-Deep Blue (m/1) 1997";
+3r2k1/pb3Np1/4pq1p/2pp1n2/3P4/1PQ5/P4PPP/R2R2K1 b - - bm Nxd4; id "arasan13.96"; c0 "Arasan-Crafty, ICC 2009";
+r1bq1rk1/1p2b1pp/p1np4/8/2P1P1n1/N1N3B1/PP2BP1P/R2QK2R b KQ - bm Nxf2; id "arasan13.97"; c0 "Nunn-Nataf, FRA-chT France 1999";
+8/p1p1r2p/1p5p/2p1r2k/2P1PR1P/5K2/PP6/6R1 w - - bm Rf5+; id "arasan13.98"; c0 "Boukal-Vavrla, CZE-ch15 corr01012 2001";
+2kr1r2/ppq1b1p1/2n5/2PpPb1N/QP1B1pp1/2P5/P2N1P1P/R4RK1 b - - bm Rh8; id "arasan13.99"; c0 "Arasan-Q9550 (Rybka), ICC 2009";
+2r2r1k/pBBq2p1/1p5p/4p3/8/2Q1PPPb/P6P/2R3K1 b - - bm e4; id "arasan13.100"; c0 "Arasan-Data, ICC 2009";
+3r2k1/6p1/B1R2p1p/1pPr1P2/3P4/8/1P3nP1/2KR4 w - - bm Rc8; id "arasan13.101"; c0 "Ruffian-Arasan, test game 2009";
+3r2k1/p1q2pp1/2b1pb1p/2Pr4/6Q1/R4NP1/P1R1BP1P/6K1 b - - bm Rd1+; id "arasan13.102"; c0 "LearningLemming-Rybka, WCRCC 2009";
+2kr3r/1p2bpp1/p1p1pn1p/R3N2P/2PP4/1Q6/PP1B1Pq1/2KR4 w - - bm Rxa6; id "arasan13.103"; c0 "Data-Arasan, ICC 2009";
+3q1k2/p4pb1/3Pp3/p3P3/r6p/2QB3P/3B1P2/6K1 w - - bm Bb5; id "arasan13.104"; c0 "MingLi (Rybka 3 Dyanmic)-Ultrapower (Rybka), playchess.com 2009";
+r4r1k/ppqbn1pp/3b1p2/2pP3B/2P4N/7P/P2B1PP1/1R1QR1K1 w - - bm Rxe7; id "arasan13.105"; c0 "Q9550(Rybka)-Arasan, ICC 2009";
+1r4k1/1q3pp1/r3b2p/p2N4/3R4/QP3P2/2P3PP/1K1R4 w - - bm Nf6+; id "arasan13.106"; c0 "Topalov-Lutz, Sparkassen Gp 1 2002";
+r2q1r2/1bp1npk1/3p1p1p/p3p2Q/P3P2N/1BpPP3/1P1N2PP/5RK1 w - - bm Rf3; id "arasan13.107"; c0 "Spark 0.3-Doch 09.980, Johan Havegheer 2009";
+2k1r2r/1pqb1p2/p2pp2b/4n1p1/PQ1NP2p/1P3P1P/2P1NBP1/R4RK1 w - - bm Nb5; id "arasan13.108"; c0 "Pacificrabbit (Rybka 3)-Anarquia69 (Rybka 3), playchess.com 2009";
+2r3r1/1p1qb2k/p5pp/2n1Bp2/2RP3P/1P2PNQ1/5P1K/3R4 w - - bm Ng5+; id "arasan13.109"; c0 "Stockfish-Shredder, Pavel Háse 2010";
+1rq5/2r1kpb1/3p4/4p1Pp/1P5R/pP1QBP2/P1B5/1K6 b - - bm Qe6; id "arasan13.110"; c0 "Ultima (Rybka 3 960)-Great Ozzie (Rybka 3), playchess.com 2009";
+rn1r2k1/p5bp/4b1p1/1Bp2p2/4qB2/2P2N2/P3QPPP/2R1K2R w K - bm Ng5; id "arasan13.111"; c0 "Giri-Howell, Corus B Wijk aan Zee 2010";
+8/6rk/7p/1PNppp1n/1P6/P1r4P/5R1K/3R4 w - - bm Rg1; id "arasan13.112"; c0 "Petir-Arasan, Aser Huerga 2010";
+rnbqk2r/pp1pbppp/2p5/8/2BP1p2/2P5/P1P1N1PP/R1BQ1RK1 w kq - bm Bxf7+; id "arasan13.113"; c0 "Mungo-Arasan, ICC 2010";
+6k1/1p1q4/p1rP2p1/5p1p/5Q2/1P5P/5PP1/3R2K1 w - h6 bm g4; id "arasan13.114"; c0 "Shredder-Arasan, freechess.org 2010";
+1qrrbbk1/1p1nnppp/p3p3/4P3/2P5/1PN1N3/PB2Q1PP/1B2RR1K w - - bm Bxh7; id "arasan13.115"; c0 "Georgiev-Ionescu, UAE 1986";
+r1r2nk1/1p1b1pbp/p4np1/P1Np2q1/1P1Pp3/B1N1P3/Q3BPPP/RR4K1 w - - bm N3a4; id "arasan13.116"; c0 "Stockfish 1.7.1-Deep Sjeng WC2008, CCRL Gauntlet 2010";
+3r4/2q5/5pk1/p3n1p1/N3Pp1p/1PPr1P1P/2Q1R1P1/5R1K b - - bm g4; id "arasan13.117"; c0 "Critter 0.60-Deep Fritz 12, Martin Thoresen 2010";
+r1b2r1k/ppqn2bp/3p2p1/3Q1p2/8/BP1BR2P/P1PP1PP1/4R1K1 w - - bm Re8; id "arasan13.118"; c0 "Nezhmetdinov-Kotkov, 17th RSFSR Ch 1957";
+r5n1/p1p1q2k/4b2p/3pB3/3PP1pP/8/PPPQ2P1/5RK1 w - - bm Qf4; id "arasan13.119"; c0 "Shulman-Marciano, Ubeda 1997";
+8/5p2/p4r2/1p2b1pp/P3P2k/2P2B1P/KP1R2P1/8 b - - bm Rxf3; id "arasan13.120"; c0 "Deep Saros 0.9-Deep Rybka 4, Pavel Háse, 2010";
+6r1/8/2k5/1pPp1p1p/pP3P2/P3P1P1/4K3/4B3 b - - bm d4; id "arasan13.121"; c0 "Chess Tiger 2007.1-Hiarcs 13.1, ChessWar XV A 2010";
+8/6bP/8/5p2/2B5/p3kp1K/P7/8 b - - bm Kf2; id "arasan13.122"; c0 "ArasanX-Tornado-C, WCRCC 2010";
+2r1rb1k/ppq2pp1/4b2p/3pP2Q/5B2/2PB2R1/P4PPP/1R4K1 w - - bm Rxg7; id "arasan13.123"; c0 "IvanHoe 57aU-x64.F-Deep Rybka 4, 2010";
+3rr1k1/1bp3p1/1p4qp/pNp1p3/PnPn1pP1/3P1P2/1P2P1BP/1R1QBR1K b - - bm Nxf3; id "arasan13.124"; c0 "Arasan-bookbuilder, ICC 2010";
+rnb1kb1r/pp1p1ppp/1q2p3/8/3NP1n1/2N1B3/PPP2PPP/R2QKB1R w KQkq - bm Qxg4; id "arasan13.125";
+r3kb1r/1b1n2p1/p3Nn1p/3Pp3/1p4PP/3QBP2/qPP5/2KR1B1R w kq - bm Qg6+; id "arasan13.126"; c0 "Morozevich - Vachier-Lagrave, Biel 2009";
+1r1qrbk1/pb3p2/2p1pPpp/1p4B1/2pP2PQ/2P5/P4PBP/R3R1K1 w - - bm Bxh6; id "arasan13.127"; c0 "Future Breeze(Naum 4.1)-Ultrapower(Rybka 3), playchess.com 2010 (analysis)";
+2r1r2k/1b1n1p1p/p3pPp1/1p1pP2q/3N4/P3Q1P1/1PP4P/2KRRB2 w - - bm g4; id "arasan13.128"; c0 "Blackborn(Deep Rybka 4)-Zax(Stockfish 1.8 JA), playchess.com 2010";
+2r1b1k1/5p2/1R2nB2/1p2P2p/2p5/2Q1P2K/3R1PB1/r3q3 w - - bm Rxe6; id "arasan13.129"; c0 "bookbuilder-Arasan, ICC 2010";
+rn2r1k1/ppq1pp1p/2b2bp1/8/2BNPP1B/2P4P/P1Q3P1/1R3RK1 w - - bm Bxf7+; id "arasan13.130"; c0 "Leitao-El Debs, Brazilian Chess Championship 2010";
+1kr5/1p3p2/q3p3/pRbpPp2/P1rNnP2/2P1B1Pp/1P2Q2P/R5K1 b - - bm Bxd4; id "arasan13.131"; c0 "Argentum (Deep Rybka 4)-Obscure(Deep Rykba 4), playchess.com 2010";
+r3r2k/1pq2pp1/4b2p/3pP3/p1nB3P/P2B1RQ1/1PP3P1/3R3K w - - bm Rf6; id "arasan13.132"; c0 "Houdini 1.5-Rybka 4, Pal Larkin 2011";
+r3brk1/2q1bp1p/pnn3p1/1p1pP1N1/3P4/3B2P1/PP1QNR1P/R1B3K1 w - - bm Nxh7; id "arasan13.133"; c0 "Houdini 1.5-Rybka 4, Pal Larkin 2011";
+1r3r2/q5k1/4p1n1/1bPpPp1p/pPpR1Pp1/P1B1Q3/2B3PP/3R2K1 w - - bm Rxd5; id "arasan13.134"; c0 "Ivanchuk-Erdos, Tradewise Gilbraltar 2011";
+rq3rk1/1b1n1ppp/ppn1p3/3pP3/5B2/2NBP2P/PP2QPP1/2RR2K1 w - - bm Nxd5; id "arasan13.135"; c0 "Kaidanov-Donaldson, USA 1992";
+8/5r1k/3Q4/4P3/2pP1qP1/pbP4K/p4p2/R4R2 w - - bm Qd5; id "arasan13.136"; c0 "Arasan-Rookie, freechess.org 2011";
+7r/k4pp1/pn2p1pr/2ppP3/1q3P2/1PN2R1P/P1P2QP1/3R3K w - - bm a3; id "arasan13.137"; c0 "Gull 1.1-Hannibal 1.0, 2011";
+3r1k2/pb1q1r2/npp5/3pB3/3PPPpb/PQ4N1/1P1R2B1/5RK1 w - - bm Bh1; id "arasan13.138"; c0 "Houdini 1.5-Rybka 4, Pal Larkin 2011";
+1r3rk1/3bbppp/1qn2P2/p2pP1P1/3P4/2PB1N2/6K1/qNBQ1R2 w - - bm Bxh7+; c0 "nick-Fritz 11, playchess.com 2011"; id "arasan13.139";
+1r1qrbk1/5ppp/2b1p2B/2npP3/1p4QP/pP1B1N2/P1P2PP1/1K1R3R w - - bm Bxh7+; id "arasan13.140"; c0 "Vandermeulen-Napalkov, Sergey Korolev mem. email 2008";
+6k1/1R1B4/4rqp1/2Ppn2p/5p2/6bQ/6P1/5R1K b - - bm Ng4; id "arasan13.141";
+r5k1/pbpq1pp1/3b2rp/N3n3/1N6/2P3B1/PP1Q1PPP/R4RK1 b - - bm Rxg3; id "arasan13.142"; c0 "Arasan-KingsBishopFour, freechess.org 2011";
+2r2bk1/3n1pp1/1q5p/pp1pPp1P/3P4/P1B2QP1/1P2N1K1/5R2 w - - bm Bxa5; id "arasan13.143"; c0 "Mamedyarov-Carlsen, Baku Grand Prix 2008";
+r4r2/pp1b1ppk/2n1p3/3pPnB1/q1pP2QP/P1P4R/2PKNPP1/R7 w - - bm Qh5+; id "arasan13.144"; c0 "Bobras-Can, 8th ch-Euro Dresden 2007";
+r4rk1/3b1ppp/p1np4/qp1N1P1Q/3bP3/4R3/PPB3PK/1RB5 b - - bm g6 Be5+; id "arasan13.145"; c0 "Chukichess-Arasan, freechess.org 2011";
+2r1kb1r/1p1b1pp1/p5qp/3pP3/P2N1B2/7P/1PP2QP1/4RR1K w - - bm e6; id "arasan13.146"; c0 "Deep Rybka 4-Rick48-v4, WBEC Premier Div. 2011";
+3r3k/2q2p1P/p7/Nr2p1P1/p3b2R/4B3/KbP2Q2/5R2 b - - bm f5; id "arasan13.147"; c0 "Arasan-Kec, freechess.org 2011";
+8/2k2Bp1/2n5/p1P4p/4pPn1/P3PqPb/1r1BQ2P/2R1K1R1 b - - bm Nce5; id "arasan13.148"; c0 "Arasan-Rookie, freechess.org 2011";
+rnq1nrk1/pb2bppp/1p2p2B/1N2N3/2B5/6Q1/PP3PPP/3R1RK1 w - - bm Nd6; id "arasan13.149"; c0 "Critter 1.0.1-Spike 1.4, ChessWar XVI 2011";
+8/5kpp/8/8/8/5P2/1RPK2PP/6r1 w - - bm c4; id "arasan13.150"; c0 "Yandemirov-Shchukin, Chigorin Memorial, St. Petersburg 1997";
+8/5k1K/2N2p2/2b1p1p1/1p2P1P1/1P3P2/P7/8 w - - bm Nd8+; id "arasan13.151"; c0 "Svidler-Jakovenko, Sochi FIDE GP 2008";
+b4rk1/5p2/3q2p1/2p3n1/N2p1rBp/1PP1RP2/P3Q1PP/3R2K1 b - - bm h3; id "arasan13.152"; c0 "Trebreh33 (Deep Rybka 4)-MeisterGriller (Houdini 1.5a), playchess.com 2011";
+8/3n4/1p1k1p2/p5p1/PP4P1/2B3K1/8/8 b - - bm b5; id "arasan13.153"; c0 "Spassky-Karpov, Leningrad cm(6) 1974";
+1r1q2k1/2r3bp/B2p1np1/3P1p2/R1P1pP2/4B2P/P5PK/3Q1R2 b - - bm Ng4+; id "arasan13.154"; c0 "WHITE_RABBIT (Deep Rybka 4)-Blackborn, playchess.com 2011";
+6r1/8/p7/5p2/2k5/5K1P/P1P3P1/4N3 b - - bm Kb4; id "arasan13.155"; c0 "Korzh-Nyvlt, Rochade 20 years email 2009";
+2r4k/1p2bpp1/pBqp1n1p/P3pP2/2r1P1P1/2N2Q1P/RPP1R3/5K2 b - - bm d5; id "arasan13.156"; c0 "Johnny 4.0-Scorpio 2.7, WBEC18 Premier 2011";
+2r1rnk1/1p2pp1p/p1np2p1/q4PP1/3NP2Q/4B2R/PPP4P/3R3K w - - bm b4; id "arasan13.157"; c0 "Copie-Alvarez Rouchaud, Marcusi mem. corr 1996";
+4r3/p1pbr1pk/7p/P2P1p1P/2PB1Qnq/4P1N1/2P3P1/1R2RK2 w - - am Bxa7; id "arasan13.158"; c0 "Arasan-Rookie, freechess.org 2011";
+5qk1/1r1n3p/R4p1p/2pPpQ2/1r2P1B1/8/R5PK/8 w - - bm Ra8; id "arasan13.159"; c0 "Rookie-Arasan, freechess.org 2011";
+rnb1k2r/1q2bppp/p2ppn2/1p6/3NP3/1BN3Q1/PPP2PPP/R1B2RK1 w kq - bm Nf5; id "arasan13.160"; c0 "Spark 1.0-Chronos 1.9.9, Swiss ChessGUI 2011 (G. Banks)";
+1r1rkb2/2q2p2/p2p1P1B/P1pPp2Q/2P3b1/1P6/2B3PP/5R1K w - - bm Qxg4; id "arasan13.161"; c0 "Walsh-Rivas Romero, Latin Am zt15 sf2 corr 2000";
+1n1rn3/3rbpk1/p1qpp2p/2p3p1/2P1NBP1/P1NR3Q/1P2PP1P/3R2K1 w - - bm Bxg5 Nxg5; id "arasan13.162"; c0 "Gustafsson-Postny, EU-chT Novi Sad 2009";
+r4rk1/3b3p/p1pb4/1p1n2p1/2P2p2/1B1P2Pq/PP1NRP1P/R1BQ2K1 w - - bm Qf1; id "arasan13.163"; c0 "Ivanchuk-Kamsky, Tilburg 1992";
+1r3rk1/4bpp1/p3p2p/q1PpPn2/bn3Q1P/1PN1BN2/2P1BPP1/1KR2R2 b - - bm Bxb3; id "arasan13.164"; c0 "Komodo 2.03-Spike 1.4, 29th Amateur Series Division 1, 2011";
+2nb2k1/1rqb1pp1/p2p1n1p/2pPp3/P1P1P3/2B1NN1P/2B2PP1/Q3R2K w - - bm Nxe5; id "arasan13.165"; c0 "Spike 1.4-Booot 5.1.0, 29th Amateur Division 1, 2011";
+3r2k1/p1qn1p1p/4p1p1/2p1N3/8/2P3P1/PP2QP1P/4R1K1 w - - bm Nxf7; id "arasan13.166"; c0 "Darkraider (Houdini 1.5a x64)-ABCDE, playchess.com 2011";
+r2q1rk1/pb1nbp1p/1pp1pp2/8/2BPN2P/5N2/PPP1QPP1/2KR3R w - - bm Nfg5; id "arasan13.167"; c0 "Loop M1-P 4CPU-Deep Junior 10.1 4CPU, CEGT Quad 40/120 2007";
+4rr2/3bp1bk/p2q1np1/2pPp2p/2P4P/1R4N1/1P1BB1P1/1Q3RK1 w - - bm Bxh5; id "arasan13.168"; c0 "Naum 4 x64 4CPU-Deep Fritz 11 4CPU, CEGT Quad 40/120 2009";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

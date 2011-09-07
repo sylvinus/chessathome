@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+
+    <script type="text/javascript" src="/browserify.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/engine.js"></script>
+    <script type="text/javascript" src="js/boardui.local.js"></script>
+    <script type="text/javascript" src="js/uuid.js"></script>
+    <script>
+          g_timeout = 1000;
+      $(document).ready(function () {
+        var scrollElem = scrollableElement('html', 'body');
+
+        $('#no').click(function(event) {
+          event.preventDefault();
+          $(scrollElem).animate({scrollTop: $('#info').offset().top}, 300, function() {
+            location.hash = '#info';
+          });
+        });
+
+        // use the first element that is "scrollable"
+        function scrollableElement(els) {
+          for (var i = 0, argLength = arguments.length; i <argLength; i++) {
+            var el = arguments[i],
+                $scrollElement = $(el);
+            if ($scrollElement.scrollTop()> 0) {
+              return el;
+            } else {
+              $scrollElement.scrollTop(1);
+              var isScrollable = $scrollElement.scrollTop()> 0;
+              $scrollElement.scrollTop(0);
+              if (isScrollable) {
+                return el;
+              }
+            }
+          }
+          return [];
+        }
+
+        $('#yes').click(function(event) {
+          $('#game').animate({'height':'550px'}, function() {
+            $(scrollElem).animate({scrollTop: $('#game').offset().top});
+          });
+        });
+
+  // UI Bindings
+  $('#newgameform').submit(function(event) {
+    event.preventDefault();
+    g_playerWhite = ($('#chessPlayerColor').val() == 'white');
+    UINewGame();
+    $('#newgamebox').fadeOut();
+  });
+
+      });
+    </script>
+
+    <style type="text/css">
+      #FenTextBox {
+        width: 400px;
+      }
+      #TimePerMove {
+        width: 50px;
+      }
+    </style>
+    <link rel="stylesheet" href="/stylesheets/bootstrap-1.1.1.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <button onclick='API.newGame("me", {});'>New Game</button>
+  </head>
+  <body>
+    <%- body %>
+  </body>
+</html>
