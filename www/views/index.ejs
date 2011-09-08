@@ -18,7 +18,8 @@
         <div id="about" style="height:1px;position:relative;top:-40px;"></div>
         <h2>About</h2>
         <p>
-          Chess@home is <a href='http://en.wikipedia.org/wiki/SETI@home'>SETI@home</a> for Chess. It was prototyped in 48 hours by the folks at <a href='http://joshfire.com/'>Joshfire</a> for the <a href="http://nodeknockout.com/">2011 Node Knockout contest</a>.<br/>Source code will be published on GitHub as soon as possible. <a href='mailto:contact@chessathome.org'>Contact us</a> if you have any question or feedback.
+          Chess@home is <a href='http://en.wikipedia.org/wiki/SETI@home'>SETI@home</a> for Chess. It was prototyped in 48 hours by the folks at <a href='http://joshfire.com/'>Joshfire</a> for the <a href="http://nodeknockout.com/">2011 Node Knockout contest</a>.<br/>You can read the <a href="http://sylvainzimmer.com/2011/09/06/chessathome-building-largest-chess-ai/">Tech overview</a> and checkout the <a href="http://github.com/joshfire/chessathome">code on GitHub</a>.
+<br/> <a href='mailto:contact@chessathome.org'>Contact us</a> if you have any question or feedback.
         </p>
       </div>
     </div>
@@ -36,6 +37,8 @@
               <option value="white">White</option>
               <option value="black">Black</option>
             </select>
+            <p><label for="startpos">Start position:</label><br>
+            <input type="text" name="startpos" required value="Standard" id="chessStartPos" title="Paste a FEN to start from a custom position"></p>
             <p><input type="submit" class="submit btn large success" value="New game"></p>
           </form>
           <div id="resumebox">

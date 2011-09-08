@@ -1,6 +1,6 @@
 var Q = require('../public/qunit/cli.js').QUnit;
-require("./_engineboot.js");
-var client = require("./_simpleclient.js").client;
+require("../_engineboot.js");
+var client = require("../_simpleclient.js").client;
 
 
 Q.module('Checkmate tests');

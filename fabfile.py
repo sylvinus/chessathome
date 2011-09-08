@@ -6,6 +6,7 @@ import platform
 import re
 import shutil
 import datetime
+import subprocess
 
 def concat():
   local('mkdir -p build')
@@ -42,12 +43,26 @@ def serve():
   local("AI_ENGINE='%s' node --stack_size=8128 app.js" % env.gameEngine)
 
 def test():
-  for f in os.listdir("test/chess"):
-    if f[0]!="_":
-      print local("cd test/ && AI_ENGINE='%s' node runner.js chess/%s" % (env.gameEngine,f))
+  _test("functional")
 
+def strength():
+  _test("strength")
+  
+def _test(dir):
+  ok=0
+  for f in os.listdir("test/%s"%dir):
+    if f[0]!="_":
+      ok += subprocess.call(["cd test/ && AI_ENGINE='%s' node runner.js %s/%s" % (env.gameEngine,dir,f)],shell=True)
+
+  if ok>0:
+    print "%s tests failed" % ok
+    sys.exit(1)
+  else:
+    print "All tests OK"
+    sys.exit(0)
+    
 def stest(filename=None):
-  print local("cd test/ && AI_ENGINE='%s' node runner.js chess/%s" % (env.gameEngine,filename))
+  print local("cd test/ && AI_ENGINE='%s' node runner.js %s" % (env.gameEngine,filename))
 
 
 def deploy():

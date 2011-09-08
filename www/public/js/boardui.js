@@ -69,7 +69,7 @@ function UILoaded() {
   $('#newgameform').submit(function(event) {
     event.preventDefault();
     g_playerWhite = ($('#chessPlayerColor').val() == 'white');
-    UINewGame($('#chessPlayerName').val());
+    UINewGame($('#chessPlayerName').val(),$('#chessStartPos').val());
     $('#newgamebox').fadeOut();
     $('#stopgame').fadeIn();
   });
@@ -224,7 +224,7 @@ function UIAddMove(move, txt) {
   }
 }
 
-function UINewGame(playerName) {
+function UINewGame(playerName,startPosition) {
 
   if (!playerName) {
     //alert("You must give a name!");
@@ -245,7 +245,7 @@ function UINewGame(playerName) {
   
   console.warn('UINewGame', playerName, g_playerWhite);
   RedrawBoard();
-  API.newGame(playerName, { playerColor:(g_playerWhite ? 'w' : 'b') });
+  API.newGame(playerName, { playerColor:(g_playerWhite ? 'w' : 'b'),startFEN:startPosition });
 
   if (!g_playerWhite)
     loader(true);

@@ -1,9 +1,10 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId,
-  _ = require("underscore")._;
+  _ = require("underscore")._,
+  config = require("./config").config;
 
-mongoose.connect(process.env.CHESSATHOME_MONGO);
+mongoose.connect(config.MONGO);
 
 var localEngine = require("./engine").loadEngine('local');
 
@@ -112,6 +113,12 @@ Game.methods.playMove = function(player,move,cb,who) {
 };
 
 Game.methods.setFEN = function(fen) {
+  
+  //Validate the FEN syntax quickly (some irregular ones could pass)
+  if (!fen || !fen.match(/^([a-z0-9]+\/){7}[a-z0-9]+ (w|b) [a-z-]+ [a-z0-9-]+ [0-9]+ [0-9]+$/i)) {
+    fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  }
+  
   var chunks = fen.split(' ');
   this.playerToMove = (chunks[1].charAt(0)==this.gameOptions.playerColor);
   this.gameStatus.depth = parseInt(chunks[5]);

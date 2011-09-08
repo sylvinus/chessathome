@@ -1,6 +1,6 @@
 var Q = require('../public/qunit/cli.js').QUnit;
 
-require("./_engineboot.js");
+require("../_engineboot.js");
 
 var uuid = require('node-uuid');
 var dnode = require('dnode');

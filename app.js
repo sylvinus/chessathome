@@ -20,14 +20,7 @@ app.configure(function(){
   app.use(express.static(__dirname + '/www/public'));
 });
 
-// read default env config
-var config = JSON.parse(require('fs').readFileSync("config.json","utf-8").replace("\n",""));
-_.each(config,function(value,key) {
-  if (!process.env[key]) process.env[key] = value;
-});
-
-var PORT = parseInt(process.env.PORT,10) || 3000;
-var ENGINE = process.env.AI_ENGINE || "distributed-mongo";
+var config = require('./www/master/config').config;
 
 //doesn't work
 app.configure('development', function(){
@@ -44,13 +37,12 @@ if (ENGINE == 'distributed-mongo') {
 
 app.configure('production', function(){
   app.use(express.errorHandler()); 
-  if (!process.env.PORT) PORT = 80;
 });
 
 // API for the board page 
 var api = require('./www/master/api');
 
-api.startWithEngine(ENGINE).listen(app).listen({host:'0.0.0.0',port:8000});
+api.startWithEngine(config.AI_ENGINE).listen(app).listen({host:'0.0.0.0',port:parseInt(config.PORT_GRID,10)});
 
 app.get('/stats/simple',function(req,res) {
   res.contentType('application/json');
@@ -104,21 +96,11 @@ app.use(require('browserify')(
 ));
 
 
-app.listen(PORT,function() {
+app.listen(parseInt(config.PORT,10),function() {
   
   //http://blog.nodeknockout.com/post/9300619913/countdown-to-ko-14-deploying-your-node-js-app-to#deploy-script
   console.log('Express server listening on port %d in %s mode', app.address().port, app.settings.env);
   
-  /* makes linode bug
-  
-  // if run as root, downgrade to the owner of this file
-  if (app.settings.env=="production")
-  if (process.getuid() === 0)
-    require('fs').stat(__filename, function(err, stats) {
-      if (err) return console.log(err)
-      process.setuid(stats.uid);
-    });
-   */ 
 });
 
 
