@@ -139,6 +139,7 @@ tr {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
+  margin:5px;
 }
 
 #infogame .won {
@@ -156,11 +157,6 @@ tr {
 
 #endGame {
   display:none;
-}
-
-#restart {
-  display: none;
-  padding-top:10px;
 }
 
 
@@ -202,12 +198,13 @@ tr {
 
 }
 
-#stopgame {
+#stopgame, #restartgame {
   display: none;
   position: absolute;
   bottom: 20px;
   left: 50%;
-  margin-left: -68px;
+  width:160px;
+  margin-left: -80px;
 }
 
 /**********

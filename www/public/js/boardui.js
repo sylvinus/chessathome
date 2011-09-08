@@ -9,67 +9,17 @@ var g_toMove;
 
 var scrollElem;
 
-var g_timeout = null;
+var UI_timeout = null;
 
 
-function loader(status) {
-  /*
-  if (!status) clearTimeout(failsafe);
-  
-  if (status) {
-    setTimeout(function() {
-      window.location.href = '';
-    },60000);
-  }
-  */
-  $('#loader').css({ display: !status ? 'none' : 'block' });
-}
-
-function reloadPage() {
-  window.location.href = unescape(window.location.pathname);
-  g_timeout = null;
-}
-
-function doLoad()
-{
-    // the timeout value should be the same as in the "refresh" meta-tag
-    setTimeout( "refresh()", 2*1000 );
-}
-
-function refresh()
-{
-    //  This version of the refresh function will cause a new
-    //  entry in the visitor's history.  It is provided for
-    //  those browsers that only support JavaScript 1.0.
-    //
-}
-
-
-
-function UIShowBoard() {
-  
-
-  $('#game').animate({'height':'550px'}, function() {
-    UIInit();
-    $(scrollElem).animate({scrollTop: $('#game').offset().top},function() {
-      $("#chessPlayerName").focus();
-    });
-  });
-  
-}
-function UIHideBoard() {
-  $('#game').animate({'height':'0px'}, function() {
-    
-  });
-}
-
-
+// Init UI Bindings & stuff
 function UILoaded() {
-  // UI Bindings
+
   $('#newgameform').submit(function(event) {
     event.preventDefault();
     g_playerWhite = ($('#chessPlayerColor').val() == 'white');
     UINewGame($('#chessPlayerName').val(),$('#chessStartPos').val());
+    $('#chessStartPos').val('Standard');
     $('#newgamebox').fadeOut();
     $('#stopgame').fadeIn();
   });
@@ -78,10 +28,10 @@ function UILoaded() {
     $('#newgamebox').fadeOut();
   });
 
-  $('#restart').click(function(){
+  $('#restartgame').click(function(){
     $('#newgamebox').fadeIn();
-    $('#restart').fadeOut();
-    endGame(false);
+    $('#restartgame').fadeOut();
+    UIEndGame(false);
 
   });
 
@@ -129,34 +79,56 @@ function UILoaded() {
 }
 
 
+
+function UIComputeLoader(status) {
+  $('#loader').css({ display: !status ? 'none' : 'block' });
+}
+
+function reloadPage() {
+  window.location.href = unescape(window.location.pathname);
+  UI_timeout = null;
+}
+
+// Makes the board appear
+function UIShowBoard() {
+
+  $('#game').animate({'height':'550px'}, function() {
+    UIInit();
+    $(scrollElem).animate({scrollTop: $('#game').offset().top},function() {
+      $("#chessPlayerName").focus();
+    });
+  });
+  
+}
+
+// Hides the board
+function UIHideBoard() {
+  $('#game').animate({'height':'0px'}, function() {
+    
+  });
+}
+
+
+
 function UIInit() {
   RedrawBoard();
 }
 
-var LAST_STATUS;
+// Server sent an update
 function ServerUpdate(data) {
-  console.warn('Server:', data);
+  console.log('Server:', data);
 
-  loader(false);
-
-  if (!data.gameStatus.active) {
-    alert("Game ended! "+(data.gameStatus.mate?"Checkmate.":""));
+  if (UI_timeout) {
+    clearTimeout(UI_timeout);
+    UI_timeout = null;
   }
 
+  UIComputeLoader(false);
+
   var cFEN = GetFen();
-  if (data.gameStatus.active === true && (g_lastMove || data.gameStatus.currentFEN != cFEN)) {
+  if (g_lastMove || data.gameStatus.currentFEN != cFEN) {
 
-    if (g_timeout) {
-      clearTimeout(g_timeout);
-      g_timeout = null;
-    }
-
-    if (data.gameStatus.playerToMove === false) {
-      loader(true);
-    }
-
-      
-    // Resuming game
+    // Resuming game from scratch
     if (!g_lastMove) {
 
       console.warn('RESUME', data.gameOptions.playerColor);
@@ -180,15 +152,6 @@ function ServerUpdate(data) {
       for (var i = 0; i < data.gameStatus.moves.length; i++)
         UIAddMove(data.gameStatus.moves[i]);
 
-      if (data.gameStatus.active === false) {
-        endGame(true, data.gameStatus);
-      }
-      
-      //computer to play
-      if (data.gameStatus.playerToMove === false) {
-        loader(true);
-      }
-
     }
 
     // New move
@@ -203,13 +166,22 @@ function ServerUpdate(data) {
         UIAddMove(null, move);
       }
 
-      if (data.gameStatus.active === false)
-        endGame(true, data.gameStatus);
     }
 
-  }
-  LAST_STATUS=data;
+    if (!data.gameStatus.active) {
+      UIEndGame(true, data.gameStatus);
+      return;
+    }
 
+
+    //computer to play
+    if (data.gameStatus.playerToMove === false) {
+      UIComputeLoader(true);
+    }
+
+
+  }
+  
 }
 
 function getSquare(x, y) {
@@ -233,7 +205,7 @@ function UINewGame(playerName,startPosition) {
 
   console.log('UINewGame');
   
-  loader(false);
+  UIComputeLoader(false);
 
   g_moveNumber = 1;
   g_lastMove = null;
@@ -247,16 +219,9 @@ function UINewGame(playerName,startPosition) {
   RedrawBoard();
   API.newGame(playerName, { playerColor:(g_playerWhite ? 'w' : 'b'),startFEN:startPosition });
 
+  //TODO when startFEN is a black pos & playerColor=black
   if (!g_playerWhite)
-    loader(true);
-}
-
-
-
-
-function UIChangeTimePerMove() {
-  var timePerMove = document.getElementById("TimePerMove");
-  g_timeout = parseInt(timePerMove.value, 10);
+    UIComputeLoader(true);
 }
 
 
@@ -309,10 +274,10 @@ function doMove(move, txt) {
   API.playMove(FormatMove(move));
 
   // Reload if stuck after 60s !
-  if (g_timeout) clearTimeout(g_timeout);
-  g_timeout = setTimeout('reloadPage()',  60 * 1000);
+  if (UI_timeout) clearTimeout(UI_timeout);
+  UI_timeout = setTimeout('reloadPage()',  60 * 1000);
 
-  loader(true);
+  UIComputeLoader(true);
 
   UIAddMove(null, txt);
 
@@ -324,17 +289,21 @@ function doMove(move, txt) {
 }
 
 
-function endGame(state, gstatus) {
-  if (state) {
+function UIEndGame(finished, gstatus) {
+  if (finished) {
+    $("#won, #lost, #stale").hide();
     if (gstatus.mate) {
-      $(gstatus.winner ? '#won' : '#lost').css({ display:'block' });
+      $(gstatus.winner ? '#won' : '#lost').show();
     } else if (gstatus.stale) {
-      $('#stale').css({ display:'block' });
+      $('#stale').show();
     }
+    $("#stopgame").hide();
+    $("#restartgame").show();
     $('#endGame').fadeIn();
-    console.log('waza', state, gstatus);
-    $('#stopgame').fadeOut();
+
   } else {
+    $("#stopgame").show();
+    $("#restartgame").hide();
     $('#endGame').fadeOut();
     $('#endGame div').css({ display:'none' });
   }

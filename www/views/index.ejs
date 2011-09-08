@@ -54,13 +54,15 @@
           <span id="output"></span><br>
           <textarea cols="50" rows="6" id="chessPgn"></textarea>
           <p style="display:none"><input id="chessFEN" type="text"></p>
-          <div id="endGame">
+          <div class="opponent">You are playing against <span class="globalSwarmCounter"><%= numWorkers %></span> computers.</div>
+					<div id="endGame">
             <div id="won" class="status">Checkmate! You <span class="won">won</span>!</div>
             <div id="lost" class="status">Checkmate! You <span class="lost">lost</span>!</div>
-            <div id="stale" class="status">Stale: end of the game!</div>
-            <button id="restart" class="btn large primary">Start a new game</button>
+            <div id="stale" class="status">Stalemate!</div>
+            
           </div>
-          <div class="opponent">You are playing against <span class="globalSwarmCounter"><%= numWorkers %></span> computers.</div>
+
+					<button id="restartgame" class="btn large primary">Start a new game</button>
           <button id="stopgame" class="btn large danger">End game now</button>
         </div>
       </div>
