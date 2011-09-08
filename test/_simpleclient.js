@@ -33,20 +33,20 @@ exports.client = {
         
         console.log("simpleclient got status",status);
         
-        if (!status.gameStatus.active) {
-
-          emitter.emit('gotMove_'+seq,false,status.gameStatus.currentFEN,status);
-        
         //First status! game has started.
-        } else if (!self.currentFEN) {
+        if (!self.currentFEN) {
           self.currentFEN = status.gameStatus.currentFEN;
           emitter.emit('gameStarted_'+seq,self.currentFEN,status);
 
-        
         //new move!
         } else if (self.currentFEN!=status.gameStatus.currentFEN) {
           self.currentFEN = status.gameStatus.currentFEN;
-          var move = status.gameStatus.moves[status.gameStatus.moves.length -1];
+          if (status.gameStatus.moves.length) {
+            var move = status.gameStatus.moves[status.gameStatus.moves.length -1];
+          } else {
+            var move = false;
+          }
+          
           emitter.emit('gotMove_'+seq,move,self.currentFEN,status);
 
         //ignore further game statuses.

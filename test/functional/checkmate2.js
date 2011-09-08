@@ -39,6 +39,8 @@ Q.test('Position '+'8/3K1k2/8/pprr3p/8/8/PP6/8 w - - 3 33', function() {
 */
 
 
+  ['3q1rk1/5pbp/5Qp1/8/8/2B5/5PPP/6K1 w - - 0 37','',null]
+
 Q.test('Position '+'8/3K1k2/8/ppr2r1p/8/8/PP6/8 b - - 2 32', function() {
   Q.expect(6);
   Q.stop();

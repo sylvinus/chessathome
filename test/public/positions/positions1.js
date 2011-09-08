@@ -1,5 +1,8 @@
 var g_positions1Table = [
 
+// Winning capture on bishop
+//["3q1rk1/5pbp/5Qp1/8/8/2B5/5PPP/6K1 w - - 0 44","f6g7",true],
+
 // Winning pawn capture on rook 
 ["2r3k1/2r4p/1PNqb1p1/3p1p2/4p3/2Q1P2P/5PP1/1R4K1 w - - 0 37", "b6c7", true], 
 
