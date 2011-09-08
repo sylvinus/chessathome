@@ -65,8 +65,11 @@ Game.methods.gameInit = function(cb) {
       self.gameStatus.stale = (!e.moveOpt && !e.inCheck);
       self.gameStatus.mate = (!e.moveOpt && e.inCheck);
       self.gameStatus.check = e.inCheck;
-      if (!e.moveOpt)
+      
+      if (!self.gameStatus.active) {
         self.gameStatus.winner = !self.playerToMove;
+      }
+        
 
       cb(null, { active:(e.moveOpt > 0) });
       
@@ -78,12 +81,15 @@ Game.methods.gameInit = function(cb) {
   
 };
 
+//player : 1=user, 0=ai
 Game.methods.playMove = function(player,move,cb,who) {
   var self=this;
   
   // Check player is indeed the next move owner
   if (!player==this.playerToMove) return cb('player '+player+' attempring '+move+' : not your turn to play');
   
+  
+  //TODO factorise with the code above in gameInit()
   console.log("Playing move",move,"on",self._id);
   var w = localEngine.makeEngine(function(e) {
     if (!e.type=="resolve") return;
@@ -94,8 +100,9 @@ Game.methods.playMove = function(player,move,cb,who) {
       self.gameStatus.stale = (!e.moveOpt && !e.inCheck);
       self.gameStatus.mate = (!e.moveOpt && e.inCheck);
       self.gameStatus.check = e.inCheck;
-      if (!e.moveOpt)
-        self.gameStatus.winner = (who == 'user');
+      
+      if (!self.gameStatus.active)
+        self.gameStatus.winner = !!player;
 
       //console.log('STATUS', e, self.gameStatus)
 
@@ -143,7 +150,7 @@ Game.methods.gotComputerMove = function(move,cb) {
       console.warn('gt Current FEN:',self.gameStatus.currentFEN);
       cb(null,move);
     });
-  }, 'computer');
+  });
 };
 
 Game.methods.computerPlays = function(engine,timeout,cb) {

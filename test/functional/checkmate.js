@@ -17,7 +17,7 @@ testTable.forEach(function(position) {
   
   
   Q.test('position by player '+position[0], function() {
-    Q.expect(7);
+    Q.expect(9);
     Q.stop();
     
     var playerColor=position[0].split(' ')[1];
@@ -28,10 +28,12 @@ testTable.forEach(function(position) {
     
         Q.same(fen,position[0]);
         Q.same(false,status.gameStatus.mate);
+        Q.same(true,status.playerToMove);
         Q.same(true,status.gameStatus.active);
         
         client.playMove(position[1],function(err,move,fen,status) {
           
+          Q.same(false,status.playerToMove);
           Q.same(true,status.gameStatus.check);
           Q.same(true,status.gameStatus.mate);
           Q.same(false,status.gameStatus.active);

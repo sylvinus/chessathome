@@ -108,7 +108,7 @@ exports.startWithEngine = function(engineName) {
           });
           
           
-        }, 'player');
+        });
       });
 
     };

@@ -31,7 +31,7 @@ exports.client = {
 
       this.refreshGameStatus=function(status) {
         
-        console.log("simpleclient got status",status);
+        console.warn("simpleclient got status",status);
         
         //First status! game has started.
         if (!self.currentFEN) {
