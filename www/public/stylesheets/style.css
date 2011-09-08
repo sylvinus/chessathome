@@ -79,10 +79,10 @@ tr {
   margin-left:50px;
 }
 .squareEven {
-  background: url('../img/case_fonce.png') no-repeat #c08346;
+  background: url('../img/case_clair.png') no-repeat #c08346;
 }
 .squareOdd {
-  background: url('../img/case_clair.png') no-repeat #e9c095;
+  background: url('../img/case_fonce.png') no-repeat #e9c095;
 }
 .possibleMove {
   background: url('../img/case_pos.png') no-repeat #63381a;
