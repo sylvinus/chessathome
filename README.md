@@ -1,5 +1,5 @@
-Joshfire's Node Knockout 2 entry
-================================
+Chess@home
+==========
 
 Build
 -----

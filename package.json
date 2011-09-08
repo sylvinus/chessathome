@@ -3,16 +3,15 @@
   "name": "joshfirenko",
   "description": "Joshfire project for NKO2 : Distributed chess!",
   "version": "0.1.1",
-  "homepage": "https://github.com/nko2/joshfire",
+  "homepage": "https://github.com/joshfire/chessathome",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nko2/joshfire.git"
+    "url": "git://github.com/joshfire/chessathome.git"
   },
   "engines": {
     "node": "0.4.x"
   },
   "dependencies": {
-    "nko": "*",
     "express": "2.4.6",
     "sharedjs": "0.0.2",
     "webworker": "0.8.x",

@@ -7,7 +7,6 @@ process.chdir(__dirname);
 
 var express = require('express')
   , app = module.exports = express.createServer()
-  , nko = require('nko')('B+tvFWbY61vxzdGf')
   , _ = require("underscore")._;
 
 // Configuration
