@@ -56,6 +56,12 @@ app.get('/stats/simple',function(req,res) {
 
 // Routes
 app.get('/', function(req, res){
+  
+  if (req.headers.host=="joshfire.nko2.nodeknockout.com") {
+    res.redirect("http://chessathome.org/",301);
+    return;
+  }
+  
   res.render('index', {
     title: 'Chess@home',
     numWorkers:_.size(api.clients)+2
