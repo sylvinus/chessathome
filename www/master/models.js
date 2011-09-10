@@ -2,11 +2,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId,
   _ = require("underscore")._,
-  config = require("./config").config;
+  config = require("./config").config,
+  lib = require("./lib");
 
 mongoose.connect(config.MONGO);
-
-var localEngine = require("./engine").loadEngine('local');
 
 var Game = new Schema({
     playerName     : { type: String, match: /[a-z0-9A-Z-._]/ }
@@ -54,90 +53,75 @@ var Position = new Schema({
 Game.methods.gameInit = function(cb) {
   var self = this;
   
-  this.setFEN(this.gameOptions.startFEN);
-  
-  console.warn("TEST FEN",self.gameStatus.currentFEN);
-  //resolve this FEN further
-  var w = localEngine.makeEngine(function(e) {
-    w.stop()
-    if (!e.type=="resolve") return;
-    if (e.status=="ok") {
-
-      self.gameStatus.active = (e.moveOpt > 0);
-      self.gameStatus.stale = (!e.moveOpt && !e.inCheck);
-      self.gameStatus.mate = (!e.moveOpt && e.inCheck);
-      self.gameStatus.check = e.inCheck;
-      
-      if (!self.gameStatus.active) {
-        self.gameStatus.winner = !self.playerToMove;
-      }
-        
-
-      cb(null, { active:(e.moveOpt > 0) });
-      
-    } else {
-      cb(e);
-    }
+  this.setFEN(this.gameOptions.startFEN,function(err) {
+    if (err) return cb(err);
+    self.save(function(err) {
+      if (err) return cb(err);
+      cb(null,self.gameStatus);
+    });
   });
-  w.post({type:"resolve",data:[false,self.gameStatus.currentFEN]});
   
 };
 
 //player : 1=user, 0=ai
-Game.methods.playMove = function(player,move,cb,who) {
+Game.methods.playMove = function(player,move,cb) {
   var self=this;
   
   // Check player is indeed the next move owner
   if (!player==this.playerToMove) return cb('player '+player+' attempring '+move+' : not your turn to play');
   
-  
-  //TODO factorise with the code above in gameInit()
   console.log("Playing move",move,"on",self._id);
-  var w = localEngine.makeEngine(function(e) {
-    w.stop()
-    if (!e.type=="resolve") return;
-    if (e.status=="ok") {
-      self.setFEN(e.fen);
-
-      self.gameStatus.active = (e.moveOpt > 0);
-      self.gameStatus.stale = (!e.moveOpt && !e.inCheck);
-      self.gameStatus.mate = (!e.moveOpt && e.inCheck);
-      self.gameStatus.check = e.inCheck;
+  lib.resolvePosition({fen:self.gameStatus.currentFEN,moves:move},function(err,pos) {
+    if (err) return cb(err);
+    
+    //todo we could only do the resolvePosition call above and remove this one
+    self.setFEN(pos.fen,function(err) {
+      if (err) return cb(err);
       
-      if (!self.gameStatus.active)
-        self.gameStatus.winner = !!player;
-
-      //console.log('STATUS', e, self.gameStatus)
-
+      //self.gameStatus.winner = !!player;
+      
       self.gameStatus.moves.push(move);
-      
-      //retro compat
       if (!self.gameStatus.san) self.gameStatus.san = [];
-      self.gameStatus.san = self.gameStatus.san.concat(e.san);
+      self.gameStatus.san = self.gameStatus.san.concat(pos.san);
       
-
-      //hack, FEN.depth is not modified
-      //if (e.fen.split(' ')[1].charAt(0)=="w") self.gameStatus.depth++;
-      cb(null, { active:(e.moveOpt > 0) });
-    } else {
-      cb(e);
-    }
+      self.save(function(err) {
+        if (err) return cb(err);
+        
+        cb(null,self.gameStatus);
+      });
+      
+    });
+    
   });
-  w.post({type:"resolve",data:[move,self.gameStatus.currentFEN]});
   
 };
 
-Game.methods.setFEN = function(fen) {
+Game.methods.setFEN = function(fen,cb) {
+  var self = this;
   
-  //Validate the FEN syntax quickly (some irregular ones could pass)
-  if (!fen || !fen.match(/^([a-z0-9]+\/){7}[a-z0-9]+ (w|b) [a-z-]+ [a-z0-9-]+ [0-9]+ [0-9]+$/i)) {
-    fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-  }
+  fen = lib.validateFEN(fen);
   
-  var chunks = fen.split(' ');
-  this.playerToMove = (chunks[1].charAt(0)==this.gameOptions.playerColor);
-  this.gameStatus.depth = parseInt(chunks[5]);
-  this.gameStatus.currentFEN = fen;
+  lib.resolvePosition({fen:fen},function(err,pos) {
+    if (err) return cb(err);
+    
+    var chunks = pos.fen.split(' ');
+    self.playerToMove = (chunks[1].charAt(0)==self.gameOptions.playerColor);
+    self.gameStatus.depth = parseInt(chunks[5]);
+    self.gameStatus.currentFEN = pos.fen;
+    
+    self.gameStatus.active = pos.active;
+    self.gameStatus.stale = pos.stale;
+    self.gameStatus.mate = pos.mate;
+    self.gameStatus.check = pos.check;
+    
+    if (!pos.active) {
+      self.gameStatus.winner = !self.playerToMove;
+    }
+    
+    cb(null);
+    
+  });
+  
 }
 
 Game.methods.dump = function() {
@@ -149,32 +133,27 @@ Game.methods.dump = function() {
   
 }
 
-Game.methods.gotComputerMove = function(move,cb) {
-  var self = this;
-  
-  this.playMove(0,move,function(err, data) {
-    if (err) return cb(err);
-    self.save(function() {
-      console.warn('gt Current FEN:',self.gameStatus.currentFEN);
-      cb(null,move);
-    });
-  });
-};
-
 Game.methods.computerPlays = function(engine,timeout,cb) {
   var self = this;
   
-  var w = engine.makeEngine(function(e) {
-    if (e.type=="pv") {
+  lib.engineMove(engine,{},{timeout:timeout,fen:self.gameStatus.currentFEN},function(err,pos) {
+    if (err) return cb(err);
+    
+    self.playMove(0,pos.move,function(err) {
+      if (err) return cb(err);
+      
+      self.save(function(err) {
+        if (err) return cb(err);
+        cb(null,pos);
+      });
+    });
+    
+  },function(info) {
+    if (info.type=="pv") {
+      //TODO should we save/transmit that?
       self.gameStatus.pv = e.data;
-    } else if (e.type=="move") {
-      w.stop(self);
-      self.gotComputerMove(e.data,cb);
-    } else if (e.type=="refresh") {
-      cb(null,e.data);
     }
   });
-  w.search(this.gameStatus.currentFEN,timeout,this);
   
 }
 

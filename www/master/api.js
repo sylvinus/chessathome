@@ -2,8 +2,9 @@ var dnode = require('dnode')
   , clients = {};
 
 var models = require("./models");
-
+var lib = require("./lib");
 var TIMEOUT = 4000;
+
 
 exports.startWithEngine = function(engineName,engineOptions) {
   
@@ -14,7 +15,7 @@ exports.startWithEngine = function(engineName,engineOptions) {
   console.log("Starting API with engine",engineName,engineOptions);
   
   // API for AI workers
-  var workerEngine = require('./engines/'+engineName);
+  var workerEngine = require('./engine').loadEngine(engineName);
   workerEngine.start();
   
   exports.clients = workerEngine.clients;
@@ -61,8 +62,6 @@ exports.startWithEngine = function(engineName,engineOptions) {
           console.log("Computer can't play next move:", err) 
           client.refreshGameStatus(game.dump());
 
-          //game.save 
-
 
         } else {
 
@@ -92,21 +91,17 @@ exports.startWithEngine = function(engineName,engineOptions) {
 
         var g = docs[0];
 
-        g.playMove(1,move,function(err, data) {
-          console.log("player played move | ", err);
+        g.playMove(1,move,function(err, gameStatus) {
+          console.log("player played move | ", err,g);
           if (err) return client.error(err);
           
-          g.save(function() {
-            
-            console.log('ACTIVE:', g.gameStatus.active)
-            //throw (g.gameStatus.active && data.active);
-            //now launch computer if the game is still active (the player may have won)
-            if (g.gameStatus.active && data.active)
-              compute(g);
-            else
-              client.refreshGameStatus(g.dump());
-
-          });
+          //now launch computer if the game is still active (the player may have won)
+          if (g.gameStatus.active)
+            compute(g);
+          else
+            client.refreshGameStatus(g.dump());
+         
+          
           
           
         });
@@ -122,25 +117,23 @@ exports.startWithEngine = function(engineName,engineOptions) {
         "gameOptions":gameOptions
       });
 
-      g.gameInit(function() {
-        g.save(function(err) {
-          console.log("new game saved", g.dump(),err);
-          if (err) {
-            client.error(err);
-          } else {
-            client.refreshGameStatus(g.dump());
-
-            if (!g.gameStatus.active) {
-              return;
-            }
-            
-            // Game starts with a AI play
-            if (!g.playerToMove) {
-              compute(g);
-            } 
-
+      g.gameInit(function(err) {
+        console.log("new game saved", g.dump(),err);
+        if (err) {
+          client.error(err);
+        } else {
+          client.refreshGameStatus(g.dump());
+        
+          if (!g.gameStatus.active) {
+            return;
           }
-        });
+          
+          // Game starts with a AI play
+          if (!g.playerToMove) {
+            compute(g);
+          } 
+        
+        }
       });
       
 

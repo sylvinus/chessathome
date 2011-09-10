@@ -275,7 +275,7 @@ function doMove(move, txt) {
 
   // Reload if stuck after 60s !
   if (UI_timeout) clearTimeout(UI_timeout);
-  UI_timeout = setTimeout('reloadPage()',  60 * 1000);
+  UI_timeout = setTimeout('reloadPage()',  2*60 * 1000);
 
   UIComputeLoader(true);
 

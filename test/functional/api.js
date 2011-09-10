@@ -7,7 +7,7 @@ Q.module("API tests");
 
 Q.test("simple move",function() {
   Q.stop();
-  Q.expect(7);
+  Q.expect(8);
   
   console.warn("starting test");
 
@@ -24,6 +24,8 @@ Q.test("simple move",function() {
         Q.same(true,status.playerToMove);
         Q.same(status.gameStatus.depth,2);
         Q.same("e4",status.gameStatus.san[0]);
+        Q.same("e2e4",status.gameStatus.moves[0]);
+        
       
         client.playMove('a2a4',function(err,computerMove,fen,status) {
         
@@ -40,7 +42,7 @@ Q.test("simple move",function() {
 });
 
 
-
+/*
 Q.test("wrong start FEN",function() {
   Q.stop();
   Q.expect(3);
@@ -81,3 +83,4 @@ Q.test("custom start FEN",function() {
   });
 
 });
+*/
