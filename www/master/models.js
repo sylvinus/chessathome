@@ -110,6 +110,9 @@ Game.methods.playMove = function(player,move,cb,who) {
       //console.log('STATUS', e, self.gameStatus)
 
       self.gameStatus.moves.push(move);
+      
+      //retro compat
+      if (!self.gameStatus.san) self.gameStatus.san = [];
       self.gameStatus.san.push(e.san);
       
 
