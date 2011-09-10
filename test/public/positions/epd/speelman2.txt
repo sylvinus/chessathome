@@ -1,0 +1,211 @@
+#This file contains Endgame test positions from these sources
+#Jon S. Speelman: Endgame Preparation, Batsford, 1981,
+#Jon S. Speelman: Analysing The Endgame, Batsford 1981.
+#I.A. Horowitz: How to win in the chess endings,
+#Tartan books, David McKay co inc. New York 1957.
+#Y. Averbakh: Chess endings, essential knowledge, Pergamon 1987.
+#
+#At the end there are also a few easy problems I cooked up just to test
+#whether the testee knows about underpromotion and certain standard
+#wins and draws.
+#
+#The present file is a good test for the computer since a lot of them
+#involve stalemate, perpetual check, draw by repetition, and "fortess
+#building" draw themes, i.e. things it is hard for a computer to get
+#right, or where it is easy to have a bug.  Also, theories of
+#"corresponding squares" or "coordinate squares" are really just
+#special cases of dynamic programming -- such positions ought to be
+#readily solvable with transposition tables but harder to solve without
+#them.  A terrific torture test for a chess program is the mate in 200
+#problem; if a program can solve it, it must be doing something right!
+#Be warned though: although I think there is usually a unique best move
+#in each position, this is not as certain as in the Reinfeld and Larsen
+#sets. Also, problem correctness is not as certain either.  On the
+#bright side, I mention that in D. Hooper's: Pocket guide to endings,
+#are about 300 positions, all completely analysed, and of these 300,
+#only 35 have >=7 men on the board. Thus nearly 90% of all "endgame
+#knowledge" concerns positions with <=6 men (and all such positions are
+#databasable?).
+#
+#
+#
+begin examples from (Speelman_EP)
+6R1/8/8/8/1k1K4/8/1p4p1/8/w Kd4d5 (Speelman_EP) (draws. EP page 14, 4)
+8/8/2p5/K1P1p3/4Pk2/8/3pB3/8/w Ka5b6 (Speelman_EP) (page 14, 5)
+4k3/8/2pK4/2Pp1b2/7R/7p/8/8/w Rh4h5 (Speelman_EP) (page 15, 7)
+8/4k2N/7p/8/1p6/8/4K3/8/w Ke2d3 (Speelman_EP) (page 15, 9)
+8/8/B3P3/3k4/5K2/2P4b/8/8/w Ba6c8 (Speelman_EP) (page 16, 11)
+6b1/2p5/2p1P3/p1P4p/k5B1/3r4/1P4K1/5R2/w Rf1f4+ (Speelman_EP) (page 17, 14)
+8/3p4/P3p1N1/8/6k1/1b6/8/6K1/w Ng6e7 (Speelman_EP) (page 19,17)
+8/7n/1p1p1n2/p1pPpBp1/P1P1Pp1k/2P2P2/3BKP2/8/b Pg5g4 (Speelman_EP) (page 20, 19)
+2KB4/1P6/2k5/8/8/8/7b/8/w Bd8h4 (Speelman_EP) (page 20, 21)
+1r6/4P1P1/8/7k/8/7N/8/4K3/w Nh3f4+ (Speelman_EP) (22 page 21)
+8/1p6/p1pPk1p1/3p2K1/PP1Pp2P/4P3/8/8/b Pa6a5 (Speelman_EP) (25 page 22)
+8/8/p3k1p1/1p2p2p/1P2K1PP/5P2/P7/8/b Pg6g5 (Speelman_EP) (26 page 23)
+8/8/4b1p1/2Bp3p/5P1P/1pK1Pk2/8/8/b Pg6g5 (Speelman_EP) (27 page 23)
+6r1/4k3/1p2p3/p1rp1p1p/P2RpP2/1KP1R1PP/1P6/8/b Ph5h4 (Speelman_EP) (28 page 23)
+8/5pk1/p3p3/3n2p1/r6p/3N2PP/PR1KPP2/8/b Pg5g4 (Speelman_EP) (page 23, 29)
+2b5/1r6/2kBp1p1/p2pP1P1/2pP4/1pP3K1/1R3P2/8/b Rb7b4 (Speelman_EP) (page 24, 30)
+3k4/7p/8/2P5/K7/8/8/8/w Ka4b5 (Speelman_EP) (page 27, 39)
+8/6K1/8/ppp2k2/8/1P6/1P5P/8/w Ph2h4 (Speelman_EP) (1... Kg4 2. Kg6! draws, and makes black sweat too page 27,40)
+8/4p2p/8/1K1k4/P7/5P2/8/8/b Kd5e6 (Speelman_EP) (41 page 27, corrected by Elie Ebvic)
+8/1pPK3b/8/8/8/5k2/8/8/w Kd7c8 (Speelman_EP) (42 page 28)
+6k1/8/7Q/7K/2q3PP/8/8/8/b Qc4f7+ (Speelman_EP) (page 29, 43; stalemate or perp chck is forced)
+8/kp6/p7/P4Qp1/7p/4q3/8/7K/w Qf5f2 (Speelman_EP) (forcing stalemate; 44 page 29)
+8/8/2p5/pkp3R1/7B/P7/2p3K1/8/w Pa3a4+ (Speelman_EP) (45 page 29)
+8/2B2p1p/8/3K4/6k1/8/7P/8/b Pf7f5 (Speelman_EP) (47 page 30)
+8/6pp/5p2/3k1PP1/5K1P/8/8/8/w Kf4g4 (Speelman_EP) (52 page 32)
+3k4/p1p5/8/2p1p3/4P3/PpPP2K1/1P6/8/b Pc5c4 (Speelman_EP) (53 page 32; a "self-stalemate" saves the game!)
+8/4p3/8/3P3p/P2pK3/6P1/7b/3k4/w Pd5d6 (Speelman_EP) (page 33, 54 leads to stalemate)
+8/6P1/8/8/q2Q4/2K5/8/7k/b Qa4a1+ (Speelman_EP) (getting perpetual check, page 35, 60)
+8/R5pp/2p1k3/2p2p2/2P5/1P2P1P1/P3r2P/6K1/b Pg7g5 (Speelman_EP) (getting perpetual check, page 35, 61)
+6k1/8/4K3/1R5p/8/2N5/n2q3B/8/w Nc3e4 (Speelman_EP) (forcing both sides to draw by repetition p37, 66.)
+1R6/8/8/5bp1/4p2k/8/B1p2PKP/8/w Rb8b1 (Speelman_EP) (an example of "building a fortress" to get a draw, p38, 72)
+5B1k/7p/6P1/4NnP1/8/8/K4p2/8/w Pg6g7+ (Speelman_EP) (forcing a peculiar draw, page 39, 73)
+8/6kp/6p1/1B3p2/5P2/3K2P1/4n2P/8/b Ne2xPf4+ (Speelman_EP) (forcing a B and wrong RP draw p39, 74)
+8/5ppp/8/8/1pK5/kP3P2/6PP/8/b Ph7h6 (Speelman_EP) (forcing eventual zugzwang page 44, 82)
+8/8/7b/P1k5/3N4/8/5PKp/8/w Kg2h1 (Speelman_EP) (page 47, 89, forcing a zugwang and winning)
+k7/8/3p4/p2P1p2/P2P1P2/K7/8/8/w Ka3b2 (Speelman_EP) (102 page 54, lasker)
+8/k7/3p4/p2P1p2/P2P1P2/8/8/K7/w Ka1b1 (Speelman_EP) (102 page 54, reichhelm)
+k7/1p5p/7P/8/1P6/8/2K5/8/w Kc2d3 (Speelman_EP) (107 page 58)
+
+k7/7p/3p1p1P/3P2p1/3P2P1/8/6P1/K7/b Ka8b7 (Speelman_EP) (page 60, 109. This draws. "Coordinate squares")
+7k/1p6/1P2p3/1P2P3/4P1p1/6P1/8/K7/w Ka1a2 (Speelman_EP) (wins, page 60, 110, "coordinate squares")
+7k/1p6/1P2p3/1P2P3/4P1p1/6P1/8/K7/b Kh8g8 (Speelman_EP) (draws, page 60, 110, "coordinate squares")
+6k1/3p4/3p4/3P4/4P1p1/6P1/8/K7/w Ka1b1 (Speelman_EP) (wins, page 61,111 "corresponding squares")
+8/8/6k1/B5Pp/6pK/6P1/8/n7/w Ba5e1 (Speelman_EP) (holds the draw, page 63,117 "corresponding squares")
+2k5/1pP1p2p/1K2p2P/3bP3/8/8/2N5/8/w Nc2a3 (Speelman_EP) (page 64,119. White wins, "corresponding squares")
+2b5/1p6/pPp2k2/P1PpN2p/3P1K1P/8/8/8/w Kf4f3 (Speelman_EP) (120 page 65)
+8/5b2/p2k4/1p1p1p1p/1P1K1P1P/2P1PB2/8/8/w Bf3e2 (Speelman_EP) (page 65, 121. White wins, "corresponding squares")
+6n1/p1BN3b/p1p3np/p1p3pq/6kr/K1P2r1p/2PPQ3/8/w Qe2e6+ (Speelman_EP) (EP page 68, 126. In this incredible problem by W. Joergensen, white mates in 200 and all his moves are unique! It ought to be possible to solve it by computer if forcing lines are investigated deeply and transposition tables are used...? The only captures in the solution are 60. KxPa3, 141. QxPc4+, and 180. KxPa3. It ends 200. Qe2 mate.)
+6k1/5p2/6p1/1P1R3p/5P2/8/5KPP/1r6/w Kf2e3 (Speelman_EP) (page 79, 138)
+8/6p1/5k2/8/5KP1/8/7P/8/w Kf4f3 (Speelman_EP) (page 81, 141)
+1r4k1/5p1p/6p1/2R5/8/4P1P1/5P1P/6K1/b Ph7h5 (Speelman_EP) (page 84, 146)
+5k2/6p1/7p/4PK1P/5PPb/1B6/8/8/w Pg4g5 (Speelman_EP) (page 88, 152)
+2R5/4ppk1/p6p/8/8/8/P2b2KP/8/w Pa2a3 (Speelman_EP) (page 92, 157)
+2k5/2b5/pp6/4p3/1P4P1/1KP2p2/1P1R4/8/w Rd2d5 (Speelman_EP) (page 92, 158)
+8/8/p1p5/P7/1PP3p1/4kb1p/7R/6K1/w Pb4b5 (Speelman_EP) (page 93, 159)
+8/1B6/3r2p1/5p1p/5P1P/4k1P1/8/6K1/b Pg6g5 (Speelman_EP) (page 95, 162)
+B7/8/1r4p1/5p1p/3k1P1P/6P1/5K2/8/b Rb6b2+ (Speelman_EP) (page 96, 164)
+4Q3/5K2/8/7N/6k1/8/8/7q/w Qe8g8+ (Speelman_EP) (page 108,179)
+5k2/p1p3p1/1p2p3/8/7P/5PP1/P4P2/6K1/b Pe6e5 (Speelman_EP) (page 114, 186)
+8/p1pk1ppp/2p5/2K5/8/8/PPP2PPP/8/w Pb2b4 (Speelman_EP) (page 114, 187)
+4r3/2p5/7R/3k4/2p2PP1/5K2/8/8/w Rh6h7 (Speelman_EP) (page 116, 191)
+8/5kpp/p4p2/1p6/2rP1P2/P3K1P1/1R5P/8/b Kf7e6 (Speelman_EP) (page 116, 192)
+6k1/5p2/2r1p1p1/3p1n2/3P3p/1P5P/3RNPP1/6K1/b Rc6b6 (Speelman_EP) (page 122, 203)
+6k1/5p2/2n1p1p1/3p4/3P4/1P1R2PP/5K2/2rN4/b Rc1b1 (Speelman_EP) (page 123, 204)
+R7/2r2pkp/2pb2p1/3p4/3P4/3NPPP1/7P/6K1/b Pg6g5 (Speelman_EP) (page 124, 205; makes h2 weak)
+8/N5pp/8/3k4/3pnP2/6P1/P6P/6K1/b Pd4d3 (Speelman_EP) (page 129, 211)
+8/8/8/8/5k2/2pP4/2P5/4K3/b Kf4f3 (Speelman_EP) (page 130, 215. draws)
+6k1/4n1pp/8/3p1n1N/p1pP4/PpP2P2/1B3KPP/8/w Nh5f4 (Speelman_EP) (page 131, 216)
+5bk1/7p/3p4/2pPp2P/2P1N1P1/8/5K2/8/w Pg4g5 (Speelman_EP) (page 132, 219)
+8/8/8/6p1/1K3p1p/5P1P/1k4P1/8/w Kb4c4 (Speelman_EP) (page 134, 223)
+8/5pkp/1n4p1/1P6/3K2P1/2N4P/8/8/w Nc3d5 (Speelman_EP) (page 134, 224)
+8/p5k1/6pp/1p1PP3/7P/8/P6K/8/w Ph4h5 (Speelman_EP) (page 141, 233)
+8/5kp1/p2r4/8/4P3/3PK3/8/R7/w Ra1a5 (Speelman_EP) (page 142, 235)
+8/5k2/5p2/2P3p1/1P4R1/4K3/7r/8/w Pc5c6 (Speelman_EP) (page 142, 236)
+2b5/p6p/2B3p1/2P1k3/1P1pp3/8/P4KPP/8/b Bc8g4 (Speelman_EP) (page 143, 237)
+8/KPb5/P7/1k6/6p1/5p2/5B2/8/w Pb7b8=Q+ (Speelman_EP) (page 143, 238)
+8/p3k2p/1p2p1p1/bP6/P1K5/2N1P3/2R2PPP/7r/w Nc3e4 (Speelman_EP) (page 144, 240)
+8/p3k1K1/1p1p1p2/5P2/P3r3/1P4P1/2P4P/3B4/w Ph2h4 (Speelman_EP) (page 145, 243)
+rr4k1/6p1/b3p2p/2RpNp2/p2P4/Pp2PP2/1P4PP/2R3K1/w Kg1f2 (Speelman_EP) (page 146, 244)
+4r3/5pk1/p4p1p/p3rP2/8/2PRp2P/PPK1R1P1/8/w Pg2g3 (Speelman_EP) (page 147, 246)
+3k4/5p2/p4K2/p1r1n2p/B1P1p3/P3P3/5P2/7R/w Ba4d1 (Speelman_EP) (page 148, 248)
+5k2/p1p4R/1pr5/3p1pP1/P2P1P2/2P2K2/8/8/w Kf3g3 (Speelman_EP) (page 149, 252)
+4k3/5pK1/4pP2/3pPb2/5N2/2P5/8/8/w Kg7g8 (Speelman_EP) (page 151, 255)
+8/p6p/2k1b3/2P3K1/P3N1p1/8/7P/8/b Pa7a5 (Speelman_EP) (page 153, 259)
+8/2Bn4/1p2ppk1/p1p4p/P1P1P2K/1P3P2/6P1/8/w Pg2g3 (Speelman_EP) (page 154, 261)
+8/p4k2/1p2pp2/6p1/1P4P1/P5N1/3n1PP1/6K1/b Pb6b5 (Speelman_EP) (page 155, 262)
+8/6pk/4KnNp/7P/5PP1/8/8/8/w Ke6f7 (Speelman_EP) (page 155, 263)
+8/8/8/2p1p3/1pPkPp2/pP3P2/P1BK4/5b2/b Bf1xPc4 (Speelman_EP) (page 157, 267)
+4b3/6k1/1p1pP3/p2P3p/6p1/1P4K1/P1B4P/8/w Bc2d3 (Speelman_EP) (page 158, 268)
+b7/P4k2/P5p1/2B2pKp/7P/5PP1/8/8/w Pf3f4 (Speelman_EP) (page 159, 269)
+8/r7/P3p1k1/8/8/R7/6PK/8/w Ra3a5 (Speelman_EP) (page 161, 273)
+2kr4/1p6/p1p1np2/P3p1p1/1PP1P2p/5P2/2R1NKPP/8/b Rd8d3 (Speelman_EP) (277 page 163)
+1r4k1/2R3bp/2P3p1/8/4p1P1/6P1/1B3P2/6K1/b Bg7xBb2 (Speelman_EP) (281 page 166; the last position I've taken from EP.)
+
+begin examples from Speelman_ATE
+
+8/5k1p/8/5K2/5P1P/8/8/8/w Kf5e5 (Speelman_ATE) (ATE page 11, 4)
+8/5k1p/8/5K2/5P1P/8/8/8/b Kf7e7 (Speelman_ATE) (ATE page 11, 4)
+8/7p/4k1p1/8/5P2/5K1P/5P2/8/w Kf3g4 (Speelman_ATE) (ATE page 15, 10. Wins.)
+8/1p2k2p/8/P4K2/8/7P/8/8/w Kf5g5 (Speelman_ATE) (page 18, 15)
+4k3/7R/4K3/4P3/8/8/8/4r3/b Ke8f8 (Speelman_ATE) (page 19,16)
+4R3/2k5/4K3/4P3/8/8/8/4r3/b Re1h1 (Speelman_ATE) (page 20,17)
+4R3/2k5/4K3/4P3/8/8/8/4r3/w Ke6f7 (Speelman_ATE) (page 20,17, but not same mover)
+1r6/R3K1k1/4P3/8/8/8/8/8/w Ke7d6+ (Speelman_ATE) (page 21,19)
+4k3/7R/8/4PK2/8/8/8/3r4/w Kf5e6 (Speelman_ATE) (page 22, 20)
+7r/4k3/8/8/2P5/2K5/8/3R4/w Kc3b4 (Speelman_ATE) (page 24, 21)
+7r/4k3/8/8/2P5/2K5/8/3R4/b Rh8d8 (Speelman_ATE) (page 24, 21, other side moves)
+8/8/8/8/1P3k2/7r/1K6/4R3/w Kb2c2 (Speelman_ATE) (page 27,25)
+8/8/8/8/1P3k2/7r/1K6/4R3/b Kf4f5 (Speelman_ATE) (page 27,25, other side moves)
+r7/P3K3/8/8/1k6/8/8/R7/b Kb4c5 (Speelman_ATE) (page 30, 29)
+8/8/7K/4k2P/P7/3R4/r7/8/w Rd3f3 (Speelman_ATE) (ATE page 31, 31. Continues ...Rxa4, 2. Kg5!)
+8/2k1b3/2P5/3K1P1B/8/8/8/8/w Kd5e6 (Speelman_ATE) (page 32, 33)
+n6k/8/8/6P1/3K4/3B4/8/8/w Kd4c5 (Speelman_ATE) (page 43,53)
+7k/6nP/6PK/8/6B1/8/8/8/w Kh6g5 (Speelman_ATE) (page 44,57)
+8/8/6p1/6K1/R3k2P/8/p7/r7/b Ke4d5 (Speelman_ATE) (page 50,65)
+8/5K2/8/4pk2/4R3/8/8/8/w Re4e2 (Speelman_ATE) (page 52, 68)
+6R1/8/7k/5p2/6p1/4K2p/8/8/w Ke3e2 (Speelman_ATE) (page 53,69)
+8/3B1p1p/6p1/4k3/8/4K1PP/8/8/w Pg3g4 (Speelman_ATE) (ATE page 59, 79. The only win.)
+7N/2K5/8/8/7p/2k5/8/8/w Nh8f7 (Speelman_ATE) (page 61,83. draws)
+8/2R5/3K4/4P3/2p1p1p1/2r5/8/6k1/w Pe5e6 (Speelman_ATE) (ATE page 62, 86. draws.)
+3k4/3p3p/3p4/PK6/4P3/8/8/8/w Kb5b6 (Speelman_ATE) (page 65, 94)
+8/7K/8/3p4/7B/4p2N/8/1k6/w Nh3f4 (Speelman_ATE) (page 66, 95)
+8/2P5/1P6/8/K3n3/6kb/8/8/w Pb6b7 (Speelman_ATE) (page 66,96 forces a draw ...Nc5+ 2. Kb5 Nxb7 3. c8=N Bxc8 4. Kb6 Nd7 5. Kc7 etc)
+8/1nP5/8/1K6/8/6kb/8/8/w Pc7c8=N (Speelman_ATE) (same as above some moves later)
+4k1K1/6P1/8/8/8/8/7r/5R2/w Rf1f4 (Speelman_ATE) (page 72, 103. Lucena posn, white wins.)
+1r6/R7/5p1k/5Qp1/4n1B1/4P2P/2q2PP1/6K1/b Rb8b1+ (Speelman_ATE) (page 72, 102, stalemate combo)
+8/6p1/4p2p/8/3k4/7P/2PK2P1/8/b Ph6h5 (Speelman_ATE) (page 92,136)
+3K2k1/3R3p/5r1p/5P1P/6P1/8/8/8/b Kg8h8 (Speelman_ATE) (page 102,148)
+B3k3/8/1PP5/n2b3p/1n4P1/4K3/8/8/w Pc6c7 (Speelman_ATE) (page 67,97. The last position I've taken from ATE.)
+
+begin examples from (Horowitz)
+8/2k1p3/4P3/2KP4/8/8/8/8/w Pd5d6+ (Horowitz) page 61, horowitz
+8/8/2k3pp/8/pK3PP1/8/1P6/8/b Kc6d5 (Horowitz) page 66
+8/8/4kp2/5p1p/8/3KP1P1/7P/8/b Ke6e5 (Horowitz) (2. Ke2 Ke4 3. Kf2 h4! 4. gxh4 f4 and draw since the doubled rook pawns are useless page 69)
+8/8/8/1p6/1Pp5/2K3Pk/7P/8/w Kc3d4 (Horowitz) (this is supposed to be mate in 22. page 71)
+7N/2K5/8/8/7p/2k5/8/8/w Nh8f7 (Horowitz) (..h3 2. Ng5 h2 Ne4+ leading to a draw page 80)
+4n3/8/8/8/8/8/p7/k2K4/w Kd1c2 (Horowitz) (page 87 the only draw. A question of parity.)
+8/5p2/4p3/4P1k1/K5P1/8/5N2/8/w Ka4b4 (Horowitz) (page 91. this wins.)
+8/8/8/8/3KNk1p/7P/8/8/w Kd4d5 (Horowitz) (page 92. white wins. 1...Kf5 2. Nc3!! Kf4 3. Ne2+ Kf3 4. Ng1+!! Kg2 5. Ke4 KxNg7 6. Kf3!!!)
+5K2/8/p7/1k6/8/8/1P1N4/8/w Nd2b3 (Horowitz) (page 93)
+8/Bpk5/8/P2K4/8/8/8/8/w Kd5d4 (Horowitz) (page 100)
+8/8/1k6/1p1K4/1P6/6B1/P7/8/w Bg3e1 (Horowitz) (page 102)
+5K2/k7/4P1p1/8/8/8/4b3/8/w Kf8e7 (Horowitz) (draws) page 106
+2KB4/1P6/2k5/8/8/8/7b/8/w Bd8h4 (Horowitz) page 111 wins
+8/p1K2p2/8/3p4/2k5/6P1/8/2B5/b Pd5d4 (Horowitz) page 113 wins
+2b1k3/p1P5/3K4/8/1P6/8/P7/8/w Kd6c6 (Horowitz) (page 115. wins)
+1k6/8/1P6/3B1p2/3K1Pb1/8/8/8/w Kd4e5 (Horowitz) (page 116)
+5K2/R7/8/4p3/8/p5p1/1k4P1/8/w Kf8e7 (Horowitz) (page 141)
+8/6KQ/8/8/8/2p5/8/k7/w Qh7h3 (Horowitz) (page 176)
+3k4/pp6/2pK2p1/3p3p/8/2P4P/PP4P1/8/w Pb2b4 (Horowitz) (followed by a4 and b5, allegedly the only win according to many pages of analysis by Max Euwe on an ending that came up in practice, page 191.)
+4k3/8/r3P3/5K2/8/8/8/1R6/b Ra6a2 (Horowitz) (no comment)
+r3k3/8/8/4PK2/8/8/8/1R6/w Kf5f6 (Horowitz) (last position I've taken from Horowitz)
+
+
+begin examples from (Averbakh)
+8/5K1k/8/5N2/8/3p4/3N4/8/w Nd2e4 (Averbakh) (9 page 6, mate in 4)
+8/8/8/8/N7/P7/2k5/7K/w Na4b2 (Averbakh) (57 page 33)
+B7/8/K7/2k5/8/2P5/8/8/w Ba8d5 (Averbakh) (58 page 33)
+8/1K6/P7/kn6/4N3/8/8/8/w Ne4c5 (Averbakh) (65 page 36)
+8/8/8/1p2bk1p/7P/4KP2/8/4B3/b Be5f6 (Averbakh) (122 page 75)
+8/8/4b1p1/2Bp3p/5P1P/1pK1Pk2/8/8/b Pg6g5 (Averbakh) (128 page 79)
+8/8/2k3p1/5p2/2KP3p/2N1bP1P/6P1/8/w Nc3d5 (Averbakh) (130 page 81)
+8/2kb4/p1p2pp1/2Pp4/3N1PP1/1P4K1/P7/8/w Pg4g5 (Averbakh) (132 page 83)
+8/5pk1/r5pp/P7/3R3P/6P1/5PK1/8/w Rd4a4 (Averbakh) (133 page 84)
+3r4/7p/Rp4k1/5p2/4p3/2P5/PP3P1P/5K2/b Rd8d2 (Averbakh) (138 p 89)
+8/5kpp/p4p2/1p6/2rP1P2/P3K1P1/1R5P/8/b Kf7e6 (Averbakh) (140 page 90)
+6k1/6p1/7p/3q4/1P3Q2/7P/6PK/8/w Qf4b8+ (Averbakh) (143 page 93)
+8/5p1k/2pQ2p1/2P2q2/1P5p/5P1P/6PK/8/w Pb4b5 (Averbakh) (144 page 94)
+
+
+begin examples from (WDS exercises)
+K7/P2k4/8/8/8/8/8/7N/b Kd7c8 (WDS exercises) (forces a draw, Kc7 loses)
+K7/P2k4/8/8/8/8/8/6N1/b Kd7c7 (WDS exercises) (forces a draw, Kc8 loses)
+8/3q1P1k/1r6/8/8/8/K7/B7/w Pf7f8=N+ (WDS exercises) 
+8/5P1k/8/7K/8/8/8/8/w Pf7f8=R (WDS exercises) 
+4B1nk/5P2/6K1/8/8/8/8/8/w Pf7f8=B (WDS exercises) (Bob Holt; KBBvKN is a win, say databases)
+8/2P1P1P1/3PkP2/8/4K3/8/8/8/w Pe7e8=B (WDS exercises) (and mate in 3: 1... Kxf6 (or d6, sym.), 2. g8=R! Ke6, 3. Rg6 mate. Other moves mate slower, or lead to stalemate. This is not a suitable test if your computer does not seek fastest mates.)
+8/1p6/p3k1pp/4P3/4PK1P/P7/1P6/8/b Pb7b5 (WDS exercises) 
+7K/2p5/4p3/2p2kPP/8/4P3/2b5/4n3/w Pg5g6 (WDS exercises) 

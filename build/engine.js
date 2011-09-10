@@ -1563,9 +1563,12 @@ onmessage = function (e) {
 
         try {
 
+          var san = GetMoveSAN(GetMoveFromString(mv[0]));
+          
           if (MakeMove(GetMoveFromString(mv[0]))) {
             postMessage({
               type:'resolve'
+            , san:san
             , status:'ok'
             , fen:GetFen()
             , moveOpt:GenerateValidMoves().length
@@ -1659,11 +1662,17 @@ function FinishPlyCallback(bestMove, value, timeTaken, ply) {
 }
 
 function FinishMoveLocalTesting(bestMove, value, timeTaken, ply) {
-  if (bestMove != null && bestMove != 0) 
+  if (bestMove != null && bestMove != 0) {
+    
+    //must be made before MakeMove
+    var san = GetMoveSAN(bestMove);
+    
     MakeMove(bestMove);
 
-  postMessage({ type:'move', data:((bestMove != null && bestMove != 0) ? FormatMove(bestMove) : bestMove), value:value, ply:ply}); //,totalNodes:totalNodes 
-
+    postMessage({ type:'move', data:FormatMove(bestMove),san:san, value:value, ply:ply}); //,totalNodes:totalNodes 
+  } else {
+    postMessage({ type:'move', data:bestMove,san:"", value:value, ply:ply}); //,totalNodes:totalNodes 
+  }
   //Y U NO WORK?
   //var pv = PVFromHash(bestMove,15);
 }
@@ -2652,13 +2661,13 @@ function GetMoveSAN(move, validMoves) {
 		else if (move & g_moveflagPromoteQueen) result += "=Q";
 		else result += "=R";
 	}
-
+	
 	MakeMove(move);
 	if (g_inCheck) {
 	    result += GenerateValidMoves().length == 0 ? "#" : "+";
 	}
 	UnmakeMove(move);
-
+	
 	return result;
 }
 

@@ -1,0 +1,22 @@
+Tactical IQ8 Test for Chess Programs
+
+This test is based on a test suite from the master section of Livshits' book "Test Your Chess IQ". It has been debugged and improved. The positions are carefully balanced with medium to hard examples (for humans anyway), totalling 182.
+
+The test as presented here is intended to estimate the tactical strength of chess engines. The test duration is 30 minutes and 20 seconds. Run the test on a chess engine at 10 seconds per position, note the percentage score achieved and calculate the engine's IQ8 score:
+
+IQ8 score = (percent_correct x 6.7) + 1995
+
+The scoring range of the test suite is from 1995 to 2665
+
+Note on numbering of positions: The first number in the ID refers to expected difficulty. "5" means Yace Paderborn solved it at it's 5 ply test suite setting. "11" means Yace only solved it at it's 11 ply setting. The number has no other signifigance. So the test goes from easy to harder postions. When referring to positions in forums, etc. one should use the original designation which range from IQ.918 to IQ.1263 as noted in the original book.
+
+Computer hardware speeds just keep getting better ... and duos, quads, and so many CPUs linked improve speeds more ... The ten second rule noted above was derived from human time limits out of the book applied to the positions at the time I was working on the test many years ago with a 300 mhz PC! Eventually, a good program will probably solve all these positions instantaneously ... very sad in a way.
+
+ 
+Information and Improvements
+
+If you run the test and would like to share your results please send them along. If you find any alternative solutions or questionable ones please send this data so the test can be improved. My thanks to Andreas Hermann, Jon Dart, Pedro Castro Elgarresta and other posters at CCC and the WB forum for pointing out errors and omissions. Enjoy the test.
+
+ 
+
+Email: okelly58@hotmail.com

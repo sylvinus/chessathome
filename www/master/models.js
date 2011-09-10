@@ -16,6 +16,7 @@ var Game = new Schema({
   , gameStatus    : {
       currentFEN:String,
       moves:[String],
+      san:[String],
       depth:Number,
       pv:String,
       status:Number, //game states array?,
@@ -107,6 +108,8 @@ Game.methods.playMove = function(player,move,cb,who) {
       //console.log('STATUS', e, self.gameStatus)
 
       self.gameStatus.moves.push(move);
+      self.gameStatus.san.push(e.san);
+      
 
       //hack, FEN.depth is not modified
       //if (e.fen.split(' ')[1].charAt(0)=="w") self.gameStatus.depth++;

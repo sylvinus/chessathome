@@ -49,6 +49,8 @@ def strength():
   _test("strength")
   
 def _test(dir):
+  concat()
+  
   ok=0
   for f in os.listdir("test/%s"%dir):
     if f[0]!="_":

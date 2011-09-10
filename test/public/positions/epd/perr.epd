@@ -1,0 +1,14 @@
+6B1/1pp3p1/3p4/n1k2P2/2P3P1/4K3/8/8 b - -  acd 13; acn 4595701; acs 60.00; bm Nc6; ce 32; id "Koundinya Veluri, 9/25/2001@22:56:30 on CCC"; pv a5c4 g8c4 c5c4 g4g5 c4d5 e3f4 g7g6 f5g6 d5e6 f4e3 b7b5 e3d2 b5b4 g6g7;
+8/1p6/8/8/K7/2P5/1P1k4/8 w - -  acd 2; acn 9; acs 0.00; bm Kb3 c4; ce 0; id "J&S43.15?"; pv b2b4;
+8/8/1p4K1/p1p5/P1P3k1/1P6/8/8 w - -  acd 19; acn 3290624; acs 60.00; bm Kf6; ce 688; id "J&S44.12"; pv g6f7 g4f4 f7e8 f4e4 e8d7 e4f4 d7c6 f4e5 c6b6 e5d6 b6b5 d6c7 b5a5 c7c6 b3b4 c6d6 b4c5;
+8/5k2/6p1/5pKp/8/6P1/5P1P/8 w - -  acd 18; acn 4297004; acs 60.00; bm f3 f4; ce 135; id "J&S45.03"; pv h2h3 h5h4 g3h4 f5f4 g5f4 f7f8 f4g5 f8f7 f2f3 f7g7 h4h5 g6h5;
+8/2p5/1pPp4/1P1Pp3/4Pp1k/5P2/5KP1/8 w - -  acd 19; acn 5813220; acs 60.00; bm g3+; ce 245; id "J&S45.05"; pv g2g3 h4g5 f2g2 f4g3 g2g3 g5f6 f3f4 f6e7 f4e5 d6e5 g3g4 e7d8 g4f5 d8c8 f5e5 c8b8 d5d6 c7d6 e5d6 b8a7;
+8/5pp1/4p2p/3k3P/1p1P2P1/1P1K1P2/8/8 b - -  acd 16; acn 6170841; acs 60.00; bm g5; ce -6; id "J&S45.08"; pv e6e5 d4e5 d5e5 d3c4 e5f4 c4b4 f4g3 b4b5 g3g2;
+8/8/4k3/6p1/2pPpP2/4P2P/6K1/8 w - -  acd 16; acn 2305876; acs 60.00; bm f5+; ce 0; id "J&S45.09"; pv g2f1 g5f4 e3f4 c4c3 f1e2 e6f5 d4d5 c3c2 e2d2 e4e3 d2c2 f5f4;
+3k4/2p5/1pKp4/p2P4/2P5/P7/1P6/8 w - -  acd 20; acn 4021846; acs 60.00; bm c5; ce 28; id "J&S45.10"; pv b2b4 a5b4 a3b4 d8c8 c6b5 c8b8 b5a4 b8b7 b4b5 b7b8 a4b3 b8a8 b3b2 a8a7 b2c3 a7a8 c3b2 a8a7 b2c3 a7a8 c3b2;
+8/k1b5/P4p2/1Pp2p1p/K1P2P1P/8/3B4/8 w - -  acd 16; acn 5857132; acs 60.00; bm b6+; ce 441; id "WAC.100"; pv a4b3 a7a8 b3c2 a8a7 c2d1 a7a8 d2c1 a8a7 d1e2 c7a5 c1b2 a5d8 e2f1 a7a8;
+8/8/p7/8/1P6/7p/P4k1P/3K4 w - -  acd 20; acn 3604727; acs 60.02; bm a3; ce 693; id "bote.5"; pv a2a3 f2f3 d1e1 f3e3 a3a4 e3d4 e1f2 d4d5 f2g3 d5c6 g3h3 c6c7 b4b5 a6a5 b5b6 c7b7 h3g3 b7b8 h2h4 b8c8 h4h5 c8d8;
+8/8/6K1/k2p4/2p5/2P4p/3P3P/8 w - -  acd 18; acn 4242387; acs 60.00; bm Kf7; ce 0; id "(JAFM F. Dedrle,1928)"; pv g6f5 a5b5 f5f4 b5c6 f4e3 c6c5 e3f4 d5d4 f4f5 d4c3 d2c3 c5c6 f5g4 c6d5 g4h4 d5e5 h4h3;
+7k/6p1/p4p1p/2p5/1pPP4/1P3R1K/r7/B7 w - -  acd 14; acn 3683009; acs 60.00; bm dxc5; ce -123; id "(ML) Gabdushev-Hasangatin, Bor 2000"; pv f3f1 c5d4 a1d4 a2d2 d4f6 g7f6 f1f6 d2d3 h3g2 d3b3 f6h6 h8g7 h6a6 b3a3 a6d6 b4b3;
+8/p7/K6p/1P4p1/2k5/8/6PP/8 w - -  acd 18; acn 2188538; acs 60.00; bm h3; ce 0; id "(JAFM) CCC#191202"; pv g2g4 c4c5 a6a5 c5c4 h2h3 c4c5 a5a6 c5b4 a6a7 b4b5 a7b7 b5c4 b7c6 c4d4 c6c7 d4e4 c7c6 h6h5 g4h5;
+8/5p2/7p/5pk1/8/5KPP/8/8 b - -  acd 22; acn 5181395; acs 60.00; bm Kf6; ce 70; id "(JAFM) CCC#191597"; pv h6h5 h3h4 g5g6 f3e3 g6g7 e3f3 f7f6 f3f4 g7g6 f4e3 g6f7 e3d4 f7e8 d4c5 e8e7 c5b6 e7e6 b6a7 e6d7 a7a6 d7c8 a6a7 c8d7 a7a6 d7c8 a6a7 c8d7;

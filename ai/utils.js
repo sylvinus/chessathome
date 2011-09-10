@@ -124,13 +124,13 @@ function GetMoveSAN(move, validMoves) {
 		else if (move & g_moveflagPromoteQueen) result += "=Q";
 		else result += "=R";
 	}
-
+	
 	MakeMove(move);
 	if (g_inCheck) {
 	    result += GenerateValidMoves().length == 0 ? "#" : "+";
 	}
 	UnmakeMove(move);
-
+	
 	return result;
 }
 

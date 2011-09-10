@@ -1,0 +1,16 @@
+speelman2.txt - original test from Gnuchess sources.
+speelman.epd - corrected test in EPD format
+
+Corrections made by George Lyapko:
+Pos.N9:Almost all moves lead to win(Ba5,Be7,Bf6,Bg5,Bh4)
+Pos.N25:Kg3,Kf3 also draws
+Pos.N34:g5 also leads to zugzwang
+Pos.N57:Qe6+,Qc8+ also draws
+Pos.N69:Kc5 also wins
+Pos.N93:h5 also wins
+Pos.N121:Re1+ also wins
+Pos.N132:Kb3,Kb5 also wins
+Pos.N136:there was a typo bug in position
+Pos.N138:same as pos.N9(will be not counted)
+Pos.N140:a3,b5 also wins
+Pos.N143:correct solution is Qh6
