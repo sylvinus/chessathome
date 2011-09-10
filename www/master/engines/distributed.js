@@ -128,7 +128,7 @@ var makeEngine = function(onMessage) {
   };
   
   return {
-    terminate:function() {},
+    stop:function() {},
     
     search:function(fen,timeout) {
 

@@ -59,6 +59,7 @@ Game.methods.gameInit = function(cb) {
   console.warn("TEST FEN",self.gameStatus.currentFEN);
   //resolve this FEN further
   var w = localEngine.makeEngine(function(e) {
+    w.stop()
     if (!e.type=="resolve") return;
     if (e.status=="ok") {
 
@@ -93,6 +94,7 @@ Game.methods.playMove = function(player,move,cb,who) {
   //TODO factorise with the code above in gameInit()
   console.log("Playing move",move,"on",self._id);
   var w = localEngine.makeEngine(function(e) {
+    w.stop()
     if (!e.type=="resolve") return;
     if (e.status=="ok") {
       self.setFEN(e.fen);
@@ -163,7 +165,7 @@ Game.methods.computerPlays = function(engine,timeout,cb) {
     if (e.type=="pv") {
       self.gameStatus.pv = e.data;
     } else if (e.type=="move") {
-      w.terminate(self);
+      w.stop(self);
       self.gotComputerMove(e.data,cb);
     } else if (e.type=="refresh") {
       cb(null,e.data);

@@ -206,7 +206,7 @@ exports.makeEngine = function(onMessage) {
   };
   
   return {
-    terminate:function(game) {
+    stop:function(game) {
       if (game) emitter.removeListener('refresh_'+game._id,foundMove); 
     },
     

@@ -25,6 +25,10 @@ var makeEngine = function(onMessage) {
     w.postMessage(e);
   };
   
+  w.stop = function() {
+    w.terminate();
+  }
+  
   w.search = function(fen,timeout) {
     w.post({type:"position",data:fen});
     w.post({type:"search",data:timeout});
