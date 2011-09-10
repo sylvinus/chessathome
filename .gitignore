@@ -1,4 +1,5 @@
 node_modules
+uci/log.txt
 *.pyc
 export
 .DS_Store

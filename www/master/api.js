@@ -1,16 +1,17 @@
 var dnode = require('dnode')
   , clients = {};
 
-var remoteAPI = require("./api").remoteAPI;
 var models = require("./models");
-
-
 
 var TIMEOUT = 4000;
 
-exports.startWithEngine = function(engineName) {
+exports.startWithEngine = function(engineName,engineOptions) {
   
-  console.log("Starting API with engine",engineName);
+  if (!engineOptions) {
+    engineOptions = {};
+  }
+  
+  console.log("Starting API with engine",engineName,engineOptions);
   
   // API for AI workers
   var workerEngine = require('./engines/'+engineName);
