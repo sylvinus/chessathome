@@ -16,7 +16,7 @@ var Game = new Schema({
   , gameStatus    : {
       currentFEN:String,
       moves:[String],
-      san:[String],
+      san:{type:[String],default:[]},
       depth:Number,
       pv:String,
       status:Number, //game states array?,
