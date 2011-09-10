@@ -64,6 +64,7 @@ def _test(dir):
     sys.exit(0)
     
 def stest(filename=None):
+  concat()
   print local("cd test/ && AI_ENGINE='%s' node runner.js %s" % (env.gameEngine,filename))
 
 

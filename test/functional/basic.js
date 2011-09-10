@@ -15,7 +15,7 @@ var makeEngine = function(onMessage) {
     e = e.data;
     LATEST_DATA = e;
 
-    console.log("From engine:", e);
+    console.warn("From engine:", e);
     if (onMessage) onMessage(e);
   };
   
@@ -48,7 +48,7 @@ Q.test('interface ping test', function() {
     Q.same('pong', LATEST_DATA.type);
     
     Q.start();
-  },200);
+  },500);
   
 });
 
@@ -61,7 +61,7 @@ Q.test('FEN+move resolve test 1', function() {
   setTimeout(function() {
     Q.same('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1', LATEST_DATA.fen);
     Q.start();
-  },200);
+  },500);
 });
 
 Q.test('FEN+move resolve test 2', function() {
@@ -72,7 +72,7 @@ Q.test('FEN+move resolve test 2', function() {
   setTimeout(function() {
     Q.same('rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2', LATEST_DATA.fen);
     Q.start();
-  },200);
+  },500);
 });
 
 Q.test('FEN+move resolve test 3', function() {
@@ -83,5 +83,16 @@ Q.test('FEN+move resolve test 3', function() {
   setTimeout(function() {
     Q.same('rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', LATEST_DATA.fen);
     Q.start();
-  },200);
+  },500);
+});
+
+Q.test('FEN+move resolve test 1+2', function() {
+  Q.expect(1);
+  Q.stop();
+  var engine = makeEngine();
+  engine.postMessage({ type:'resolve','data':[['e2e4','c7c5'],'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1']});
+  setTimeout(function() {
+    Q.same('rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2', LATEST_DATA.fen);
+    Q.start();
+  },500);
 });

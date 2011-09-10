@@ -40,9 +40,19 @@ onmessage = function (e) {
 
         try {
 
-          var san = GetMoveSAN(GetMoveFromString(mv[0]));
+          var moves = mv[0];
+          var san = [];
+          if (typeof mv[0]=="string") {
+            moves = [mv[0]];
+          }
+
+          var valid = true;
+          moves.forEach(function(move) {
+            san.push(GetMoveSAN(GetMoveFromString(move)));
+            valid = valid && MakeMove(GetMoveFromString(move));
+          });
           
-          if (MakeMove(GetMoveFromString(mv[0]))) {
+          if (valid) {
             postMessage({
               type:'resolve'
             , san:san

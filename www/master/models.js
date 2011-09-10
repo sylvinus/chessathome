@@ -16,7 +16,7 @@ var Game = new Schema({
   , gameStatus    : {
       currentFEN:String,
       moves:[String],
-      san:{type:[String],default:[]},
+      san:[String],
       depth:Number,
       pv:String,
       status:Number, //game states array?,
@@ -113,7 +113,7 @@ Game.methods.playMove = function(player,move,cb,who) {
       
       //retro compat
       if (!self.gameStatus.san) self.gameStatus.san = [];
-      self.gameStatus.san.push(e.san);
+      self.gameStatus.san = self.gameStatus.san.concat(e.san);
       
 
       //hack, FEN.depth is not modified
