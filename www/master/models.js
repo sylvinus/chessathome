@@ -26,8 +26,7 @@ var Game = new Schema({
       winner:Boolean // true if client is winner
   }
   , playerToMove:{type:Boolean,index:true}
-  , computingPositions:{}
-  , computing:{type:Boolean,index:true}
+  , working:{type:Boolean,index:true}
   , gameOptions : {
       startFEN:{type:String,default:"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"}
       ,playerColor:{type:String,default:"w"} //w|b
@@ -44,11 +43,68 @@ var Position = new Schema({
   nodes:Number,
   time:Number, //taken to compute
   move:String,
+  children:{},
   working:{type:Boolean,index:true,default:false},
   resolved:{type:Boolean,index:true,default:false},
-  state:{type:String,index:true} //resolved|working|unresolved
+  state:{type:String,index:true,default:"unresolved"} //resolved|working|unresolved|root
 });
 
+
+Position.methods.findChildren = function(cb) {
+  var self = this;
+  
+  //Are they already saved?
+  if (_.size(this.children)) {
+    cb(null);
+  } else {
+    lib.listMoves(self.fen,1,function(err,moves) {
+      if (err) return cb(err);
+      
+      var movefens = _.pluck(moves,1);
+
+      var treefens = {};
+      moves.forEach(function(m) {
+        if (treefens[m[1]]) {
+          treefens[m[1]].push(m[0]);
+        } else {
+          treefens[m[1]] = [m[0]];
+        }
+      });
+      
+      self.children = treefens;
+      
+      cb(null);
+    });
+  }
+}
+
+Position.methods.insertChildren = function(cb) {
+  var self = this;
+  
+  if (!_.size(self.children)) return cb(null);
+  
+  exports.Position.find({fen:{"$in":_.keys(self.children)}},function(err,docs) {
+    if (err) docs = [];
+    
+    var alreadyInDb = _.pluck(docs,"fen");
+    
+    _.keys(self.children).forEach(function(data) {
+      console.log("Found&i",data,"children");
+      if (alreadyInDb.indexOf(data)==-1) {
+        console.log("XXX inserting",data);
+        var p = new exports.Position();
+        p.fen = data;
+        p.save();
+      }
+    });
+    
+    cb(null);
+    
+  });
+  
+  
+  
+}
 
 Game.methods.gameInit = function(cb) {
   var self = this;
@@ -136,24 +192,33 @@ Game.methods.dump = function() {
 Game.methods.computerPlays = function(engine,timeout,cb) {
   var self = this;
   
-  lib.engineMove(engine,{},{timeout:timeout,fen:self.gameStatus.currentFEN},function(err,pos) {
+  self.working=true;
+  
+  self.save(function(err) {
+    
     if (err) return cb(err);
-    
-    self.playMove(0,pos.move,function(err) {
+    lib.engineMove(engine,{},{timeout:timeout,fen:self.gameStatus.currentFEN},function(err,pos) {
       if (err) return cb(err);
-      
-      self.save(function(err) {
+
+      self.working=false;
+
+      self.playMove(0,pos.move,function(err) {
         if (err) return cb(err);
-        cb(null,pos);
+
+        self.save(function(err) {
+          if (err) return cb(err);
+          cb(null,pos);
+        });
       });
+
+    },function(info) {
+      if (info.type=="pv") {
+        //TODO should we save/transmit that?
+        self.gameStatus.pv = e.data;
+      }
     });
-    
-  },function(info) {
-    if (info.type=="pv") {
-      //TODO should we save/transmit that?
-      self.gameStatus.pv = e.data;
-    }
   });
+  
   
 }
 

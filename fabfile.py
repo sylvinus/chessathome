@@ -40,7 +40,7 @@ def dist():
   env.gameEngine = "distributed-mongo"
 
 def serve():
-  local("AI_ENGINE='%s' node --stack_size=8128 app.js" % env.gameEngine)
+  local("CHESSATHOME_AI_ENGINE='%s' node --stack_size=8128 app.js" % env.gameEngine)
 
 def test():
   _test("functional")
@@ -54,7 +54,7 @@ def _test(dir):
   ok=0
   for f in os.listdir("test/%s"%dir):
     if f[0]!="_":
-      ok += subprocess.call(["cd test/ && AI_ENGINE='%s' node runner.js %s/%s" % (env.gameEngine,dir,f)],shell=True)
+      ok += subprocess.call(["cd test/ && CHESSATHOME_AI_ENGINE='%s' node runner.js %s/%s" % (env.gameEngine,dir,f)],shell=True)
 
   if ok>0:
     print "%s tests failed" % ok
@@ -65,7 +65,7 @@ def _test(dir):
     
 def stest(filename=None):
   concat()
-  print local("cd test/ && AI_ENGINE='%s' node runner.js %s" % (env.gameEngine,filename))
+  print local("cd test/ && CHESSATHOME_AI_ENGINE='%s' node runner.js %s" % (env.gameEngine,filename))
 
 
 def deploy():

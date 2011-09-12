@@ -8,14 +8,24 @@ exports.validateFEN = function(fen) {
   return fen;
 }
 
+exports.listMoves = function(fen,depth,cb) {
+  
+  var w = localEngine.makeEngine(function(e) {
+    if (!e.type=="moves") return;
+    w.stop();
+    cb(null,e.data);
+  });
+  w.post({type: 'getmoves', depth: depth, fen: fen});
+ 
+};
 
 exports.resolvePosition = function(moveOptions,cb) {
   
   moveOptions.fen = exports.validateFEN(moveOptions.fen);
   
   var w = localEngine.makeEngine(function(e) {
-    w.stop()
     if (!e.type=="resolve") return;
+    w.stop();
     if (e.status=="ok") {
 
       cb(null,{
@@ -53,7 +63,7 @@ exports.engineMove = function(engine,engineOptions,moveOptions,callback,infoCall
   
   var w = engine.makeEngine(function(e) {
     if (e.type=="move") {
-      w.stop(false);
+      w.stop();
       if (stopEngine) engine.stop();
       callback(null,{move:e.data});
     } else if (e.type=="pv") {
@@ -61,7 +71,7 @@ exports.engineMove = function(engine,engineOptions,moveOptions,callback,infoCall
     }// else if (e.type=="refresh") {
     
   });
-  w.search(moveOptions.fen,moveOptions.timeout,false);
+  w.search(moveOptions.fen,moveOptions.timeout);
   
 };
 
