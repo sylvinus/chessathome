@@ -13,7 +13,7 @@ Q.module("EPD tests");
 Q.test("arasan",function() {
   Q.expect(1);
   Q.stop();
-  epd.runFile(fn,{},function(err,results) {
+  epd.runFile(fn,{},{useCache:false},function(err,results) {
     Q.ok(!err);
     console.warn("GOT RESULTS",results);
     Q.start();

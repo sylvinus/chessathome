@@ -3,7 +3,7 @@ var client = require("./_simpleclient.js").client;
 var fs = require("fs");
 var _ = require("underscore")._;
 
-exports.runFile = function(filepath,engineOptions,callback) {
+exports.runFile = function(filepath,engineOptions,moveOptions,callback) {
   var lines = _.map(fs.readFileSync(filepath, 'utf8').trim().split("\n"),function(line) {
     return parseEPDLine(line);
   });

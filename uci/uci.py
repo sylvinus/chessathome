@@ -6,6 +6,7 @@ import os
 import threading
 import Queue
 import time,datetime,re
+import urllib2,urllib,json
 
 
 
@@ -38,7 +39,7 @@ def main(host,port):
   moves = []
   active=True
   while active:
-    line = sys.stdin.readline().strip()
+    line = sys.stdin.readline().replace("\n","")
     
     log = open(os.path.join(os.path.dirname(__file__),"log.txt"),"a")
     log.write("[%s] <= %s\n" % (datetime.datetime.now(),line))
@@ -57,14 +58,21 @@ def main(host,port):
       sys.stdout.write("readyok\n")
     
     elif cmd=="position":
-      m = re.match("position (.*) moves (.*)",line)
-      pos = m.group(1)
-      moves = m.group(2).split(" ")
+      m = re.match("position (.*?) moves (.*)",line)
+      if m:
+        pos = m.group(1)
+        moves = m.group(2).strip().split(" ")
+      else:
+        pos=line[9:]
+        moves=[]
       
     elif cmd=="go":
       #ignore options for now
+      resolved = json.loads(urllib2.urlopen("http://%s:%s/api/resolve?fen=%s&moves=%s" % (host,port,urllib.quote(pos),urllib.quote(" ".join(moves)))).read())
       
-      sys.stdout.write("bestmove a7a6\n")
+      bestmove = json.loads(urllib2.urlopen("http://%s:%s/api/bestmove?fen=%s&timeout=%s" % (host,port,urllib.quote(resolved["fen"]),4000)).read())
+      
+      sys.stdout.write("bestmove %s\n" % bestmove["move"])
       
     elif cmd=="quit":
       active=False

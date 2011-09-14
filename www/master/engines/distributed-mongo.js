@@ -12,6 +12,10 @@ var APHID_DEPTH=1;
 var TIMEOUT = 2000;
 //var TIMEOUT = 60000;
 
+//Defaults
+var ENGINE_OPTIONS = {
+};
+
 var emitter = new EventEmitter;
 
 var models = require("../models");
@@ -207,16 +211,16 @@ exports.makeEngine = function(onMessage) {
       if (fen) emitter.removeListener('refresh_'+fen,foundMove); 
     },
     
-    search:function(fen,timeout) {
+    search:function(moveOptions) {
 
-      console.log("Distributing search",fen,timeout);
+      console.log("Distributing search",moveOptions);
       
       // Is the position already in DB?
-      models.Position.find({fen:fen},function(err,docs) {
+      models.Position.find({fen:moveOptions.fen},function(err,docs) {
         if (err) console.error('Couldnt save computingPositions!',err); 
         if (err || !docs.length) {
           var p = new models.Position();
-          p.fen = fen;
+          p.fen = moveOptions.fen;
           p.working = false;
         } else {
           p = docs[0];
@@ -226,14 +230,14 @@ exports.makeEngine = function(onMessage) {
         if (p.working) return;
         
         // Position was already explored *as a root node*
-        if (p.state=="root") {
+        if (p.state=="root" && moveOptions.useCache) {
           return foundMove(p.move);
         }
         
         p.state='root';
         p.resolved=false;
         
-        emitter.on('refresh_'+fen,foundMove); 
+        emitter.on('refresh_'+moveOptions.fen,foundMove); 
         
         p.findChildren(function(err) {
           if (err) {
@@ -248,7 +252,7 @@ exports.makeEngine = function(onMessage) {
             p.insertChildren(function(err) {
               //onActivity should take care of the rest.
               emitter.emit('activity');
-            });
+            },!moveOptions.useCache);
             
           });
           
@@ -262,8 +266,10 @@ exports.makeEngine = function(onMessage) {
   
 };
 
-exports.start = function() {
+exports.start = function(engineOptions) {
   console.log("Starting distributed-mongo engine...");
+  
+  ENGINE_OPTIONS = _.extend(ENGINE_OPTIONS,engineOptions);
   
   exports.activityInterval = setInterval(function() {
     emitter.emit('activity');

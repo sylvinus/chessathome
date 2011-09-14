@@ -28,7 +28,7 @@ app.configure('development', function(){
 });
 
 /*
-if (ENGINE == 'distributed-mongo') {
+if (config.AI_ENGINE == 'distributed-mongo') {
   //Start at least one worker
   setTimeout(function() {
     require('./worker/client.js').start({port: 8000}, 'test-embedded');
@@ -41,6 +41,8 @@ app.configure('production', function(){
 
 // API for the board page 
 var api = require('./www/master/api');
+var lib = require('./www/master/lib');
+
 
 api.startWithEngine(config.AI_ENGINE).listen(app).listen({host:'0.0.0.0',port:parseInt(config.PORT_GRID,10)});
 
@@ -88,9 +90,24 @@ app.get('/local', function(req, res){
   });
 });
 
-app.get('/api/', function(req, res){
-  res.render('index', {
-    title: 'Chess@home - API'
+var jsonpAnswer = function(data,req,res) {
+  if (req.query.callback) {
+    res.end(req.query.callback.replace(/[^a-z0-9]/g,"")+"("+JSON.stringify(data)+");");
+  } else {
+    res.end(JSON.stringify(data));
+  }
+};
+
+app.get('/api/bestmove', function(req, res) {
+  lib.engineMove(config.AI_ENGINE,{},{fen:req.query.fen,timeout:Math.min(req.query.timeout||4000,30000)},function(err,move) {
+    jsonpAnswer(move,req,res);
+  });
+});
+
+app.get('/api/resolve', function(req, res) {
+  console.log(req.query);
+  lib.resolvePosition({fen:req.query.fen,moves:(req.query.moves?req.query.moves.split(" "):[])},function(err,pos) {
+    jsonpAnswer(pos,req,res);
   });
 });
 

@@ -78,7 +78,7 @@ Position.methods.findChildren = function(cb) {
   }
 }
 
-Position.methods.insertChildren = function(cb) {
+Position.methods.insertChildren = function(cb,forceInsert) {
   var self = this;
   
   if (!_.size(self.children)) return cb(null);
@@ -89,12 +89,13 @@ Position.methods.insertChildren = function(cb) {
     var alreadyInDb = _.pluck(docs,"fen");
     
     _.keys(self.children).forEach(function(data) {
-      console.log("Found&i",data,"children");
       if (alreadyInDb.indexOf(data)==-1) {
-        console.log("XXX inserting",data);
         var p = new exports.Position();
         p.fen = data;
         p.save();
+      } else if (forceInsert) {
+        var p = docs[alreadyInDb.indexOf(data)];
+        p.resolved=false;
       }
     });
     
@@ -189,15 +190,17 @@ Game.methods.dump = function() {
   
 }
 
-Game.methods.computerPlays = function(engine,timeout,cb) {
+Game.methods.computerPlays = function(engine,moveOptions,cb) {
   var self = this;
+  
+  moveOptions.fen = self.gameStatus.currentFEN;
   
   self.working=true;
   
   self.save(function(err) {
     
     if (err) return cb(err);
-    lib.engineMove(engine,{},{timeout:timeout,fen:self.gameStatus.currentFEN},function(err,pos) {
+    lib.engineMove(engine,{},moveOptions,function(err,pos) {
       if (err) return cb(err);
 
       self.working=false;

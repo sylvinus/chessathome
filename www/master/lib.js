@@ -20,9 +20,9 @@ exports.listMoves = function(fen,depth,cb) {
 };
 
 exports.resolvePosition = function(moveOptions,cb) {
-  
+
   moveOptions.fen = exports.validateFEN(moveOptions.fen);
-  
+
   var w = localEngine.makeEngine(function(e) {
     if (!e.type=="resolve") return;
     w.stop();
@@ -66,12 +66,12 @@ exports.engineMove = function(engine,engineOptions,moveOptions,callback,infoCall
       w.stop();
       if (stopEngine) engine.stop();
       callback(null,{move:e.data});
-    } else if (e.type=="pv") {
+    } else if (e.type=="pv" && infoCallback) {
       infoCallback(e);
     }// else if (e.type=="refresh") {
     
   });
-  w.search(moveOptions.fen,moveOptions.timeout);
+  w.search(moveOptions);
   
 };
 

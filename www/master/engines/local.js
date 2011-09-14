@@ -29,9 +29,9 @@ var makeEngine = function(onMessage) {
     w.terminate();
   }
   
-  w.search = function(fen,timeout) {
-    w.post({type:"position",data:fen});
-    w.post({type:"search",data:timeout});
+  w.search = function(moveOptions) {
+    w.post({type:"position",data:moveOptions.fen});
+    w.post({type:"search",data:moveOptions.timeout});
   }
 
   return w;

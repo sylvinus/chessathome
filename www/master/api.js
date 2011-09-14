@@ -3,7 +3,7 @@ var dnode = require('dnode')
 
 var models = require("./models");
 var lib = require("./lib");
-var TIMEOUT = 4000;
+var TIMEOUT = 15000;
 
 
 exports.startWithEngine = function(engineName,engineOptions) {
@@ -57,7 +57,7 @@ exports.startWithEngine = function(engineName,engineOptions) {
 
     var compute = function(game) {
 
-      game.computerPlays(workerEngine,TIMEOUT,function(err) {
+      game.computerPlays(workerEngine,{timeout:TIMEOUT},function(err) {
         if (err) {
           console.log("Computer can't play next move:", err) 
           client.refreshGameStatus(game.dump());
