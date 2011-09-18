@@ -33,8 +33,9 @@ def install():
   concat()
 
 env.gameEngine="local"
-def embed():
-  env.gameEngine="local"
+
+def embedded():
+  env.gameEngine="embedded"
 
 def dist():
   env.gameEngine = "distributed-mongo"
@@ -65,7 +66,7 @@ def _test(dir):
     
 def stest(filename=None):
   concat()
-  print local("cd test/ && CHESSATHOME_AI_ENGINE='%s' node runner.js %s" % (env.gameEngine,filename))
+  print local("cd test/ && CHESSATHOME_AI_ENGINE='%s' node --prof runner.js %s" % (env.gameEngine,filename))
 
 
 def deploy():

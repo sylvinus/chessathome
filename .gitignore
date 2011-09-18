@@ -1,4 +1,5 @@
 node_modules
+test/v8.log
 uci/log.txt
 *.pyc
 export

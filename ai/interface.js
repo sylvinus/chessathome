@@ -12,9 +12,9 @@ onmessage = function (e) {
         g_needsReset = false;
         if (e.type == 'go') return;
     }
-    
     // Position
     if (e.type == 'position') {
+
         ResetGame();
         InitializeFromFen(e.data);
     }
@@ -78,9 +78,8 @@ onmessage = function (e) {
     }
     // Search
     else if (e.type == "search") {
-
+      
         g_timeout = parseInt(e.data, 10);
-        
         Search(FinishMoveLocalTesting, 99, FinishPlyCallback);
     }
     // Analyze
@@ -167,8 +166,8 @@ function FinishMoveLocalTesting(bestMove, value, timeTaken, ply) {
 
 
 if (typeof module !== 'undefined' && module.exports) {
-
+  exports.onmessage = onmessage;
+  exports.setCallback = function(cb) {
+    postMessage = cb;
+  }
 }
-
-
-
