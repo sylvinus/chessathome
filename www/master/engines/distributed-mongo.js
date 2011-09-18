@@ -1,7 +1,6 @@
 var Worker = require('webworker').Worker
   , EventEmitter = require('events').EventEmitter
   , path = require('path')
-  , dnode = require('dnode')
   , _ = require('underscore')._
   , clients = {}
   , lib = require("../lib");
@@ -23,45 +22,60 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 var clients_idle = [];
 
-exports.api = function (self, client, conn) {
 
-  console.log('New intelligence client: ' + client.name);
+exports.setApi = function(io) {
   
-  client.setIdle = function(idle) {
-    client.idle=idle;
-    if (idle) {
-      clients_idle.push(conn.id);
-    } else {
-      clients_idle=_.without(clients_idle,conn.id);
+  io.of('/worker').on('connection',function(socket) {
+    
+    socket.on('init',function(clientData) {
+      socket.set('workerData',clientData,function() {
+    
+        
+    
+        socket.on('processResult',function (data) {
+
+          if (data.type=="move") {
+            console.log("[from "+clientData.id+"] Computed",data);
+            
+            
+          };
+
+        });
+    
+        // Tell the queue there's a new client ready!
+        emitter.emit('activity');
+    
+      });
+    });
+    
+    
+    /*
+    client.setIdle = function(idle) {
+      client.idle=idle;
+      if (idle) {
+        clients_idle.push(conn.id);
+      } else {
+        clients_idle=_.without(clients_idle,conn.id);
+      }
     }
-  }
-  
-  conn.on('timeout', function () {
-    console.log('Timeout of: ' + client.name);
-  });
-  
-  conn.on('end', function () {
-    console.log('We\'ve lost an intelligent client ' + client.name);
-    delete clients[conn.id];
-    clients_idle=_.without(clients_idle,conn.id);
-    //TODO was it computing something ? invalidate and emitter.emit('activity');
-  });
-
-  conn.on('processResult',function (data) {
-
-    if (data.type=="move") {
-      console.log("[from "+client.name+"] Computed",data);
-      client.onComputed(data);
-    };
+    */
+    
+    
+    socket.on('disconnect', function () {
+      /*
+      console.log('We\'ve lost an intelligent client ' + client.name);
+      delete clients[conn.id];
+      clients_idle=_.without(clients_idle,conn.id);
+      */
+    });
+    
     
   });
   
-  clients[conn.id] = client;
-  client.setIdle(true);
   
   
-  emitter.emit('activity');
 };
+  
 
 
 var onActivity=function() {

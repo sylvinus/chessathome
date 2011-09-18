@@ -1,9 +1,10 @@
-var dnode = require('dnode')
-  , clients = {};
+var io = require('socket.io');
+
 
 var models = require("./models");
 var lib = require("./lib");
 var TIMEOUT = 15000;
+
 
 
 exports.startWithEngine = function(engineName,engineOptions) {
@@ -14,132 +15,110 @@ exports.startWithEngine = function(engineName,engineOptions) {
   
   console.log("Starting API with engine",engineName,engineOptions);
   
-  // API for AI workers
   var workerEngine = require('./engine').loadEngine(engineName);
+  
+  workerEngine.setApi(io);
   workerEngine.start();
   
+  
+  //For stats.
   exports.clients = workerEngine.clients;
   exports.clients_idle = workerEngine.clients_idle;
   
+  // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
+  io.enable('browser client minification');
+  io.enable('browser client etag');
   
-  
-  return dnode(function (client, conn) {
-    var self = this;
-    console.log('New client');
-
-    conn.on('ready', function () {
-
-      //Worker API forward
-      if (client.role=="worker") {
-        if (workerEngine.api) workerEngine.api(self,client,conn);
-        return;
-      }
-
-      console.log('New client ready: ',client.role,client.name);
-
-
-
-      clients[conn.id] = client;
-
-      // Try to find an existing game
-      if (client.playerSecret) {
-        models.Game.find({playerSecret:client.playerSecret},function(err,docs) {
-          if (err || !docs || !docs.length) return;
-          client.refreshGameStatus(docs[0].dump());
-        });
-      }
-    });
-
-    conn.on('end', function () {
-      console.log('We\'ve lost client ' + client.name);
-      delete clients[conn.id];
-    });
-
-    var compute = function(game) {
-
-      game.computerPlays(workerEngine,{timeout:TIMEOUT},function(err) {
-        if (err) {
-          console.log("Computer can't play next move:", err) 
-          client.refreshGameStatus(game.dump());
-
-
-        } else {
-
-        //here g is outdated, we have to
-        //reload data to send always fresh.
-        models.Game.findById(game._id,function(err,updatedGame) {
-          client.refreshGameStatus(updatedGame.dump());
-
-        });
-        }
-      });
-    }; 
-
-
-    //this is a bit hacky because it belongs to workerApi.
-    this.processResult = function(res) {
-      conn.emit('processResult',res);
-    }
-
-    this.playMove = function(playerSecret,move) {
-      //validate playerHash
-      console.log("got move",move,"for",playerSecret);
-      models.Game.find({playerSecret:playerSecret},function(err,docs) {
-        console.log("found game",err,docs);
-        if (err) return client.error(err);
-        if (!docs.length) return client.error("no such game");
-
-        var g = docs[0];
-
-        g.playMove(1,move,function(err, gameStatus) {
-          console.log("player played move | ", err,g);
-          if (err) return client.error(err);
-          
-          //now launch computer if the game is still active (the player may have won)
-          if (g.gameStatus.active)
-            compute(g);
-          else
-            client.refreshGameStatus(g.dump());
-         
-          
-          
-          
-        });
-      });
-
-    };
-
-    this.newGame = function(playerName,playerSecret,gameOptions) {
-
-      var g = new models.Game({
-        "playerName":playerName,
-        "playerSecret":playerSecret,
-        "gameOptions":gameOptions
-      });
-
-      g.gameInit(function(err) {
-        console.log("new game saved", g.dump(),err);
-        if (err) {
-          client.error(err);
-        } else {
-          client.refreshGameStatus(g.dump());
+  // API for players
+  io.of('/player').on('connection', function (socket) {
+    
+    socket.on('init',function(clientData) {
+      socket.set('clientData',clientData,function() {
+        socket.emit('ready');
         
-          if (!g.gameStatus.active) {
-            return;
+        
+        var continueGame = function(game) {
+          if (game.gameStatus.active && !game.playerToMove) {
+            game.computerPlays(workerEngine,{timeout:TIMEOUT},function(err) {
+              if (err) socket.emit('error',err);
+              
+              //models.Game.findById(game._id,function(err,updatedGame) {
+              socket.emit('gameStatus',game.dump());
+            });
           }
-          
-          // Game starts with a AI play
-          if (!g.playerToMove) {
-            compute(g);
-          } 
+        };
         
-        }
+        console.log("New client.player ready",clientData.id);
+        
+        socket.on('newGame',function(playerName,playerSecret,gameOptions) {
+          
+          var g = new models.Game({
+            "playerName":playerName,
+            "playerSecret":playerSecret,
+            "gameOptions":gameOptions
+          });
+
+          g.gameInit(function(err) {
+            console.log("new game started", g.dump(),err);
+            if (err) {
+              socket.emit('error',err);
+            } else {
+              socket.emit('gameStatus',g.dump());
+              
+              continueGame(g);
+            }
+          });
+          
+        });
+        
+        socket.on('getGameStatusBySecret',function(playerSecret) {
+          models.Game.findOne({playerSecret:client.playerSecret},function(err,game) {
+            if (err || !game) return;
+            socket.emit('gameStatus',game.dump());
+          });
+        });
+        
+        socket.on('getGameStatusById',function(gameId) {
+          models.Game.findById(gameId,function(err,game) {
+            if (err || !game) return;
+            socket.emit('gameStatus',game.dump());
+          });
+        });
+        
+        socket.on('playMove',function(playerSecret,move) {
+          console.log("got move",move,"for",playerSecret);
+          
+          models.Game.findOne({playerSecret:playerSecret},function(err,game) {
+            console.log("found game",err,game);
+            if (err) return socket.emit('error',err);
+            if (!game) return socket.error('error','no such game');
+
+            game.playMove(1,move,function(err) {
+              if (err) return socket.emit('error',err);
+
+              socket.emit('gameStatus',game.dump());
+              
+              continueGame(game);
+
+            });
+          });
+          
+        });
+          
+
+        
+        
       });
+    });
+    
+    socket.on('disconnect', function () {
       
-
-    };
-
-
+    });
+    
   });
   
+  
+  return io;
+  
+   
 }

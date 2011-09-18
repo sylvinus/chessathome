@@ -39,6 +39,7 @@ var makeEngine = function(onMessage) {
 
 exports.start = function() {};
 exports.stop = function() {};
+exports.setApi = function() {};
 exports.makeEngine = makeEngine;
 exports.LATEST_DATA = LATEST_DATA;
 exports.VERBOSE = VERBOSE;
