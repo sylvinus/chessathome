@@ -82,12 +82,12 @@ def joyentdeploy():
 def makeworker():
   assert os.path.isdir("../chessathome-worker/")
   local('cp worker/* ../chessathome-worker/')
-  local("sed -i '' \"s/var ENGINE_PATH = '\.\.\/build\/engine\.js'/var ENGINE_PATH = '\.\/engine\.js'/\" ../chessathome-worker/client.js")
+  local("sed -i '' \"s/var ENGINE_PATH = '\.\.\/build\/engine\.js'/var ENGINE_PATH = '\.\/engine\.js'/\" ../chessathome-worker/cli.js")
   local('cp build/engine.js ../chessathome-worker/')
 
   #add exec
-  r = open("../chessathome-worker/client.js","r").read()
-  w = open("../chessathome-worker/client.js","w")
+  r = open("../chessathome-worker/cli.js","r").read()
+  w = open("../chessathome-worker/cli.js","w")
   w.write("#!/usr/bin/env node\n\n")
   w.write(r)
   w.close()
