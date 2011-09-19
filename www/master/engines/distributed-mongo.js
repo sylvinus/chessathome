@@ -25,7 +25,7 @@ var clients_idle = [];
 
 exports.setApi = function(io) {
   
-  io.of('/worker').on('connection',function(socket) {
+  io.of('/io/worker').on('connection',function(socket) {
     
     socket.on('init',function(clientData) {
       socket.set('workerData',clientData,function() {

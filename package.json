@@ -18,9 +18,9 @@
     "mongoose": "2.0.x",
     "node-uuid": "1.2.x",
     "underscore": "1.1.7",
-    "browserify": "1.4.3",
     "connect": "1.6.4",
-    "dnode": "0.8.2",
+    "socket.io": "0.8.x",
+    "socket.io-client":"0.8.x",
     "ejs": "0.4.x"
   },
   "devDependencies": {}

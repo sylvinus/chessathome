@@ -1,11 +1,10 @@
 var masterApi = require("../www/master/api");
 var config = require("../www/master/config").config;
 
-var dnode = require('dnode');
 var EventEmitter = require('events').EventEmitter;
 var emitter = new EventEmitter;
 
-masterApi.startWithEngine(config.AI_ENGINE).listen(3005);
+masterApi.startWithEngine(config.AI_ENGINE,{port:3005});
 
 if (config.AI_ENGINE=="distributed-mongo") {
   var NUMWORKERS = 5;

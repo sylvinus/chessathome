@@ -1,5 +1,4 @@
-var io = require('socket.io');
-
+var socketio = require("socket.io");
 
 var models = require("./models");
 var lib = require("./lib");
@@ -25,12 +24,19 @@ exports.startWithEngine = function(engineName,engineOptions) {
   exports.clients = workerEngine.clients;
   exports.clients_idle = workerEngine.clients_idle;
   
+  if (engineOptions.app) {
+    var io = socketio.listen(engineOptions.app);
+  } else {
+    var io = socketio.listen(engineOptions.port);
+  }
+  
+  
   // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
   io.enable('browser client minification');
   io.enable('browser client etag');
   
   // API for players
-  io.of('/player').on('connection', function (socket) {
+  io.of('/io/player').on('connection', function (socket) {
     
     socket.on('init',function(clientData) {
       socket.set('clientData',clientData,function() {

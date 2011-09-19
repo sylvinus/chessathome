@@ -44,7 +44,7 @@ var api = require('./www/master/api');
 var lib = require('./www/master/lib');
 
 
-api.startWithEngine(config.AI_ENGINE).listen(app).listen({host:'0.0.0.0',port:parseInt(config.PORT_GRID,10)});
+var socketio = api.startWithEngine(config.AI_ENGINE,{app:app});
 
 app.get('/stats/simple',function(req,res) {
   res.contentType('application/json');
@@ -110,13 +110,6 @@ app.get('/api/resolve', function(req, res) {
     jsonpAnswer(pos,req,res);
   });
 });
-
-// DNode / Browserify
-
-
-app.use(require('browserify')(
-  { require : 'dnode' }
-));
 
 
 app.listen(parseInt(config.PORT,10),function() {
