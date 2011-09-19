@@ -78,7 +78,7 @@ exports.startWithEngine = function(engineName,engineOptions) {
         });
         
         socket.on('getGameStatusBySecret',function(playerSecret) {
-          models.Game.findOne({playerSecret:client.playerSecret},function(err,game) {
+          models.Game.findOne({playerSecret:playerSecret},function(err,game) {
             if (err || !game) return;
             socket.emit('gameStatus',game.dump());
           });

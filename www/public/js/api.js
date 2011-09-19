@@ -1,92 +1,51 @@
-var dnode = require('dnode')
-  , EventEmitter = require('events').EventEmitter
-  , emitter = new EventEmitter;
+(function() {
   
-var client = dnode(function() {
-  var self = this;
+var socket = io.connect('/io/player');
+
+var playerSecret = false;
+if ($.cookie('playerSecret')) {
+  playerSecret = $.cookie('playerSecret');
+}
+
+socket.on('connect', function () {
   
-  self.role = 'player';
-  
-  self.playerSecret=false;
-  
-  this.init = function() {
-    if ($.cookie('playerSecret')) {
-      self.playerSecret = $.cookie('playerSecret');
+  socket.on('ready',function() {
+    
+    if (playerSecret) {
+      socket.emit('getGameStatusBySecret',playerSecret);
     }
-    self.depth = 1;
-  };
-  this.init();
+    ServerConnected();
+  });
   
-
-  this.refreshGameStatus = function(status) {
+  socket.on("gameStatus",function(status) {
     ServerUpdate(status);
-  };
+  });
+  
+  socket.on('error',function(message) {
+    alert("Error: "+message);
+  });
+  
+  socket.emit("init",{id:"player-"+uuid()});
 
-  this.error = function(message) {
-    alert(message);
-  };
-
-  this.terminate = function() {
-    emitter.emit('terminate');
-  };
 });
 
-client.connect({reconnect: 100}, function(remote, conn) {
-  var self = this;
-
-  console.log('Connected...');
-
-  // Waiting confirmation from SubStack
-  // function reconnect() {
-  //   console.log('Calling reconnect()');
-  //   conn.reconnect(1000, function (err) {
-  //     if (err) {
-  //       console.error(err);
-  //       reconnect();
-  //     } else {
-  //       console.warn('loopsiloppsiloo');
-  //     }
-  //   });
-  // }
-
-  conn.on('timeout', function () {
-    console.log('Timeout with the server.');
-    // reconnect();
-  });
-
-  conn.on('end', function () {
-    console.log('Server probably crashed.');
-    // reconnect();
-  });
-
-  emitter.on('terminate', function() {
-    console.log('Force terminate of client');
-    conn.end();
-  });
-
-  emitter.on('move', function(move) {
-    console.log('play move', move);
-    remote.playMove(self.playerSecret,move);
-    self.depth++;
-  });
-
-  emitter.on('newGame', function(playerName,gameOptions) {
-    //playerSecret is redifined for each game.
-    self.playerSecret = uuid();
-    $.cookie('playerSecret',self.playerSecret,{ expires: 7 });
-    console.log('API', 'newGame', playerName, gameOptions)
-    remote.newGame(playerName,self.playerSecret,gameOptions);
-  });
+socket.on('disconnect',function() {
+  //TODO
 });
 
-var API = {
+
+window.API = {
 
   newGame: function(playerName, gameOptions) {
-    //send to remote
-    emitter.emit('newGame', playerName, gameOptions);
+    playerSecret = uuid();
+    $.cookie('playerSecret',playerSecret,{ expires: 7 });
+    
+    socket.emit('newGame', playerName, playerSecret, gameOptions);
   },
 
   playMove: function(move) {
-    emitter.emit('move', move);
+    socket.emit('playMove', playerSecret, move);
   }
 };
+
+})();

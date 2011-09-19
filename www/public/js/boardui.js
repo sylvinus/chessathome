@@ -114,6 +114,11 @@ function UIInit() {
   RedrawBoard();
 }
 
+//API ready
+function ServerConnected() {
+  
+}
+
 // Server sent an update
 function ServerUpdate(data) {
   console.log('Server:', data);
@@ -123,7 +128,7 @@ function ServerUpdate(data) {
     UI_timeout = null;
   }
 
-  UIComputeLoader(false);
+  UIComputeLoader(!data.playerToMove && data.gameStatus.active);
 
   var cFEN = GetFen();
   if (g_lastMove || data.gameStatus.currentFEN != cFEN) {
@@ -174,12 +179,6 @@ function ServerUpdate(data) {
     }
 
 
-    //computer to play
-    if (data.gameStatus.playerToMove === false) {
-      UIComputeLoader(true);
-    }
-
-
   }
   
 }
@@ -205,7 +204,7 @@ function UINewGame(playerName,startPosition) {
 
   console.log('UINewGame');
   
-  UIComputeLoader(false);
+  UIComputeLoader(true);
 
   g_moveNumber = 1;
   g_lastMove = null;
@@ -219,9 +218,6 @@ function UINewGame(playerName,startPosition) {
   RedrawBoard();
   API.newGame(playerName, { playerColor:(g_playerWhite ? 'w' : 'b'),startFEN:startPosition });
 
-  //TODO when startFEN is a black pos & playerColor=black
-  if (!g_playerWhite)
-    UIComputeLoader(true);
 }
 
 
