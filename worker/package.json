@@ -2,22 +2,22 @@
   "author": "Joshfire <devs@joshfire.com> (http://joshfire.com)",
   "name": "chessathome-worker",
   "description": "Worker for the Chess@home project",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "homepage": "http://github.com/joshfire/chessathome-worker",
   "repository": {
     "type": "git",
     "url": "git://github.com/joshfire/chessathome-worker.git"
   },
-  "main": "client.js",
+  "main": "cli.js",
   "engines": {
-    "node": "0.4.x"
+    "node": ">0.4.x"
   },
   "bin": {
-    "chessathome-worker": "./client.js"
+    "chessathome-worker": "./cli.js"
   },
   "dependencies": {
     "webworker": "0.8.x",
-    "dnode": "0.8.x"
+    "socket.io-client": "0.8.x"
   },
   "devDependencies": {}
 }

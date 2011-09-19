@@ -16,10 +16,6 @@ exports.startWithEngine = function(engineName,engineOptions) {
   
   var workerEngine = require('./engine').loadEngine(engineName);
   
-  workerEngine.setApi(io);
-  workerEngine.start();
-  
-  
   //For stats.
   exports.clients = workerEngine.clients;
   exports.clients_idle = workerEngine.clients_idle;
@@ -30,10 +26,13 @@ exports.startWithEngine = function(engineName,engineOptions) {
     var io = socketio.listen(engineOptions.port);
   }
   
-  
   // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
   io.enable('browser client minification');
   io.enable('browser client etag');
+  
+  workerEngine.setApi(io);
+  workerEngine.start();
+  
   
   // API for players
   io.of('/io/player').on('connection', function (socket) {
