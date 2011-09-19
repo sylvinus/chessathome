@@ -21,14 +21,20 @@ var socket = io.connect('http://localhost:3005/io/player');
   
 var currentFEN = false;
 var playerSecret = false;
+socketReady = false;
   
 exports.client = {
   
   init:function(clientReady) {
     
+    if (socketReady) {
+      return clientReady();
+    }
+    
     socket.on('connect', function () {
       
       socket.on('ready',function() {
+        socketReady = true;
         clientReady();
       });
       
@@ -48,8 +54,10 @@ exports.client = {
           } else {
             var move = false;
           }
+          if (status.playerToMove || !status.gameStatus.active) {
+            emitter.emit('gotMove_'+seq,move,currentFEN,status);
+          }
           
-          emitter.emit('gotMove_'+seq,move,currentFEN,status);
 
         //ignore further game statuses.
         }
@@ -59,8 +67,12 @@ exports.client = {
         emitter.emit('error_'+seq,message);
       });
       
-      socket.emit("clientData",{id:"testClient"});
+      socket.emit("init",{id:"testClient"});
 
+    });
+    
+    socket.on('disconnect',function() {
+      socketReady = false;
     });
     
   },

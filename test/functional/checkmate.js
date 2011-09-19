@@ -17,6 +17,7 @@ testTable.forEach(function(position) {
   
   
   Q.test('position by player '+position[0], function() {
+
     Q.expect(9);
     Q.stop();
     
@@ -32,7 +33,7 @@ testTable.forEach(function(position) {
         Q.same(true,status.gameStatus.active);
         
         client.playMove(position[1],function(err,move,fen,status) {
-          
+
           Q.same(false,status.playerToMove);
           Q.same(true,status.gameStatus.check);
           Q.same(true,status.gameStatus.mate);

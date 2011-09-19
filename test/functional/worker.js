@@ -3,7 +3,7 @@ var Q = require('../public/qunit/cli.js').QUnit;
 require("../_engineboot.js");
 
 var uuid = require('node-uuid');
-var dnode = require('dnode');
+
 var EventEmitter = require('events').EventEmitter;
 var emitter = new EventEmitter;
 

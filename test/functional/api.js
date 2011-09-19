@@ -18,6 +18,7 @@ Q.test("simple move",function() {
       Q.same(true,status.playerToMove); 
       Q.same("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",fen);
       Q.same(status.gameStatus.depth,1);
+      
     
       client.playMove('e2e4',function(err,computerMove,fen,status) {
         

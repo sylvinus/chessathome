@@ -112,6 +112,7 @@ Game.methods.gameInit = function(cb) {
   
   this.setFEN(this.gameOptions.startFEN,function(err) {
     if (err) return cb(err);
+
     self.save(function(err) {
       if (err) return cb(err);
       cb(null,self.gameStatus);
