@@ -14,10 +14,8 @@ $ fab test
 with the distributed engine:
 $ fab dist test
 
-or just one
-
-$ AI_ENGINE="distributed-mongo" node test/runner.js chess/positions1.js
-$ AI_ENGINE="local" node test/runner.js chess/positions1.js
+or just one:
+$ fab stest:functional/api.js
 
 ```
 Install required dependencies:
@@ -43,7 +41,7 @@ Credits
 
 **Npm modules:**
 
- - [dnode](https://github.com/substack/dnode)
+ - [socket.io-client](https://github.com/LearnBoost/socket.io-client)
  - [node-webworker](https://github.com/pgriess/node-webworker)
  - [node-qunit](https://github.com/kof/node-qunit)
  - [sharedjs](https://github.com/kof/sharedjs)
@@ -51,7 +49,6 @@ Credits
  - [connect](https://github.com/senchalabs/connect)
  - [ejs](http://search.npmjs.org/#/ejs)
  - [mongoose](https://github.com/LearnBoost/mongoose)
- - [node-browserify](https://github.com/substack/node-browserify)
  - [underscore](http://documentcloud.github.com/underscore/)
  - [node-uuid](http://search.npmjs.org/#/node-uuid)
 

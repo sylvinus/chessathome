@@ -96,7 +96,7 @@ exports.startWithEngine = function(engineName,engineOptions) {
           models.Game.findOne({playerSecret:playerSecret},function(err,game) {
             console.log("found game",err,game);
             if (err) return socket.emit('error',err);
-            if (!game) return socket.error('error','no such game');
+            if (!game) return socket.emit('error','no such game');
 
             game.playMove(1,move,function(err) {
               if (err) return socket.emit('error',err);

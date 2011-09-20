@@ -3,22 +3,28 @@ var startWorker = function(master, id, engine_path, socketio, Worker,verbose) {
   
   var w = new Worker(engine_path);
 
-  var socket = socketio.connect("http://"+master.host+":"+master.port+"/io/worker");
+  var socket = socketio.connect("http://"+master.host+":"+master.port+"/io/worker",{'force new connection':true});
 
   //TODO restart each X minutes
 
+  var lastSecret = false;
+  var lastFen = false;
+  
   socket.on('connect', function () {
   
-    socket.on('ready',function() {
+    if (verbose) console.warn('[' + id + '] Connected.');
+    
+    socket.on('ready',function(x) {
       socketReady = true;
-      clientReady();
+      if (verbose) console.warn('[' + id + '] Ready.',x);
     });
   
-    socket.on("compute",function(fen, timeout) {
-      console.log('[' + id + '] Work on ' + fen+' for '+timeout+'ms');
-      if (verbose) console.warn("<=",fen,timeout);
-      w.postMessage({type: 'position', data: fen});
-      w.postMessage({type: 'search', data: timeout});
+    socket.on("compute",function(work) {
+      if (verbose) console.warn('[' + id + '] Work on ' + work.fen+' for '+work.timeout+'ms');
+      lastSecret = work.secret;
+      lastFen = work.fen;
+      w.postMessage({type: 'position', data: work.fen});
+      w.postMessage({type: 'search', data: work.timeout});
     });
   
     socket.on('error',function(message) {
@@ -36,11 +42,13 @@ var startWorker = function(master, id, engine_path, socketio, Worker,verbose) {
 
   w.onmessage = function(e) {
     if (verbose) console.warn('[' + id + '] =>',e);
+    e.data.workFen = lastFen;
+    e.data.secret = lastSecret;
     socket.emit('processResult', e.data);
   };
 
   w.error = function (e) {
-    throw new('Error from worker', e.message);
+    console.error('Error from worker', e.message);
   }
 };
 

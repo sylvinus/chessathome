@@ -49,8 +49,8 @@ var socketio = api.startWithEngine(config.AI_ENGINE,{app:app});
 app.get('/stats/simple',function(req,res) {
   res.contentType('application/json');
   res.send(JSON.stringify({
-    "numWorkers":_.size(api.clients),
-    "numIdleWorkers":api.clients_idle.length
+    "numWorkers":api.clients(),
+    "numIdleWorkers":api.clients_idle()
   }));
 });
 
@@ -66,7 +66,7 @@ app.get('/', function(req, res){
   
   res.render('index', {
     title: 'Chess@home',
-    numWorkers:_.size(api.clients)+2
+    numWorkers:api.clients()+2
   });
 });
 

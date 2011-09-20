@@ -40,6 +40,7 @@ var Position = new Schema({
   dateAdded:{type:Date, default: Date.now},
   dateStarted:{type:Date},
   dateResolved:{type:Date},
+  secret:String,
   nodes:Number,
   time:Number, //taken to compute
   move:String,
@@ -91,6 +92,7 @@ Position.methods.insertChildren = function(cb,forceInsert) {
     _.keys(self.children).forEach(function(data) {
       if (alreadyInDb.indexOf(data)==-1) {
         var p = new exports.Position();
+        p.secret = Math.random();
         p.fen = data;
         p.save();
       } else if (forceInsert) {

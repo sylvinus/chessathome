@@ -43,5 +43,5 @@ exports.setApi = function() {};
 exports.makeEngine = makeEngine;
 exports.LATEST_DATA = LATEST_DATA;
 exports.VERBOSE = VERBOSE;
-exports.clients = {"local":"haha"};
-exports.clients_idle = ["local"];
+exports.clients = function() {};
+exports.clients_idle = function() {};

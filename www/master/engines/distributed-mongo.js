@@ -2,7 +2,6 @@ var Worker = require('webworker').Worker
   , EventEmitter = require('events').EventEmitter
   , path = require('path')
   , _ = require('underscore')._
-  , clients = {}
   , lib = require("../lib");
 
 var VERBOSE = true;
@@ -20,55 +19,92 @@ var emitter = new EventEmitter;
 var models = require("../models");
 var ObjectId = require("mongoose").Types.ObjectId;
 
-var clients_idle = [];
+//TODO optimize
+var clientQueue = new function() {
+  
+  var clients = {};
+  
+  this.size = function() {
+    return _.size(clients);
+  };
+  
+  this.sizeIdle = function() {
+    return _.size(_.filter(clients,function(c) {return c;}));
+  };
+  
+  this.add = function(sid) {
+    clients[sid]=true;
+  };
+  
+  this.remove = function(sid) {
+    delete clients[sid];
+  };
+  
+  this.setIdle = function(sid,idle) {
+    clients[sid]=idle;
+  };
+  
+  this.getOneIdle = function() {
+    var index = null;
+    _.detect(clients,function(c,idx) {if (c) index=idx; return c;});
+    return index;
+  }
+  
+};
 
 
 exports.setApi = function(io) {
-  console.warn(io);
+
   io.of('/io/worker').on('connection',function(socket) {
-    
+
     socket.on('init',function(clientData) {
-      socket.set('workerData',clientData,function() {
-    
+      
+      socket.emit('ready');
+      clientQueue.add(socket.id);
+      
+      socket.on('processResult',function (data) {
         
-    
-        socket.on('processResult',function (data) {
-
-          if (data.type=="move") {
-            console.log("[from "+clientData.id+"] Computed",data);
-            
-            
-          };
-
-        });
-    
-        // Tell the queue there's a new client ready!
-        emitter.emit('activity');
-    
+        if (data.type=="move") {
+          console.log("[from "+clientData.id+"] Computed",data);
+          clientQueue.setIdle(socket.id,true);
+          
+          models.Position.findOne({state:'working',secret:data.secret,fen:data.workFen},function(err,doc) {
+            if (err || !doc) {
+              return console.warn("[process "+clientData.id+"] Could not find work",data,err);
+            }
+            doc.dateResolved=+new Date();
+            doc.state = "resolved";
+            doc.working = false;
+            doc.resolved = true;
+            doc.move = data.data;
+            doc.value = data.value;
+            doc.save(function() {
+              emitter.emit('activity');
+            });
+          });
+        
+        }
+        
       });
+    
+      var onAssigned = function() {
+
+      }
+      emitter.on("assignWork_"+socket.id,function(work) {
+        socket.emit('compute',work);
+      });
+    
+      // Tell the queue there's a new client ready!
+      emitter.emit('activity');
+      
     });
     
-    
-    /*
-    client.setIdle = function(idle) {
-      client.idle=idle;
-      if (idle) {
-        clients_idle.push(conn.id);
-      } else {
-        clients_idle=_.without(clients_idle,conn.id);
-      }
-    }
-    */
     
     
     socket.on('disconnect', function () {
-      /*
-      console.log('We\'ve lost an intelligent client ' + client.name);
-      delete clients[conn.id];
-      clients_idle=_.without(clients_idle,conn.id);
-      */
+      emitter.removeListener("assignWork_"+socket.id);
+      clientQueue.remove(socket.id);
     });
-    
     
   });
   
@@ -81,50 +117,31 @@ exports.setApi = function(io) {
 var onActivity=function() {
   console.log("Activity?");
   
-  if (clients_idle.length==0) return;
+  var sizeIdle = clientQueue.sizeIdle();
+  if (!sizeIdle) return console.log('No idle clients');
   
   // get moves from db queue.
   console.warn(+new Date(),"Fetching unresolved positions...");
-  models.Position.find({state:'unresolved'}).asc("dateAdded").limit(clients_idle.length).execFind(function(err,docs) {
+  models.Position.find({state:'unresolved'}).asc("dateAdded").limit(sizeIdle).execFind(function(err,docs) {
     if (err) return console.log("Error when fetching positions:",err);
     console.warn(+new Date(),"Got "+docs.length+" unresolved positions...");
     
     docs.forEach(function(doc) {
-      if (clients_idle.length) {
-        var cid = clients_idle.pop();
-        var client = clients[cid];
-        if (!client) return;
+      var cid = clientQueue.getOneIdle();
+      if (!cid) return;
+      clientQueue.setIdle(cid,false);
+      
+      doc.state = 'working';
+      doc.working = true;
+      doc.dateStarted = +new Date();
+      doc.save(function(err) {
+        if (err) return;
         
-        doc.worker = cid;
-        doc.state = 'working';
-        doc.working = true;
-        doc.dateStarted = +new Date();
-        doc.save(function(err) {
-          if (err || !client) return;
-          
-          client.job = doc.fen;
-          client.setIdle(false);
-          console.log("Sending work on ",doc,"to client",client.name);
-          client.compute(doc.fen,TIMEOUT);
-          client.onComputed = function(data) {
-            client.onComputed = function() {};
-            client.setIdle(true);
-            doc.dateResolved=+new Date();
-            doc.state = "resolved";
-            doc.working = false;
-            doc.resolved = true;
-            doc.move = data.data;
-            doc.worker = false;
-            doc.value = data.value;
-            doc.save(function() {
-              emitter.emit('activity');
-            });
-            
-            
-          };
-        });
+        console.log("Sending work on ",doc,"to client",cid);
         
-      }
+        emitter.emit('assignWork_'+cid,{fen:doc.fen,timeout:TIMEOUT,secret:doc.secret});
+      });
+      
     });
     
     //Everything has been resolved
@@ -234,6 +251,7 @@ exports.makeEngine = function(onMessage) {
         if (err) console.error('Couldnt save computingPositions!',err); 
         if (err || !docs.length) {
           var p = new models.Position();
+          p.secret = Math.random();
           p.fen = moveOptions.fen;
           p.working = false;
         } else {
@@ -327,5 +345,5 @@ exports.stop = function() {
 
 
 exports.VERBOSE = VERBOSE;
-exports.clients = clients;
-exports.clients_idle = clients_idle;
+exports.clients = clientQueue.size;
+exports.clients_idle = clientQueue.sizeIdle;
