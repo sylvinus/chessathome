@@ -102,7 +102,7 @@ exports.setApi = function(io) {
     
     
     socket.on('disconnect', function () {
-      emitter.removeListener("assignWork_"+socket.id);
+      emitter.removeAllListeners("assignWork_"+socket.id);
       clientQueue.remove(socket.id);
     });
     
