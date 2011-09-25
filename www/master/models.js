@@ -221,6 +221,8 @@ Game.methods.computerPlays = function(engine,moveOptions,cb) {
 Game.methods.computerFoundBestMove = function(pos,cb) {
   var self = this;
   
+  if (!cb) cb = function() {};
+  
   // Avoid double calls when both the direct computerPlays() call and the onActivity watcher
   // are both active (i.e. when the client hasn't disconnected during a compute)
   if (!self.working) return cb(null,pos);
@@ -232,7 +234,8 @@ Game.methods.computerFoundBestMove = function(pos,cb) {
 
     self.save(function(err) {
       if (err) return cb(err);
-      cb(null,pos);
+      console.log("EMIT");
+      require("./api").gameEvents.emit('refresh_'+self._id,self);
     });
   });
   

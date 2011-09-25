@@ -1,9 +1,12 @@
-var socketio = require("socket.io");
+var socketio = require("socket.io"),
+EventEmitter = require('events').EventEmitter;
 
 var models = require("./models");
 var lib = require("./lib");
 var TIMEOUT = 15000;
 
+
+exports.gameEvents = new EventEmitter();
 
 
 exports.startWithEngine = function(engineName,engineOptions) {
@@ -37,9 +40,20 @@ exports.startWithEngine = function(engineName,engineOptions) {
   // API for players
   io.of('/io/player').on('connection', function (socket) {
     
+    var gameRefresh = function(game) {
+      //models.Game.findById(game._id,function(err,updatedGame) {
+      socket.emit('gameStatus',game.dump());
+    };
+    var listenToGame = function(game) {
+      exports.gameEvents.removeListener('refresh_'+game._id,gameRefresh);
+      exports.gameEvents.on('refresh_'+game._id,gameRefresh);
+      socket.set('game',game._id);
+    };
+    
     socket.on('init',function(clientData) {
       socket.set('clientData',clientData,function() {
         socket.emit('ready');
+        
         
         
         var continueGame = function(game) {
@@ -47,8 +61,7 @@ exports.startWithEngine = function(engineName,engineOptions) {
             game.computerPlays(workerEngine,{timeout:TIMEOUT},function(err) {
               if (err) socket.emit('error',err);
               
-              //models.Game.findById(game._id,function(err,updatedGame) {
-              socket.emit('gameStatus',game.dump());
+              // refresh will be sent by gameRefresh()
             });
           }
         };
@@ -62,6 +75,8 @@ exports.startWithEngine = function(engineName,engineOptions) {
             "playerSecret":playerSecret,
             "gameOptions":gameOptions
           });
+          
+          listenToGame(g);
 
           g.gameInit(function(err) {
             console.log("new game started", g.dump(),err);
@@ -79,6 +94,7 @@ exports.startWithEngine = function(engineName,engineOptions) {
         socket.on('getGameStatusBySecret',function(playerSecret) {
           models.Game.findOne({playerSecret:playerSecret},function(err,game) {
             if (err || !game) return;
+            listenToGame(game);
             socket.emit('gameStatus',game.dump());
           });
         });
@@ -86,6 +102,7 @@ exports.startWithEngine = function(engineName,engineOptions) {
         socket.on('getGameStatusById',function(gameId) {
           models.Game.findById(gameId,function(err,game) {
             if (err || !game) return;
+            listenToGame(game);
             socket.emit('gameStatus',game.dump());
           });
         });
@@ -98,6 +115,7 @@ exports.startWithEngine = function(engineName,engineOptions) {
             if (err) return socket.emit('error',err);
             if (!game) return socket.emit('error','no such game');
 
+            listenToGame(game);
             game.playMove(1,move,function(err) {
               if (err) return socket.emit('error',err);
 
@@ -117,7 +135,9 @@ exports.startWithEngine = function(engineName,engineOptions) {
     });
     
     socket.on('disconnect', function () {
-      
+      socket.get('game',function(err,gameId) {
+        if (!err && gameId) exports.gameEvents.removeListener('refresh_'+gameId,gameRefresh);
+      });
     });
     
   });
