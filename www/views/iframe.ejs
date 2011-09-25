@@ -15,7 +15,7 @@
         if (!window.Worker) return;
         
         //Defined in worker.js
-        startWorker({host:'localhost','port':3000},'iframe-'+Math.random(),'/engine.js',io,window.Worker,true);
+        startWorker({/*host:'localhost','port':3000*/},'iframe-'+Math.random(),'/engine.js',io,window.Worker,true);
       }
     
       if (!window.console) {

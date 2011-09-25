@@ -3,7 +3,11 @@ var startWorker = function(master, id, engine_path, socketio, Worker,verbose) {
   
   var w = new Worker(engine_path);
 
-  var socket = socketio.connect("http://"+master.host+":"+master.port+"/io/worker",{'force new connection':true});
+  var url = "";
+  if (master.host) {
+    url = "http://"+master.host+":"+master.port;
+  }
+  var socket = socketio.connect(url+"/io/worker",{'force new connection':true});
 
   //TODO restart each X minutes
 

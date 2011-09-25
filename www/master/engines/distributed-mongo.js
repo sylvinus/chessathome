@@ -7,7 +7,7 @@ var Worker = require('webworker').Worker
 var VERBOSE = true;
 
 var APHID_DEPTH=1;
-var TIMEOUT = 2000;
+var TIMEOUT = 4000;
 //var TIMEOUT = 60000;
 
 //Defaults
@@ -216,7 +216,10 @@ var onComputed=function() {
               //todo sum nodes, report depth, time etc.
               
               pos.save(function(err) {
-                emitter.emit('refresh_'+game.gameStatus.currentFEN,move);
+                var fenBeforeMove = game.gameStatus.currentFEN;
+                game.computerFoundBestMove(pos,function(err) {
+                  emitter.emit('refresh_'+fenBeforeMove,move);
+                });
               });
               
             });

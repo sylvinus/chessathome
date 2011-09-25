@@ -206,17 +206,8 @@ Game.methods.computerPlays = function(engine,moveOptions,cb) {
     lib.engineMove(engine,{},moveOptions,function(err,pos) {
       if (err) return cb(err);
 
-      self.working=false;
-
-      self.playMove(0,pos.move,function(err) {
-        if (err) return cb(err);
-
-        self.save(function(err) {
-          if (err) return cb(err);
-          cb(null,pos);
-        });
-      });
-
+      self.computerFoundBestMove(pos,cb);
+      
     },function(info) {
       if (info.type=="pv") {
         //TODO should we save/transmit that?
@@ -225,8 +216,27 @@ Game.methods.computerPlays = function(engine,moveOptions,cb) {
     });
   });
   
+};
+
+Game.methods.computerFoundBestMove = function(pos,cb) {
+  var self = this;
   
-}
+  // Avoid double calls when both the direct computerPlays() call and the onActivity watcher
+  // are both active (i.e. when the client hasn't disconnected during a compute)
+  if (!self.working) return cb(null,pos);
+  
+  self.working=false;
+
+  self.playMove(0,pos.move,function(err) {
+    if (err) return cb(err);
+
+    self.save(function(err) {
+      if (err) return cb(err);
+      cb(null,pos);
+    });
+  });
+  
+};
 
 
 

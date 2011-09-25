@@ -1,6 +1,6 @@
 (function() {
   
-var socket = io.connect('/io/player');
+var socket = io.connect('/io/player',{'force new connection':true});
 
 var playerSecret = false;
 if ($.cookie('playerSecret')) {
