@@ -75,7 +75,7 @@ def deploy():
 
 #workers & redirect
 def joyentdeploy():
-  local("git push joyent master")
+  local("git push chessathome.no.de master")
   local("git push chessathome-worker1.no.de master")
 
 # create a folder that will serve to publish chessathome-worker on https://github.com/joshfire/chessathome-worker
