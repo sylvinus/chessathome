@@ -2,7 +2,7 @@
   "author": "Joshfire Team <devs@joshfire.com> (http://joshfire.com)",
   "name": "joshfirenko",
   "description": "Joshfire project for NKO2 : Distributed chess!",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "homepage": "https://github.com/joshfire/chessathome",
   "repository": {
     "type": "git",
