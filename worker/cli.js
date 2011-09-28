@@ -7,11 +7,11 @@ var ENGINE_PATH = '../build/engine.js'
 //TODO CLI switches
 var CLI_PROCESSES = 4;
 
-var VERBOSE = false;
+var VERBOSE = true;
 
 if (require.main === module) {
   for (var i=0;i<CLI_PROCESSES;i++) {
-    startWorker({host: process.ARGV[2] || 'chessathome.org', port: process.ARGV[3] || 80}, 'cli-' + i,path.resolve(__dirname, ENGINE_PATH), socketio, Worker, true);
+    startWorker({host: process.ARGV[2] || 'chessathome.org', port: process.ARGV[3] || 80}, 'cli-' + i,path.resolve(__dirname, ENGINE_PATH), socketio, Worker, VERBOSE);
   }
 }
 //TODO stop ?
