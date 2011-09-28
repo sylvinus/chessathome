@@ -80,6 +80,7 @@ def joyentdeploy():
 
 # create a folder that will serve to publish chessathome-worker on https://github.com/joshfire/chessathome-worker
 def makeworker():
+  concat()
   assert os.path.isdir("../chessathome-worker/")
   local('cp worker/* ../chessathome-worker/')
   local("sed -i '' \"s/var ENGINE_PATH = '\.\.\/build\/engine\.js'/var ENGINE_PATH = '\.\/engine\.js'/\" ../chessathome-worker/cli.js")

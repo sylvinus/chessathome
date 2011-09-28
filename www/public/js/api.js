@@ -22,7 +22,7 @@ socket.on('connect', function () {
   });
   
   socket.on('error',function(message) {
-    alert("Error: "+message);
+    console.error(message);
   });
   
   socket.emit("init",{id:"player-"+uuid()});
