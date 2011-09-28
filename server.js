@@ -11,6 +11,9 @@ app.get("/",function(req,res) {
   res.redirect("http://chessathome.org/");
 });
 
+//TODO stop ?
+app.listen(process.env.PORT || 3001);
+
 var ENGINE_PATH = './build/engine.js'
   , socketio = require('socket.io-client')
   , path = require('path')
@@ -27,6 +30,3 @@ if (require.main === module) {
     startWorker({host: process.ARGV[2] || 'chessathome.org', port: process.ARGV[3] || 80}, 'joyent-' + i,path.resolve(__dirname, ENGINE_PATH), socketio, Worker, VERBOSE);
   }
 }
-
-//TODO stop ?
-app.listen(process.env.PORT || 3001);
