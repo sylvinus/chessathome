@@ -10,7 +10,7 @@ var express = require('express')
 app.get("/",function(req,res) {
   res.redirect("http://chessathome.org/");
 });
-/*
+
 var ENGINE_PATH = './build/engine.js'
   , socketio = require('socket.io-client')
   , path = require('path')
@@ -24,9 +24,9 @@ var VERBOSE = false;
 
 if (require.main === module) {
   for (var i=0;i<CLI_PROCESSES;i++) {
-    startWorker({host: process.ARGV[2] || 'chessathome.org', port: process.ARGV[3] || 80}, 'joyent-' + i,path.resolve(__dirname, ENGINE_PATH), socketio, Worker, true);
+    startWorker({host: process.ARGV[2] || 'chessathome.org', port: process.ARGV[3] || 80}, 'joyent-' + i,path.resolve(__dirname, ENGINE_PATH), socketio, Worker, VERBOSE);
   }
 }
-*/
+
 //TODO stop ?
 app.listen(process.env.PORT || 3001);
