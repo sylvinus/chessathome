@@ -9,13 +9,15 @@
     <script>
     window.onload = function () {
     
+      var worker;
+
       var start = function() {
       
         //No webworker support!
         if (!window.Worker) return;
         
         //Defined in worker.js
-        startWorker({/*host:'localhost','port':3000*/},'iframe-'+Math.random(),'/engine.js',io,window.Worker,true);
+        worker = startWorker({/*host:'localhost','port':3000*/},'iframe-'+Math.random(),'/engine.js',io,window.Worker,true);
       }
     
       if (!window.console) {
@@ -65,7 +67,9 @@
         if (document.getElementsByTagName('input')[0].checked) {
           start();
         } else {
-          emitter.emit('terminate');
+          try {
+            worker.terminate();
+          } catch (e) {}
         }
 
         createCookie('chessathome_worker', document.getElementsByTagName('input')[0].checked);

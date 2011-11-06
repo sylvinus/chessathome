@@ -6,3 +6,4 @@ export
 .DS_Store
 queue
 config.json
+config.json.prod

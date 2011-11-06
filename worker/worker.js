@@ -53,7 +53,9 @@ var startWorker = function(master, id, engine_path, socketio, Worker,verbose) {
 
   w.error = function (e) {
     console.error('Error from worker', e.message);
-  }
+  };
+
+  return w;
 };
 
 

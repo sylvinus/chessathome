@@ -10,6 +10,16 @@ import shutil
 import datetime
 import subprocess
 
+
+import time,urllib2
+sys.path.append("../joshfire-framework/build")
+from joshfabric import *
+
+packageconf = json.load(open("package.json","r"))
+
+env.export_dir = os.path.join(os.path.dirname(__file__),"export")
+
+
 def concat():
   local('mkdir -p build')
   filelist = os.listdir("ai")
@@ -70,10 +80,26 @@ def stest(filename=None):
   concat()
   print local("cd test/ && CHESSATHOME_AI_ENGINE='%s' node --prof runner.js %s" % (env.gameEngine,filename))
 
+def prod():
+  env.hosts = ['88.190.234.126']
+  env.path = '/home/joshfire/exports/%s' % packageconf["name"]
+  env.user = 'joshfire'
+
+def export():
+  local("git checkout-index -f -a --prefix=export/")
+  local("cp config.json export/")
 
 def deploy():
-  #
-  local("./deploytolinode linode")
+  "Deploys, currently in dev mode"
+  env.release = time.strftime('%Y%m%d%H%M%S')
+  export()
+  setup_remote_environment()
+  upload_tar_from_export()
+
+  packagehaibu()
+  symlink_current_release()
+  restart()
+
 
 #workers & redirect
 def joyentdeploy():
@@ -97,5 +123,29 @@ def makeworker():
 
   # create chessathome-worker/package.json
 
+
+
+  
+def packagehaibu():
+
+  # until https://github.com/nodejitsu/haibu/issues/52 is fixed
+  # we install node_modules *before* haibu start
+  install_remote_npm()
+
+  # remove all dependencies from package.json
+  run("""cd %s/releases/%s && cat package.json |tr "\n" " "| sed 's/"dependencies" *: *{[^}]*} *,//g' > package.json.1""" % (env.path,env.release))
+
+  # remove any repository
+  run("""cd %s/releases/%s && cat package.json.1 | sed 's/"repository" *: *{[^}]*} *,//g' > package.json.2""" % (env.path,env.release))
+
+  # add our directory
+  run("""cd %s/releases/%s && cat package.json.2 | sed 's/^{/{"repository":{"type":"local","directory":"%s"},/g' > package.json""" % (env.path,env.release,(env.path+"/releases/"+env.release).replace("/","\/")))
+
+
+def restart():
+  run("cd %s/releases/current ; haibu stop ; haibu clean ; haibu start" % env.path)
+
+  #reconfigure nginx
+  sudo('haibu-nginx /home/joshfire/haibu-nginx-config.js ; stop nginx ; start nginx')
 
 
