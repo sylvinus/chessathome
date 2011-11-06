@@ -11,6 +11,11 @@
   "engines": {
     "node": "0.4.x"
   },
+  "scripts":{
+    "start": "app.js"
+  },
+  "user":"joshfire",
+  "domain":"chessathome.org",
   "dependencies": {
     "express": "2.4.6",
     "sharedjs": "0.0.2",
