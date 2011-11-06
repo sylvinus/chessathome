@@ -173,7 +173,7 @@ var onComputed=function() {
       
       //Fetch current pos
       models.Position.findOne({fen:game.gameStatus.currentFEN},function(err,pos) {
-        if (err || !pos) return console.error("Panic, no matching pos found.",err);
+        if (err || !pos || typeof pos.children!="object") return console.error("Panic, no matching pos found.",err);
       
         console.warn(+new Date(),"Fetching unresolved pos for game",game._id);
         models.Position.count({resolved:false,fen:{$in:_.keys(pos.children)}},function(err,count) {

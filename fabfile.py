@@ -87,7 +87,7 @@ def prod():
 
 def export():
   local("git checkout-index -f -a --prefix=export/")
-  local("cp config.json export/")
+  local("cp config.json.prod export/")
 
 def deploy():
   "Deploys, currently in dev mode"
