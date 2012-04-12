@@ -8,22 +8,19 @@
     "type": "git",
     "url": "git://github.com/joshfire/chessathome.git"
   },
-  "engines": {
-    "node": "0.4.x"
-  },
   "scripts":{
     "start": "app.js"
   },
   "user":"joshfire",
   "domain":"chessathome.org",
   "dependencies": {
-    "express": "2.4.6",
+    "express": "2.5.x",
     "sharedjs": "0.0.2",
     "webworker": "0.8.x",
     "mongoose": "2.0.x",
     "node-uuid": "1.2.x",
     "underscore": "1.1.7",
-    "connect": "1.6.4",
+    "connect": "1.8.x",
     "socket.io": "0.8.x",
     "socket.io-client":"0.8.x",
     "ejs": "0.4.x"
