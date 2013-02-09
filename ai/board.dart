@@ -1,5 +1,6 @@
 part of ai;
 
+
 const EMPTY = 0;
 const PAWN = 1;
 const KNIGHT = 2;
@@ -60,14 +61,48 @@ class Move {
   bool isQueenCastle = false;
   bool isKingCastle = false;
   
+  bool isCheck = false;
+  bool isCheckmate = false;
+  bool isDraw = false;
+  
   bool isPromotion = false;
   Piece promotionPiece;
   
   String toString() {
-    if (!legal) return "-illegal-";
-    if (isQueenCastle) return "Qc";
-    if (isKingCastle) return "Kc";
-    return "$piece $row $col $deltarow $deltacol";
+    String txt = "";
+    if (isQueenCastle) txt = "Qc";
+    if (isKingCastle) txt = "Kc";
+    txt = "$piece $row $col $deltarow $deltacol";
+    if (!legal) txt.concat(" (illegal)");
+    return txt;
+  }
+  
+  Move duplicate() {
+    Move m = new Move();
+    m.capturedPiece = capturedPiece;
+    m.piece = piece;
+    m.isCapture = isCapture;
+    m.row = row;
+    m.col = col;
+    m.deltarow = deltarow;
+    m.deltacol = deltacol;
+    m.destrow = destrow;
+    m.destcol = destcol;
+    m.delta = delta;
+    m.legal = legal;
+    
+    m.color = color;
+    m.isQueenCastle = isQueenCastle;
+    m.isKingCastle = isKingCastle;
+    
+    m.isCheck = isCheck;
+    m.isCheckmate = isCheckmate;
+    m.isDraw = isDraw;
+    
+    m.isPromotion = isPromotion;
+    m.promotionPiece = promotionPiece;
+    
+    return m;
   }
   
   fromBoardDelta(Board board, num row, num col, num deltarow, num deltacol) {
@@ -77,6 +112,8 @@ class Move {
     this.deltacol = deltacol;
     this.destrow = row + deltarow;
     this.destcol = col + deltacol;
+    
+    this.color = board.toMove;
     
     if (destrow<0 || destrow>7 || destcol<0 || destcol>7) {
       this.legal = false;
@@ -125,21 +162,51 @@ class Move {
     
     // Does moving the piece checkmate the king (even if it's the king itself moving)
     if (!_isGeneratingAttackingMoves) {
+   
+      _isGeneratingAttackingMoves = true;
+      
+      bool _myColor=board.toMove;
       
       board.MakeMove(this, true);
       
-      var kingPos = board.getPiecePositions(KING,board.toMove)[0];
+      var kingPos = board.getPiecePositions(KING,_myColor)[0];
       
-      var attackingMoves = board.ListAttackingMoves(kingPos[0], kingPos[1]);
+      var attackingMoves = board.ListAttackingMoves(kingPos[0], kingPos[1], !_myColor);
       
+      //Can't be attacked on a way to a castling
       if (piece.type==KING) {
-         //Can't be attacked on a way to a castling
-        if (isKingCastle) attackingMoves.addAll(board.ListAttackingMoves(destrow, destcol-1));
-        if (isQueenCastle) attackingMoves.addAll(board.ListAttackingMoves(destrow, destcol+1));
+        if (isKingCastle) {
+          attackingMoves.addAll(board.ListAttackingMoves(destrow, destcol-1, !_myColor));
+          attackingMoves.addAll(board.ListAttackingMoves(destrow, destcol-2, !_myColor));
+        }
+        if (isQueenCastle) {
+          attackingMoves.addAll(board.ListAttackingMoves(destrow, destcol+1, !_myColor));
+          attackingMoves.addAll(board.ListAttackingMoves(destrow, destcol+2, !_myColor));
+        }
         
       }
       
+      //Detect if we'll check
+      var myAttackingMoves = board.ListAttackingMoves(kingPos[0], kingPos[1], _myColor);
+      for (Move move in myAttackingMoves) {
+        if (move.isCapture && move.capturedPiece.type==KING) {
+          this.isCheck = true;
+        }
+      }
+      
+      //Check if the other side has moves left to do
+      var otherMoves = board.GenMoves();
+      if (otherMoves.length==0) {
+        if (this.isCheck) {
+          this.isCheckmate = true;
+        } else {
+          this.isDraw = true;
+        }
+      }
+      
       board.UnmakeMove(this, true);
+      
+      _isGeneratingAttackingMoves = false;
       
       if (attackingMoves.length>0) {
         this.legal = false;
@@ -221,12 +288,13 @@ class Board {
   }
   
   String getFEN() {
-    var parts = <String>["","","-","-","0","1"];
+    var parts = <String>["","","","-","0","1"];
     
     var pieces = new List<String>(8);
     for (num row=0;row<8;row++) {
       num emptyCnt = 0;
       for (num col=0;col<8;col++) {
+        if (col==0) pieces[row] = "";
         var piece = this.board[rowcol(row,col)];
         if (piece == EMPTY) {
           emptyCnt++;
@@ -251,6 +319,8 @@ class Board {
     if (this.canKingCastle[1]) parts[2] = parts[2].concat("k");
     if (this.canQueenCastle[0]) parts[2] = parts[2].concat("Q");
     if (this.canQueenCastle[1]) parts[2] = parts[2].concat("q");
+    
+    if (parts[2].length==0) parts[2] = "-";
     
     return parts.join(" ");
   }
@@ -285,25 +355,25 @@ class Board {
     return repr;
   }
   
-  List <Move>ListAttackingMoves(num row, num col) {
+  List <Move>ListAttackingMoves(num row, num col, bool fromColor) {
     
     List <Move>attacks = [];
     
-    // We simulate the next turn, list all the moves and
-    // check which ones are attacking this square
-    toMove=!toMove;
-    _isGeneratingAttackingMoves = true;
+    bool _oldToMove = toMove;
+    toMove = fromColor;
     
-    var opponentMoves = GenMoves();
+    // We list all the moves and
+    // check which ones are attacking this square
+    
+    var moves = GenMoves();
 
-    for (var m in opponentMoves) {
+    for (var m in moves) {
       if (m.destcol==col && m.destrow==row) {
         attacks.add(m);
       }
     }
     
-    toMove=!toMove;
-    _isGeneratingAttackingMoves = false;
+    toMove = _oldToMove;
     
     return attacks;
   }
@@ -338,9 +408,9 @@ class Board {
             if (!isPromotion) {
               moves.add(m);
             } else {
-              var cpy;
+              Move cpy;
               for (var type in [QUEEN, ROOK, BISHOP, KNIGHT]) {
-                cpy = m;
+                cpy = m.duplicate();
                 cpy.isPromotion=true;
                 cpy.promotionPiece = new Piece(type, piece.color);
                 moves.add(cpy);
@@ -370,16 +440,22 @@ class Board {
           
           movesFromVects(List vects, num len) {
             for (var vect in vects) {
-              for (num i=0;i<len;i++) {
+              for (num i=0;i<len && row+(i+1)*vect[0]>=0 && row+(i+1) * vect[0]<=7 && col+(i+1) * vect[1]>=0 && col+(i+1) * vect[1]<=7;i++) {
                 Move m = new Move();
                 m.fromBoardDelta(this,row,col,(i+1) * vect[0],(i+1) * vect[1]);
+                //if (!_isGeneratingAttackingMoves) print(m);
                 if (m.legal) {
                   moves.add(m);
                   if (m.isCapture) {
                     break;
                   }
-                } else {
-                  break;
+                }
+                //break only if we are blocked by another piece of same color!
+                if (!m.legal) {
+                  var _piece = board[rowcol(row+(i+1) * vect[0],col+(i+1) * vect[1])];
+                  if (_piece!=EMPTY && _piece.color==toMove) {
+                    break;
+                  }
                 }
               }
             }
@@ -395,6 +471,7 @@ class Board {
             
             num castleRow = (toMove?7:0);
             if (
+                row == castleRow && col == 4 &&
                 this.canKingCastle[toMove?0:1] &&
                 this.board[rowcol(castleRow,5)]==EMPTY &&
                 this.board[rowcol(castleRow,6)]==EMPTY &&
@@ -407,6 +484,7 @@ class Board {
             }
             
             if (
+                row == castleRow && col == 4 &&
                 this.canQueenCastle[toMove?0:1] &&
                 this.board[rowcol(castleRow,1)]==EMPTY &&
                 this.board[rowcol(castleRow,2)]==EMPTY &&
@@ -419,8 +497,6 @@ class Board {
               if (m.legal) moves.add(m);
             }
             
-            
-            //TODO check checkmate
           
           } else if (piece.type==KNIGHT) {
 
@@ -461,6 +537,20 @@ class Board {
     
     board[rowcol(move.row, move.col)] = EMPTY;
     
+    if (move.isKingCastle) {
+      // Also move the rook
+      board[rowcol(move.destrow, 5)] = board[rowcol(move.destrow, 7)];
+      board[rowcol(move.destrow, 7)] = EMPTY;
+      canKingCastle[move.color?0:1] = false;
+    }
+    if (move.isQueenCastle) {
+      board[rowcol(move.destrow, 3)] = board[rowcol(move.destrow, 0)];
+      board[rowcol(move.destrow, 0)] = EMPTY;
+      canQueenCastle[move.color?0:1] = false;
+    }
+    
+    toMove=!toMove;
+    
   }
   
   UnmakeMove(Move move, bool temp) {
@@ -472,6 +562,49 @@ class Board {
     } else {
       board[rowcol(move.destrow, move.destcol)] = EMPTY;
     }
+    
+    if (move.isKingCastle) {
+      canKingCastle[move.color?0:1] = true;
+      board[rowcol(move.destrow, 7)] = board[rowcol(move.destrow, 5)];
+      board[rowcol(move.destrow, 5)] = EMPTY;
+      
+    }
+    if (move.isQueenCastle) {
+      canQueenCastle[move.color?0:1] = true;
+      board[rowcol(move.destrow, 0)] = board[rowcol(move.destrow, 3)];
+      board[rowcol(move.destrow, 3)] = EMPTY;
+      
+    }
+    
+    toMove=!toMove;
+  }
+  
+  Perft(num depth) {
+    
+    var moves = this.GenMoves();
+    
+    List ret = new List(depth+1);
+    //print(moves);
+    ret[0] = moves.length;
+    for (var i=0;i<depth;i++) ret[i+1] = 0;
+    
+    if (depth>0) {
+      for (var move in moves) {
+        if (!move.isCheckmate && !move.isDraw) {
+          MakeMove(move,true);
+          //print (getRepr());
+          //print(this.getFEN());
+          var p = Perft(depth-1);
+          //print(p);
+          for (var i=0;i<depth;i++) {
+            ret[i+1] += p[i];
+          }
+          UnmakeMove(move,true);
+        }
+      }
+    }
+    
+    return ret;
   }
   
 }
