@@ -26,8 +26,12 @@ var pieceTypeToStr = ["","p","n","b","r","q","k"];
 var knightDeltas = [[1,2],[1,-2],[2,-1],[2,1],[-1,2],[-1,-2],[-2,1],[-2,-1]];
 var kingDeltas = [[1,0],[1,1],[1,-1],[0,1],[0,-1],[-1,0],[-1,-1],[-1,1]];
 
+var colToStr = ["a","b","c","d","e","f","g","h"];
+var rowToStr = ["1","2","3","4","5","6","7","8"];
+
 
 bool _isGeneratingAttackingMoves = false;
+bool _disableEnPassant = false;
 
 
 class Piece {
@@ -54,19 +58,43 @@ class Move {
   num deltacol;
   num destrow;
   num destcol;
-  num delta;
   bool legal = true;
   
   bool color;
   bool isQueenCastle = false;
   bool isKingCastle = false;
   
+  // Does this move prevent future castling?
+  bool bansQueenCastle = false;
+  bool bansKingCastle = false;
+  
   bool isCheck = false;
   bool isCheckmate = false;
   bool isDraw = false;
   
+  bool isEnPassant = false;
+  
   bool isPromotion = false;
   Piece promotionPiece;
+  
+  // Long Algebraic Notation 
+  String getLAN() {
+    
+  }
+  
+  // Standard Algebraic Notation
+  String getSAN() {
+    
+  }
+  
+  // pure algebraic coordinate notation, for UCI
+  String getPACN() {
+    String s = "${colToStr[this.col]}${rowToStr[this.row]}${colToStr[this.destcol]}${rowToStr[this.destrow]}";
+    if (this.isPromotion) {
+      s.concat(pieceTypeToStr[this.promotionPiece.type]);
+    }
+    return s;
+  }
   
   String toString() {
     String txt = "";
@@ -77,6 +105,7 @@ class Move {
     return txt;
   }
   
+  //Dart doesn't have a method for deep copying :(
   Move duplicate() {
     Move m = new Move();
     m.capturedPiece = capturedPiece;
@@ -84,16 +113,16 @@ class Move {
     m.isCapture = isCapture;
     m.row = row;
     m.col = col;
-    m.deltarow = deltarow;
-    m.deltacol = deltacol;
     m.destrow = destrow;
     m.destcol = destcol;
-    m.delta = delta;
     m.legal = legal;
+    m.isEnPassant = isEnPassant;
     
     m.color = color;
     m.isQueenCastle = isQueenCastle;
     m.isKingCastle = isKingCastle;
+    m.bansQueenCastle = bansQueenCastle;
+    m.bansKingCastle = bansKingCastle;
     
     m.isCheck = isCheck;
     m.isCheckmate = isCheckmate;
@@ -105,13 +134,14 @@ class Move {
     return m;
   }
   
-  fromBoardDelta(Board board, num row, num col, num deltarow, num deltacol) {
+  fromBoardDelta(Board board, num row, num col, num destrow, num destcol) {
     this.row = row;
     this.col = col;
-    this.deltarow = deltarow;
-    this.deltacol = deltacol;
-    this.destrow = row + deltarow;
-    this.destcol = col + deltacol;
+    this.destrow = destrow;
+    this.destcol = destcol;
+    
+    num deltarow = destrow - row;
+    num deltacol = destcol - col;
     
     this.color = board.toMove;
     
@@ -187,7 +217,11 @@ class Move {
       }
       
       //Detect if we'll check
+      
+      _disableEnPassant = true; //TODO hack
       var myAttackingMoves = board.ListAttackingMoves(kingPos[0], kingPos[1], _myColor);
+      _disableEnPassant = false;
+      
       for (Move move in myAttackingMoves) {
         if (move.isCapture && move.capturedPiece.type==KING) {
           this.isCheck = true;
@@ -214,6 +248,17 @@ class Move {
       }
     }
     
+    // Does this move prevent future castling?
+    if (piece.type==KING) {
+      this.bansQueenCastle = true;
+      this.bansKingCastle = true;
+    } else if (piece.type==ROOK && col==0 && row==(color?7:0)) {
+      this.bansQueenCastle = true;
+    } else if (piece.type==ROOK && col==7 && row==(color?7:0)) {
+      bansKingCastle = false;
+    }
+    
+    
   }
 }
 
@@ -232,6 +277,11 @@ class Board {
   List canQueenCastle = [false, false]; // white, black
   
   var board = new List(256);
+  
+  var history = new List<Move>();
+  
+  bool hasEnPassant = false;
+  List enPassantSquare;
 
   fromFEN(String fen) {
     
@@ -253,7 +303,7 @@ class Board {
             col+=c-48;
           } else {
             Piece piece = new Piece(strToPieceType[p.toLowerCase()], p.toLowerCase()!=p);
-            this.board[rowcol(i, col)] = piece;
+            this.board[rowcol(7-i, col)] = piece;
             col++;
           }
         }
@@ -267,15 +317,14 @@ class Board {
     if (parts[2].indexOf("Q")>=0) this.canQueenCastle[0] = true;
     
     
+    // En passant square
+    if (parts[3] != "-") {
+      this.hasEnPassant = true;
+      this.enPassantSquare = [8 - (parts[3].charCodeAt(1) - 48), parts[3].charCodeAt(0) - 97];
+    }
+    
     /*
         
-    g_enPassentSquare = -1;
-    if (chunks[3].indexOf('-') == -1) {
-  var col = chunks[3].charAt(0).charCodeAt() - 'a'.charCodeAt();
-  var row = 8 - (chunks[3].charAt(1).charCodeAt() - '0'.charCodeAt());
-  g_enPassentSquare = MakeSquare(row, col);
-    }
-
     g_move50 = 0;
     g_inCheck = IsSquareAttackable(g_pieceList[(g_toMove | pieceKing) << 4], them);
 
@@ -291,7 +340,7 @@ class Board {
     var parts = <String>["","","","-","0","1"];
     
     var pieces = new List<String>(8);
-    for (num row=0;row<8;row++) {
+    for (num row=7;row>=0;row--) {
       num emptyCnt = 0;
       for (num col=0;col<8;col++) {
         if (col==0) pieces[row] = "";
@@ -322,6 +371,10 @@ class Board {
     
     if (parts[2].length==0) parts[2] = "-";
     
+    if (this.hasEnPassant) { 
+      parts[3] = colToStr[this.enPassantSquare[1]].concat(rowToStr[this.enPassantSquare[0]]);
+    }
+    
     return parts.join(" ");
   }
   
@@ -340,7 +393,8 @@ class Board {
      
   String getRepr() {
     String repr = "";
-    for (num row=0;row<8;row++) {
+    for (num row=7;row>=0;row--) {
+      repr = repr.concat("${row+1} ");
       for (num col=0;col<8;col++) {
         var piece = this.board[rowcol(row, col)];
         if (piece==EMPTY) {
@@ -352,6 +406,7 @@ class Board {
       }
       repr = repr.concat("\n");
     }
+    repr = repr.concat("   a  b  c  d  e  f  g  h");
     return repr;
   }
   
@@ -364,6 +419,8 @@ class Board {
     
     // We list all the moves and
     // check which ones are attacking this square
+    
+    // TODO en passant
     
     var moves = GenMoves();
 
@@ -393,16 +450,16 @@ class Board {
       
         if (piece.type==PAWN) {
           
-          List allowedRowDelta = <num>[piece.color?-1:1];
+          List allowedRowDelta = <num>[piece.color?1:-1];
           
-          if ((piece.color && row==6) || (!piece.color && row==1)) {
-            if (board[rowcol(row+(piece.color?-1:1),col)]==EMPTY) {
-              allowedRowDelta.add(piece.color?-2:2);
+          if ((piece.color && row==1) || (!piece.color && row==6)) {
+            if (board[rowcol(row+(piece.color?1:-1),col)]==EMPTY) {
+              allowedRowDelta.add(piece.color?2:-2);
             }
             
           }
           
-          var isPromotion = (piece.color && row==1) || (!piece.color && row==6);
+          var isPromotion = (piece.color && row==6) || (!piece.color && row==1);
           
           addToMovesWithPromotion(Move m) {
             if (!isPromotion) {
@@ -421,20 +478,32 @@ class Board {
           // Non-capturing moves
           for (num delta in allowedRowDelta) {
             Move m = new Move();
-            m.fromBoardDelta(this,row,col,delta,0);
+            m.fromBoardDelta(this,row,col,row+delta,col+0);
             if (m.legal) addToMovesWithPromotion(m);
           }
           
           // Diagonal Capturing moves
-          for (var vect in [[piece.color?-1:1,1],[piece.color?-1:1,-1]]) {
+          for (var vect in [[piece.color?1:-1,1],[piece.color?1:-1,-1]]) {
             Move m = new Move();
-            m.fromBoardDelta(this,row,col,vect[0],vect[1]);
+            m.fromBoardDelta(this,row,col,row+vect[0],col+vect[1]);
             if (m.legal && m.isCapture) addToMovesWithPromotion(m);
           }
           
-          
-          //TODO En passant
-          
+          // En passant
+          if (!_disableEnPassant && this.hasEnPassant && 
+              row==(this.enPassantSquare[0]+(piece.color?-1:1)) && 
+              (col==this.enPassantSquare[1]+1 || col==this.enPassantSquare[1]-1)) {
+            
+            Move m = new Move();
+            m.fromBoardDelta(this,row,col,this.enPassantSquare[0],this.enPassantSquare[1]);
+            if (m.legal) {
+              m.isEnPassant = true;
+              m.isCapture = true;
+              m.capturedPiece = board[rowcol(row,this.enPassantSquare[1])];
+              moves.add(m);
+            }
+            
+          }
           
         } else {
           
@@ -442,7 +511,7 @@ class Board {
             for (var vect in vects) {
               for (num i=0;i<len && row+(i+1)*vect[0]>=0 && row+(i+1) * vect[0]<=7 && col+(i+1) * vect[1]>=0 && col+(i+1) * vect[1]<=7;i++) {
                 Move m = new Move();
-                m.fromBoardDelta(this,row,col,(i+1) * vect[0],(i+1) * vect[1]);
+                m.fromBoardDelta(this,row,col,row+(i+1) * vect[0],col+(i+1) * vect[1]);
                 //if (!_isGeneratingAttackingMoves) print(m);
                 if (m.legal) {
                   moves.add(m);
@@ -450,10 +519,10 @@ class Board {
                     break;
                   }
                 }
-                //break only if we are blocked by another piece of same color!
+                //break only if we are blocked by/capturing another piece!
                 if (!m.legal) {
                   var _piece = board[rowcol(row+(i+1) * vect[0],col+(i+1) * vect[1])];
-                  if (_piece!=EMPTY && _piece.color==toMove) {
+                  if (_piece!=EMPTY) {
                     break;
                   }
                 }
@@ -465,11 +534,11 @@ class Board {
 
             for (var delta in kingDeltas) {
               Move m = new Move();
-              m.fromBoardDelta(this,row,col,delta[0],delta[1]);
+              m.fromBoardDelta(this,row,col,row+delta[0],col+delta[1]);
               if (m.legal) moves.add(m);
             }
             
-            num castleRow = (toMove?7:0);
+            num castleRow = (toMove?0:7);
             if (
                 row == castleRow && col == 4 &&
                 this.canKingCastle[toMove?0:1] &&
@@ -479,7 +548,7 @@ class Board {
                 this.board[rowcol(castleRow,7)].type==ROOK
             ) {
               Move m = new Move();
-              m.fromBoardDelta(this, row, col, 0, 2);
+              m.fromBoardDelta(this, row, col, row+0, col+2);
               if (m.legal) moves.add(m);
             }
             
@@ -493,7 +562,7 @@ class Board {
                 this.board[rowcol(castleRow,0)].type==ROOK
             ) {
               Move m = new Move();
-              m.fromBoardDelta(this, row, col, 0, -2);
+              m.fromBoardDelta(this, row, col, row+0, col-2);
               if (m.legal) moves.add(m);
             }
             
@@ -502,7 +571,7 @@ class Board {
 
             for (var delta in knightDeltas) {
               Move m = new Move();
-              m.fromBoardDelta(this,row,col,delta[0],delta[1]);
+              m.fromBoardDelta(this,row,col,row+delta[0],col+delta[1]);
               if (m.legal) moves.add(m);
             }
             
@@ -541,15 +610,31 @@ class Board {
       // Also move the rook
       board[rowcol(move.destrow, 5)] = board[rowcol(move.destrow, 7)];
       board[rowcol(move.destrow, 7)] = EMPTY;
-      canKingCastle[move.color?0:1] = false;
     }
     if (move.isQueenCastle) {
       board[rowcol(move.destrow, 3)] = board[rowcol(move.destrow, 0)];
       board[rowcol(move.destrow, 0)] = EMPTY;
+    }
+    if (move.bansQueenCastle) {
       canQueenCastle[move.color?0:1] = false;
     }
+    if (move.bansKingCastle) {
+      canKingCastle[move.color?0:1] = false;
+    }
     
+    // En passant rules
+    this.hasEnPassant = false;
+    if (move.piece.type==PAWN && (move.destrow-move.row).abs()>1) {
+      this.hasEnPassant = true;
+      this.enPassantSquare = [move.destrow+(move.color?-1:1),move.col];
+    }
+    
+    
+    ply++;
     toMove=!toMove;
+    this.history.add(move);
+    
+    
     
   }
   
@@ -564,18 +649,39 @@ class Board {
     }
     
     if (move.isKingCastle) {
-      canKingCastle[move.color?0:1] = true;
       board[rowcol(move.destrow, 7)] = board[rowcol(move.destrow, 5)];
       board[rowcol(move.destrow, 5)] = EMPTY;
-      
     }
     if (move.isQueenCastle) {
-      canQueenCastle[move.color?0:1] = true;
       board[rowcol(move.destrow, 0)] = board[rowcol(move.destrow, 3)];
-      board[rowcol(move.destrow, 3)] = EMPTY;
-      
+      board[rowcol(move.destrow, 3)] = EMPTY; 
     }
     
+    this.history.removeLast();
+    
+    // En passant rules
+    this.hasEnPassant = false;
+    if (this.history.length>0) {
+      Move _lastMove = this.history.last;
+      if (_lastMove.piece.type==PAWN && (_lastMove.destrow-_lastMove.row).abs()>1) {
+        this.hasEnPassant = true;
+        this.enPassantSquare = [_lastMove.destrow+(_lastMove.color?-1:1),_lastMove.col];
+      }
+    }
+    
+    //Are there still moves in the history that prevent castling?
+    if (!canQueenCastle[move.color?0:1]) {
+      canQueenCastle[move.color?0:1] = !this.history.any((Move m) {
+        return m.color==move.color && m.bansQueenCastle;
+      });
+    }
+    if (!canKingCastle[move.color?0:1]) {
+      canKingCastle[move.color?0:1] = !this.history.any((Move m) {
+        return m.color==move.color && m.bansKingCastle;
+      });
+    }
+    
+    ply--;
     toMove=!toMove;
   }
   
