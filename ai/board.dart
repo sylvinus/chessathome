@@ -285,6 +285,9 @@ class Board {
   List canKingCastle = [false, false]; // white, black
   List canQueenCastle = [false, false]; // white, black
   
+  List couldKingCastleAtStart = [false, false]; // white, black
+  List couldQueenCastleAtStart = [false, false]; // white, black
+  
   var board = new List(256);
   
   var history = new List<Move>();
@@ -324,6 +327,9 @@ class Board {
     if (parts[2].indexOf("K")>=0) this.canKingCastle[0] = true;
     if (parts[2].indexOf("q")>=0) this.canQueenCastle[1] = true;
     if (parts[2].indexOf("Q")>=0) this.canQueenCastle[0] = true;
+    
+    this.couldKingCastleAtStart = [this.canKingCastle[0], this.canKingCastle[1]];
+    this.couldQueenCastleAtStart = [this.canQueenCastle[0], this.canQueenCastle[1]];
     
     
     // En passant square
@@ -599,8 +605,8 @@ class Board {
     
     board[rowcol(move.row, move.col)] = EMPTY;
     
+    // Also move the rook when castling
     if (move.isKingCastle) {
-      // Also move the rook
       board[rowcol(move.destrow, 5)] = board[rowcol(move.destrow, 7)];
       board[rowcol(move.destrow, 7)] = EMPTY;
     }
@@ -648,6 +654,7 @@ class Board {
       board[rowcol(move.destrow, move.destcol)] = EMPTY;
     }
     
+    // Also move the rooks when castling
     if (move.isKingCastle) {
       board[rowcol(move.destrow, 7)] = board[rowcol(move.destrow, 5)];
       board[rowcol(move.destrow, 5)] = EMPTY;
@@ -670,12 +677,12 @@ class Board {
     }
     
     //Are there still moves in the history that prevent castling?
-    if (!canQueenCastle[move.color?0:1]) {
+    if (!canQueenCastle[move.color?0:1] && couldQueenCastleAtStart[move.color?0:1]) {
       canQueenCastle[move.color?0:1] = !this.history.any((Move m) {
         return m.color==move.color && m.bansQueenCastle;
       });
     }
-    if (!canKingCastle[move.color?0:1]) {
+    if (!canKingCastle[move.color?0:1] && couldKingCastleAtStart[move.color?0:1]) {
       canKingCastle[move.color?0:1] = !this.history.any((Move m) {
         return m.color==move.color && m.bansKingCastle;
       });
