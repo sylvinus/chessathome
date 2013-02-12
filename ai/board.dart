@@ -31,7 +31,6 @@ var rowToStr = ["1","2","3","4","5","6","7","8"];
 
 
 bool _isGeneratingAttackingMoves = false;
-bool _disableEnPassant = false;
 
 
 class Piece {
@@ -97,6 +96,8 @@ class Move {
   }
   
   String toString() {
+    return this.getPACN();
+    
     String txt = "";
     if (isQueenCastle) txt = "Qc";
     if (isKingCastle) txt = "Kc";
@@ -188,6 +189,16 @@ class Move {
   
       this.isCapture = true;
       this.capturedPiece = targetPiece;
+      
+    // En passant
+    } else if (piece.type==PAWN && deltacol!=0 && 
+        destrow==(piece.color?5:2) && 
+        board.hasEnPassant && destrow==board.enPassantSquare[0] && destcol==board.enPassantSquare[1]) {
+
+      isEnPassant = true;
+      isCapture = true;
+      capturedPiece = board.board[rowcol(row,destcol)];
+      
     }
     
     // Does moving the piece checkmate the king (even if it's the king itself moving)
@@ -218,9 +229,7 @@ class Move {
       
       //Detect if we'll check
       
-      _disableEnPassant = true; //TODO hack
       var myAttackingMoves = board.ListAttackingMoves(kingPos[0], kingPos[1], _myColor);
-      _disableEnPassant = false;
       
       for (Move move in myAttackingMoves) {
         if (move.isCapture && move.capturedPiece.type==KING) {
@@ -482,27 +491,11 @@ class Board {
             if (m.legal) addToMovesWithPromotion(m);
           }
           
-          // Diagonal Capturing moves
+          // Diagonal Capturing moves & en passant
           for (var vect in [[piece.color?1:-1,1],[piece.color?1:-1,-1]]) {
             Move m = new Move();
             m.fromBoardDelta(this,row,col,row+vect[0],col+vect[1]);
             if (m.legal && m.isCapture) addToMovesWithPromotion(m);
-          }
-          
-          // En passant
-          if (!_disableEnPassant && this.hasEnPassant && 
-              row==(this.enPassantSquare[0]+(piece.color?-1:1)) && 
-              (col==this.enPassantSquare[1]+1 || col==this.enPassantSquare[1]-1)) {
-            
-            Move m = new Move();
-            m.fromBoardDelta(this,row,col,this.enPassantSquare[0],this.enPassantSquare[1]);
-            if (m.legal) {
-              m.isEnPassant = true;
-              m.isCapture = true;
-              m.capturedPiece = board[rowcol(row,this.enPassantSquare[1])];
-              moves.add(m);
-            }
-            
           }
           
         } else {
@@ -622,6 +615,10 @@ class Board {
       canKingCastle[move.color?0:1] = false;
     }
     
+    if (move.isEnPassant) {
+      board[rowcol(move.row, move.destcol)] = EMPTY;
+    }
+    
     // En passant rules
     this.hasEnPassant = false;
     if (move.piece.type==PAWN && (move.destrow-move.row).abs()>1) {
@@ -642,7 +639,10 @@ class Board {
     
     board[rowcol(move.row, move.col)] = move.piece;
     
-    if (move.isCapture) {
+    if (move.isEnPassant) {
+      board[rowcol(move.row, move.destcol)] = move.capturedPiece;
+      board[rowcol(move.destrow, move.destcol)] = EMPTY;
+    } else if (move.isCapture) {
       board[rowcol(move.destrow, move.destcol)] = move.capturedPiece;
     } else {
       board[rowcol(move.destrow, move.destcol)] = EMPTY;
