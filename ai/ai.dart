@@ -7,6 +7,7 @@ part 'evaluation.dart';
 
 main() {
 
+  // TODO http://marcelk.net/rookie/nostalgia/v3/perft-random.epd
   var g_perfTTable = [
 [ "r3k2r/8/8/8/8/8/8/2R1K2R w Kkq - 0 1", 25, 548, 13502, 312835, 7736373, 184411439],
 
